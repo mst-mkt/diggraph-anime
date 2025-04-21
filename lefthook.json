@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/lefthook/schema.json",
+  "pre-commit": {
+    "parallel": true,
+    "commands": {
+      "fix": {
+        "run": "pnpm fix",
+        "glob": ["src/**/*.{ts,tsx,css,json}"],
+        "stage_fixed": true
+      }
+    }
+  }
+}
