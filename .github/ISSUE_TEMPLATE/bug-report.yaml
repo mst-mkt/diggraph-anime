@@ -1,0 +1,22 @@
+name: Bug Report
+description: Create Bug Issue
+labels: ["bug"]
+body:
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: バグの概要
+      description: バグの内容を入力してください。
+      placeholder: fill in bug details
+  - type: textarea
+    id: reproduction-method
+    attributes:
+      label: 再現方法
+      description: バグの再現方法を記入してください。
+      placeholder: fill in reproduction method
+  - type: textarea
+    id: note
+    attributes:
+      label: 備考
+      description: 他に何かあれば記入してください。
+      placeholder: fill in note

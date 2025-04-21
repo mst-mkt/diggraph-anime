@@ -1,0 +1,16 @@
+name: Feature Request
+description: Create Feature Issue
+labels: ["feature"]
+body:
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: 追加機能の概要
+      description: 追加機能の内容を入力してください。
+      placeholder: fill in feature details
+  - type: textarea
+    id: note
+    attributes:
+      label: 備考
+      description: 他に何かあれば記入してください。
+      placeholder: fill in note
