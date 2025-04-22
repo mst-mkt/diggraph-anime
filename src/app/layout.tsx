@@ -1,11 +1,8 @@
-import type { Metadata } from 'next'
 import './globals.css'
+import { BASIC_METADATA } from '@/constants/project'
 import type { FC, ReactNode } from 'react'
 
-export const metadata: Metadata = {
-  title: 'Diggraph Anime',
-  description: 'Explore anime as a graph - search related ones, discover connections.',
-}
+export const metadata = BASIC_METADATA
 
 type RootLayoutProps = {
   children: ReactNode
