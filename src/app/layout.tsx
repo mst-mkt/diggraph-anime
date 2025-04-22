@@ -1,4 +1,4 @@
-import './globals.css'
+import '../styles/globals.css'
 import { BASIC_METADATA } from '@/constants/project'
 import type { FC, ReactNode } from 'react'
 
