@@ -3,6 +3,8 @@
     "biomejs.biome",
     "bradlc.vscode-tailwindcss",
     "YoavBls.pretty-ts-errors",
-    "streetsidesoftware.code-spell-checker"
+    "streetsidesoftware.code-spell-checker",
+    "GraphQL.vscode-graphql",
+    "GraphQL.vscode-graphql-syntax"
   ]
 }
