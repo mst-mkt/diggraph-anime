@@ -23,6 +23,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      gql.tada:
+        specifier: ^1.8.10
+        version: 1.8.10(graphql@16.10.0)(typescript@5.8.3)
       lucide-react:
         specifier: ^0.503.0
         version: 0.503.0(react@19.1.0)
@@ -75,9 +78,6 @@ importers:
       '@types/react-dom':
         specifier: ^19
         version: 19.1.2(@types/react@19.1.2)
-      gql.tada:
-        specifier: ^1.8.10
-        version: 1.8.10(graphql@16.10.0)(typescript@5.8.3)
       lefthook:
         specifier: ^1.11.11
         version: 1.11.11
