@@ -32,6 +32,9 @@ importers:
       next-auth:
         specifier: 5.0.0-beta.26
         version: 5.0.0-beta.26(next@15.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
+      openapi-fetch:
+        specifier: ^0.13.5
+        version: 0.13.5
       react:
         specifier: ^19.0.0
         version: 19.1.0
@@ -990,6 +993,12 @@ packages:
   oauth4webapi@3.5.0:
     resolution: {integrity: sha512-DF3mLWNuxPkxJkHmWxbSFz4aE5CjWOsm465VBfBdWzmzX4Mg3vF8icxK+iKqfdWrIumBJ2TaoNQWx+SQc2bsPQ==}
 
+  openapi-fetch@0.13.5:
+    resolution: {integrity: sha512-AQK8T9GSKFREFlN1DBXTYsLjs7YV2tZcJ7zUWxbjMoQmj8dDSFRrzhLCbHPZWA1TMV3vACqfCxLEZcwf2wxV6Q==}
+
+  openapi-typescript-helpers@0.0.15:
+    resolution: {integrity: sha512-opyTPaunsklCBpTK8JGef6mfPhLSnyy5a0IN9vKtx3+4aExf+KxEqYwIy3hqkedXIB97u357uLMJsOnm3GVjsw==}
+
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
@@ -1876,6 +1885,12 @@ snapshots:
       - babel-plugin-macros
 
   oauth4webapi@3.5.0: {}
+
+  openapi-fetch@0.13.5:
+    dependencies:
+      openapi-typescript-helpers: 0.0.15
+
+  openapi-typescript-helpers@0.0.15: {}
 
   picocolors@1.1.1: {}
 
