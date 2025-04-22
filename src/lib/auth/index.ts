@@ -2,6 +2,7 @@ import 'server-only'
 import NextAuth from 'next-auth'
 import { AnnictProvider } from './provider'
 import 'next-auth/jwt'
+import { annictApiClient } from '../api/annict-rest'
 import { ANNICT_CLIENT_ID, ANNICT_CLIENT_SECRET, AUTH_SECRET, BASE_URL } from '../env-variables'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -25,6 +26,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     session: ({ session, token }) => {
       if (token.accessToken !== undefined) {
         session.accessToken = token.accessToken
+        annictApiClient.setAccessToken(token.accessToken)
       }
 
       return session
