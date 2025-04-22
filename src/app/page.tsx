@@ -1,5 +1,3 @@
-const Home = () => (
-  <div>Diggraph Anime</div>
-)
+const Home = () => <div>Diggraph Anime</div>
 
-export default Home;
+export default Home
