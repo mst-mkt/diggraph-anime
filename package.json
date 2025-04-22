@@ -38,5 +38,6 @@
     "tailwindcss": "^4",
     "tw-animate-css": "^1.2.8",
     "typescript": "^5"
-  }
+  },
+  "packageManager": "pnpm@10.9.0"
 }
