@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 import { BASIC_METADATA } from '@/constants/project'
 import { ThemeLoader } from '@/lib/theme/theme-loader'
+import { SessionProvider } from 'next-auth/react'
 import type { FC, ReactNode } from 'react'
 
 export const metadata = BASIC_METADATA
@@ -12,7 +13,9 @@ type RootLayoutProps = {
 const RootLayout: FC<RootLayoutProps> = ({ children }) => (
   <html lang="ja" suppressHydrationWarning={true}>
     <ThemeLoader />
-    <body>{children}</body>
+    <body>
+      <SessionProvider>{children}</SessionProvider>
+    </body>
   </html>
 )
 
