@@ -35,6 +35,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "gql.tada": "^1.8.10",
     "lefthook": "^1.11.11",
     "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4",
