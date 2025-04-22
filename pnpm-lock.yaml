@@ -42,10 +42,10 @@ importers:
         specifier: ^0.13.5
         version: 0.13.5
       react:
-        specifier: ^19.0.0
+        specifier: ^19.1.0
         version: 19.1.0
       react-dom:
-        specifier: ^19.0.0
+        specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       react-resizable-panels:
         specifier: ^2.1.8
@@ -70,16 +70,16 @@ importers:
         specifier: jsr:^0.1.2
         version: '@jsr/mst-mkt__js-config@0.1.2'
       '@tailwindcss/postcss':
-        specifier: ^4
+        specifier: ^4.1.4
         version: 4.1.4
       '@types/node':
-        specifier: ^20
+        specifier: ^20.17.30
         version: 20.17.30
       '@types/react':
-        specifier: ^19
+        specifier: ^19.1.2
         version: 19.1.2
       '@types/react-dom':
-        specifier: ^19
+        specifier: ^19.1.2
         version: 19.1.2(@types/react@19.1.2)
       lefthook:
         specifier: ^1.11.11
@@ -88,13 +88,13 @@ importers:
         specifier: ^4.0.2
         version: 4.0.2(react@19.1.0)(tailwindcss@4.1.4)
       tailwindcss:
-        specifier: ^4
+        specifier: ^4.1.4
         version: 4.1.4
       tw-animate-css:
         specifier: ^1.2.8
         version: 1.2.8
       typescript:
-        specifier: ^5
+        specifier: ^5.8.3
         version: 5.8.3
 
 packages:
