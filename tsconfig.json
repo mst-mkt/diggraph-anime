@@ -22,6 +22,11 @@
             "name": "annict",
             "schema": "./src/lib/api/annict-graphql/schema.graphql",
             "tadaOutputLocation": "./src/lib/api/annict-graphql/schema.gen.d.ts"
+          },
+          {
+            "name": "anilist",
+            "schema": "./src/lib/api/anilist/schema.graphql",
+            "tadaOutputLocation": "./src/lib/api/anilist/schema.gen.d.ts"
           }
         ]
       }
