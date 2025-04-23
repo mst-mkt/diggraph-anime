@@ -22,7 +22,9 @@ const GraphPage: FC<GraphPageProps> = async ({ searchParams }) => {
     redirect('/')
   }
 
-  const relatedWorkInfo = await getRelatedWorks(rootWorkId)
+  const relatedWorkInfo = initialWorkInfo.mal_anime_id === ''
+    ? null
+    : await getRelatedWorks(Number.parseInt(initialWorkInfo.mal_anime_id))
 
   return <Panels initialWorkInfo={initialWorkInfo} relatedWorkInfo={relatedWorkInfo} />
 }
