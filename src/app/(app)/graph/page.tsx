@@ -18,7 +18,7 @@ const GraphPage: FC<GraphPageProps> = async ({ searchParams }) => {
   }
 
   const initialWorkInfo = await getWorks(rootWorkId)
-  if (!initialWorkInfo) {
+  if (initialWorkInfo === null) {
     redirect('/')
   }
 
