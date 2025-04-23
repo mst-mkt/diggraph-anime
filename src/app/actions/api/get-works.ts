@@ -16,5 +16,5 @@ export const getWorks = async (id: number) => {
   }
 
   const [work] = workResult.value.works
-  return work
+  return work ?? null
 }
