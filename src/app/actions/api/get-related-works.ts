@@ -2,12 +2,7 @@ import { annictToMal, malToAnnict } from '@/lib/anime-id'
 import { annictApiClient } from '@/lib/api/annict-rest'
 import { jikanApiClient } from '@/lib/api/jikan'
 
-export const getRelatedWorks = async (id: number) => {
-  const malId = annictToMal(id)
-  if (!malId) {
-    console.error(`Failed to convert annict ID to MAL ID: ${id}`)
-    return null
-  }
+export const getRelatedWorks = async (malId: number) => {
   const { data } = await jikanApiClient.GET('/anime/{id}/recommendations', {
     params: {
       path: {
