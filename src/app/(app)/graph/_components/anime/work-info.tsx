@@ -41,21 +41,5 @@ export const WorkInfo: FC<WorkInfoProps> = ({ work }) => (
         </div>
       </div>
     </div>
-    {/* {relatedWorks.length > 0 && (
-      <div className="flex flex-col gap-2 p-4">
-        <h3 className="font-bold">関連作品</h3>
-        <ul className="flex flex-col gap-1">
-          {relatedWorks.map((relatedWork) => (
-            <li key={relatedWork.id} className="text-sm">
-              <span className="font-medium">{relatedWork.title}</span>
-              <span className="ml-2 text-muted-foreground text-xs">
-                ({relatedWork.media_text}
-                {relatedWork.season_name_text ? `, ${relatedWork.season_name_text}` : ''})
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    )} */}
   </div>
 )
