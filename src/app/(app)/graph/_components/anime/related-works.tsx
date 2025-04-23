@@ -2,7 +2,7 @@ import { getRelatedWorks } from '@/app/actions/api/get-related-works'
 import { Badge } from '@/components/ui/badge'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
 import { cn } from '@/lib/classnames'
-import { TvIcon } from 'lucide-react'
+import { SproutIcon, TvIcon } from 'lucide-react'
 import { type Dispatch, type FC, type SetStateAction, useState, useTransition } from 'react'
 import { WorkThumbnail } from './work-thumbnail'
 
@@ -60,6 +60,12 @@ export const RelatedWorks: FC<RelatedWorksProps> = ({
           </button>
         ))}
       </div>
+      {relatedWorks.length === 0 && (
+        <div className="flex flex-col items-center justify-center gap-y-2 py-16">
+          <SproutIcon size={36} className="text-diggraph-accent" />
+          <p className="text-muted-foreground">関連作品が見つかりませんでした</p>
+        </div>
+      )}
     </div>
   )
 }
