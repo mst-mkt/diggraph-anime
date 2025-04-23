@@ -1,5 +1,4 @@
 import { getWorks } from '@/app/actions/api/get-works'
-import {} from '@/components/ui/resizable'
 import { redirect } from 'next/navigation'
 import type { SearchParams } from 'nuqs/server'
 import type { FC } from 'react'
