@@ -3,16 +3,23 @@ import type { FC } from 'react'
 
 type WorkInfoProps = {
   work: Work
+  relatedWork: Work[] | null
 }
 
-export const WorkInfo: FC<WorkInfoProps> = ({ work }) => {
-  const { title } = work
+export const WorkInfo: FC<WorkInfoProps> = ({ work, relatedWork }) => {
   return (
-    <div className="flex flex-col gap-2 p-4">
-      <h2 className="font-bold text-lg">{title}</h2>
-      <p className="text-gray-500 text-sm">ID: {work.id}</p>
-      <p className="text-gray-500 text-sm">Media: {work.media}</p>
-      <p className="text-gray-500 text-sm">Episodes: {work.episodes_count}</p>
+    <div className="flex flex-col gap-2">
+      <h2 className="font-bold text-lg">{work.title}</h2>
+      {relatedWork && (
+        <div>
+          <h3 className="font-semibold text-md">関連作品</h3>
+          <ul>
+            {relatedWork.map((related) => (
+              <li key={related.id}>{related.title}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   )
 }

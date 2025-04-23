@@ -7,9 +7,10 @@ import { WorkInfo } from './anime/work-info'
 
 type PanelProps = {
   initialWorkInfo: Work
+  relatedWorkInfo: Work[] | null
 }
 
-export const Panels: FC<PanelProps> = ({ initialWorkInfo }) => {
+export const Panels: FC<PanelProps> = ({ initialWorkInfo, relatedWorkInfo }) => {
   const [selectedWork] = useState(initialWorkInfo)
 
   return (
@@ -17,7 +18,7 @@ export const Panels: FC<PanelProps> = ({ initialWorkInfo }) => {
       <ResizablePanel minSize={50}>graph</ResizablePanel>
       <ResizableHandle />
       <ResizablePanel className="@container/panel">
-        <WorkInfo work={selectedWork} />
+        <WorkInfo work={selectedWork} relatedWork={relatedWorkInfo} />
       </ResizablePanel>
     </ResizablePanelGroup>
   )

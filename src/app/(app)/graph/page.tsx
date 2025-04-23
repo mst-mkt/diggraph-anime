@@ -1,3 +1,4 @@
+import { getRelatedWorks } from '@/app/actions/api/get-related-works'
 import { getWorks } from '@/app/actions/api/get-works'
 import { redirect } from 'next/navigation'
 import type { SearchParams } from 'nuqs/server'
@@ -21,7 +22,9 @@ const GraphPage: FC<GraphPageProps> = async ({ searchParams }) => {
     redirect('/')
   }
 
-  return <Panels initialWorkInfo={initialWorkInfo} />
+  const relatedWorkInfo = await getRelatedWorks(rootWorkId)
+
+  return <Panels initialWorkInfo={initialWorkInfo} relatedWorkInfo={relatedWorkInfo} />
 }
 
 export default GraphPage
