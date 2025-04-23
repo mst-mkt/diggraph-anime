@@ -18,7 +18,7 @@ export const Panels: FC<PanelProps> = ({ initialWorkInfo, relatedWorkInfo }) => 
       <ResizablePanel minSize={50}>graph</ResizablePanel>
       <ResizableHandle />
       <ResizablePanel className="@container/panel">
-        <WorkInfo work={selectedWork} relatedWork={relatedWorkInfo} />
+        <WorkInfo work={selectedWork} relatedWorks={relatedWorkInfo} />
       </ResizablePanel>
     </ResizablePanelGroup>
   )
