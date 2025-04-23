@@ -5,11 +5,12 @@ import type { FC } from 'react'
 
 type WorkInfoProps = {
   work: Work
-  relatedWorks: Work[] | null
+  relatedWorks: Work[]
 }
 
 export const WorkInfo: FC<WorkInfoProps> = ({ work, relatedWorks }) => {
   const workImage = work.images.facebook.og_image_url
+
   return (
     <div>
       <div className="flex min-w-48 @[33rem]/panel:flex-row flex-col items-center gap-8 p-4">
@@ -48,9 +49,9 @@ export const WorkInfo: FC<WorkInfoProps> = ({ work, relatedWorks }) => {
           </div>
         </div>
       </div>
-      {relatedWorks && relatedWorks.length > 0 && (
+      {relatedWorks.length > 0 && (
         <div className="flex flex-col gap-2 p-4">
-          <h3 className="font-semibold">関連作品</h3>
+          <h3 className="font-bold">関連作品</h3>
           <ul className="flex flex-col gap-1">
             {relatedWorks.map((relatedWork) => (
               <li key={relatedWork.id} className="text-sm">
