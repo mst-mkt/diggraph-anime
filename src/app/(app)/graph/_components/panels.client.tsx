@@ -12,8 +12,8 @@ type PanelProps = {
 }
 
 export const Panels: FC<PanelProps> = ({ initialWork, initialRelatedWorks }) => {
-  const [selectedWork] = useState(initialWork)
-  const [relatedWorks] = useState(initialRelatedWorks)
+  const [selectedWork, setSelectedWork] = useState(initialWork)
+  const [relatedWorks, setRelatedWorks] = useState(initialRelatedWorks)
 
   return (
     <ResizablePanelGroup direction="horizontal">
@@ -22,7 +22,11 @@ export const Panels: FC<PanelProps> = ({ initialWork, initialRelatedWorks }) => 
       <ResizablePanel className="@container/panel">
         <div className="flex min-w-80 flex-col gap-y-8 p-4">
           <WorkInfo work={selectedWork} />
-          <RelatedWorks relatedWorks={relatedWorks} />
+          <RelatedWorks
+            relatedWorks={relatedWorks}
+            setSelectedWork={setSelectedWork}
+            setRelatedWorks={setRelatedWorks}
+          />
         </div>
       </ResizablePanel>
     </ResizablePanelGroup>
