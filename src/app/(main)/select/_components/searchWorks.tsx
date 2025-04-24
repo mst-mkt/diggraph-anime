@@ -11,16 +11,14 @@ export const SearchWorks: FC<SearchWorksProps> = async ({ query }) => {
       filter_title: query || undefined,
     },
   })
-  console.log(works)
+
   if (!works.isOk) {
     return <div>エラーが発生しました</div>
   }
 
   return (
     <div>
-      {works.value.works.map((work) => (
-        <div key={work.id}>{work.title}</div>
-      ))}
+      <workLost works={works} />
     </div>
   )
 }
