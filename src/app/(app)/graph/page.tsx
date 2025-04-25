@@ -18,10 +18,6 @@ const GraphPage: FC<GraphPageProps> = async ({ searchParams }) => {
     redirect('/')
   }
 
-  if (currentWorkId === null) {
-    redirect('/')
-  }
-
   const initialWork = await getWorks(rootWorkId)
 
   if (initialWork === null) {
@@ -37,7 +33,7 @@ const GraphPage: FC<GraphPageProps> = async ({ searchParams }) => {
     <div>
       <Panels initialWork={initialWork} initialRelatedWorks={initialRelatedWorks} />
       <Suspense>
-        <WorkTrailer currentWorkId={currentWorkId} />
+        <WorkTrailer currentWorkId={currentWorkId ?? initialWork.id} />
       </Suspense>
     </div>
   )
