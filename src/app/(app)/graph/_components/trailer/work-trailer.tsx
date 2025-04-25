@@ -12,7 +12,7 @@ export const WorkTrailer: FC<WorkTrailerProps> = async ({ currentWorkId }) => {
 
   const currentWorkTrailer = await getWorkTrailer(malId)
 
-  if (currentWorkTrailer?.embed_url === undefined) {
+  if (!currentWorkTrailer?.embed_url) {
     return null
   }
 
