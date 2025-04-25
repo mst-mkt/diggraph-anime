@@ -2,15 +2,15 @@
 
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { useWorkGraph } from '@/hooks/useWorkGraph'
-import type { Work } from '@/lib/api/annict-rest/schema/works'
+import type { WorkWithThumbnail } from '@/lib/image'
 import type { FC } from 'react'
 import { RelatedWorks } from './anime/related-works'
 import { WorkInfo } from './anime/work-info'
 import { WorkGraph } from './graph/graph'
 
 type PanelProps = {
-  initialWork: Work
-  initialRelatedWorks: Work[]
+  initialWork: WorkWithThumbnail
+  initialRelatedWorks: WorkWithThumbnail[]
 }
 
 export const Panels: FC<PanelProps> = ({ initialWork, initialRelatedWorks }) => {

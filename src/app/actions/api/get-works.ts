@@ -2,6 +2,7 @@
 
 import { annictApiClient } from '@/lib/api/annict-rest'
 import { auth } from '@/lib/auth'
+import { getValidWorkImage } from '@/lib/image'
 
 export const getWorks = async (id: number) => {
   await auth()
@@ -16,5 +17,16 @@ export const getWorks = async (id: number) => {
   }
 
   const [work] = workResult.value.works
-  return work ?? null
+
+  if (work === undefined) {
+    console.error(`No work found for id: ${id}`)
+    return null
+  }
+
+  const workWithThumbnail = {
+    ...work,
+    thumbnail: await getValidWorkImage(work),
+  }
+
+  return workWithThumbnail
 }

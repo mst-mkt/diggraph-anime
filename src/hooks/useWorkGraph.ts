@@ -1,12 +1,13 @@
 import { getRelatedWorks } from '@/app/actions/api/get-related-works'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
+import type { WorkWithThumbnail } from '@/lib/image'
 import { useCallback, useMemo, useState } from 'react'
 import { match } from 'ts-pattern'
 
 export type WorkNode = {
   id: string
   label: string
-  image: string
+  image: string | null
   status: 'default' | 'selected' | 'expanded' | 'pending'
 }
 
@@ -15,8 +16,11 @@ export type WorkLink = {
   target: string
 }
 
-export const useWorkGraph = (initialWork: Work, initialRelatedWorks: Work[]) => {
-  const [works, setWorks] = useState<Record<string, Work>>({
+export const useWorkGraph = (
+  initialWork: WorkWithThumbnail,
+  initialRelatedWorks: WorkWithThumbnail[],
+) => {
+  const [works, setWorks] = useState<Record<string, WorkWithThumbnail>>({
     [initialWork.id.toString()]: initialWork,
     ...Object.fromEntries(initialRelatedWorks.map((work) => [work.id.toString(), work])),
   })
@@ -34,7 +38,7 @@ export const useWorkGraph = (initialWork: Work, initialRelatedWorks: Work[]) => 
     return Object.entries(works).map(([_, work]) => ({
       id: work.id.toString(),
       label: work.title,
-      image: work.images.facebook.og_image_url,
+      image: work.thumbnail,
       status: match(work.id)
         .returnType<WorkNode['status']>()
         .with(pendingWorkId ?? 0, () => 'pending')

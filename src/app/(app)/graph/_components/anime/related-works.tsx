@@ -1,20 +1,21 @@
 import { Badge } from '@/components/ui/badge'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
 import { cn } from '@/lib/classnames'
+import type { WorkWithThumbnail } from '@/lib/image'
 import { SproutIcon, TvIcon } from 'lucide-react'
 import { type FC, useState, useTransition } from 'react'
 import { WorkThumbnail } from './work-thumbnail'
 
 type RelatedWorksProps = {
-  relatedWorks: Work[]
+  relatedWorks: WorkWithThumbnail[]
   expand: (annictId: Work['id'], malId: number) => Promise<void>
 }
 
 export const RelatedWorks: FC<RelatedWorksProps> = ({ relatedWorks, expand }) => {
-  const [selectedWork, setSelectedWorkState] = useState<Work | null>(null)
+  const [selectedWork, setSelectedWorkState] = useState<WorkWithThumbnail | null>(null)
   const [pending, startTransition] = useTransition()
 
-  const handleSelectWork = (work: Work) => {
+  const handleSelectWork = (work: WorkWithThumbnail) => {
     setSelectedWorkState(work)
     startTransition(async () => {
       const malId = Number.parseInt(work.mal_anime_id)
