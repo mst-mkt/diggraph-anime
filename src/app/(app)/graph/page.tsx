@@ -37,10 +37,7 @@ const GraphPage: FC<GraphPageProps> = async ({ searchParams }) => {
     <div>
       <Panels initialWork={initialWork} initialRelatedWorks={initialRelatedWorks} />
       <Suspense>
-        <WorkTrailer
-          currentWorkId={currentWorkId}
-          className="fixed right-4 bottom-4 z-50 aspect-video w-80 rounded bg-background p-2 shadow-lg"
-        />
+        <WorkTrailer currentWorkId={currentWorkId} />
       </Suspense>
     </div>
   )
