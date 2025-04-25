@@ -12,7 +12,6 @@ export const getWorkTrailer = async (malId: number) => {
   }
   const trailer = data.data?.trailer
   if (trailer === undefined) {
-    console.error(`No trailer found for ID ${malId}`)
     return null
   }
   return trailer
