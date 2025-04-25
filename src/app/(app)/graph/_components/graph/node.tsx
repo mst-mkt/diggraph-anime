@@ -10,7 +10,7 @@ export const WorkNode = (node: WorkNodeType) => {
 
   return renderToStaticMarkup(
     <g>
-      {node.image === '' ? (
+      {node.image === null ? (
         <rect
           x={0}
           y={0}

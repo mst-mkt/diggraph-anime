@@ -1,10 +1,10 @@
-import type { Work } from '@/lib/api/annict-rest/schema/works'
 import { cn } from '@/lib/classnames'
+import type { WorkWithThumbnail } from '@/lib/image'
 import { ImageOffIcon } from 'lucide-react'
 import type { FC } from 'react'
 
 type WorkThumbnailProps = {
-  work: Work
+  work: WorkWithThumbnail
   className?: string
 }
 
@@ -15,11 +15,11 @@ export const WorkThumbnail: FC<WorkThumbnailProps> = ({ work, className }) => (
       className,
     )}
   >
-    {work.images.facebook.og_image_url === undefined || work.images.facebook.og_image_url === '' ? (
+    {work.thumbnail === null ? (
       <ImageOffIcon size={36} className="text-muted-foreground" />
     ) : (
       <img
-        src={work.images.facebook.og_image_url}
+        src={work.thumbnail}
         alt={work.title}
         height={144}
         width={256}

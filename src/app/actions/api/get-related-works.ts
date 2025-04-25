@@ -4,6 +4,7 @@ import { malToAnnict } from '@/lib/anime-id'
 import { annictApiClient } from '@/lib/api/annict-rest'
 import { jikanApiClient } from '@/lib/api/jikan'
 import { auth } from '@/lib/auth'
+import { getValidWorkImage } from '@/lib/image'
 
 export const getRelatedWorks = async (malId: number) => {
   await auth()
@@ -43,5 +44,12 @@ export const getRelatedWorks = async (malId: number) => {
     return []
   }
 
-  return relatedAnnictWorks.value.works
+  const relatedWorksWithThumbnail = await Promise.all(
+    relatedAnnictWorks.value.works.map(async (work) => ({
+      ...work,
+      thumbnail: await getValidWorkImage(work),
+    })),
+  )
+
+  return relatedWorksWithThumbnail
 }

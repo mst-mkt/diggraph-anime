@@ -1,11 +1,11 @@
 import { Badge } from '@/components/ui/badge'
-import type { Work } from '@/lib/api/annict-rest/schema/works'
+import type { WorkWithThumbnail } from '@/lib/image'
 import { BinocularsIcon, MessageCircleHeartIcon } from 'lucide-react'
 import type { FC } from 'react'
 import { WorkThumbnail } from './work-thumbnail'
 
 type WorkInfoProps = {
-  work: Work
+  work: WorkWithThumbnail
 }
 
 export const WorkInfo: FC<WorkInfoProps> = ({ work }) => (
