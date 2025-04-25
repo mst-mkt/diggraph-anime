@@ -13,6 +13,7 @@ export const WorkTrailer: FC<WorkTrailerProps> = async ({ currentWorkId, classNa
   const currentWorkTrailer = malId === undefined ? null : await getWorkTrailer(malId)
 
   if (!currentWorkTrailer?.embed_url) {
+    return null
   }
 
   const trailerUrl = `${currentWorkTrailer?.embed_url}&autoplay=1&mute=1`
