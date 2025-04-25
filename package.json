@@ -16,6 +16,8 @@
     "@kawaiioverflow/arm": "^0.211.0",
     "@radix-ui/react-select": "^2.2.2",
     "@radix-ui/react-slot": "^1.2.0",
+    "@unovis/react": "^1.5.1",
+    "@unovis/ts": "^1.5.1",
     "@urql/core": "^5.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

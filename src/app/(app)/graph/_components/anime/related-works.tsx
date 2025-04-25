@@ -1,31 +1,25 @@
-import { getRelatedWorks } from '@/app/actions/api/get-related-works'
 import { Badge } from '@/components/ui/badge'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
 import { cn } from '@/lib/classnames'
 import { SproutIcon, TvIcon } from 'lucide-react'
-import { type Dispatch, type FC, type SetStateAction, useState, useTransition } from 'react'
+import { type FC, useState, useTransition } from 'react'
 import { WorkThumbnail } from './work-thumbnail'
 
 type RelatedWorksProps = {
   relatedWorks: Work[]
-  setSelectedWork: Dispatch<SetStateAction<Work>>
-  setRelatedWorks: Dispatch<SetStateAction<Work[]>>
+  expand: (annictId: Work['id'], malId: number) => Promise<void>
 }
 
-export const RelatedWorks: FC<RelatedWorksProps> = ({
-  relatedWorks,
-  setSelectedWork,
-  setRelatedWorks,
-}) => {
+export const RelatedWorks: FC<RelatedWorksProps> = ({ relatedWorks, expand }) => {
   const [selectedWork, setSelectedWorkState] = useState<Work | null>(null)
   const [pending, startTransition] = useTransition()
+
   const handleSelectWork = (work: Work) => {
     setSelectedWorkState(work)
     startTransition(async () => {
-      const relatedWorks =
-        work.mal_anime_id === '' ? [] : await getRelatedWorks(Number.parseInt(work.mal_anime_id))
-      setSelectedWork(work)
-      setRelatedWorks(relatedWorks)
+      const malId = Number.parseInt(work.mal_anime_id)
+      if (Number.isNaN(malId)) return
+      await expand(work.id, malId)
       setSelectedWorkState(null)
     })
   }
