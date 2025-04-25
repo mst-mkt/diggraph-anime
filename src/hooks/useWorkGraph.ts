@@ -1,5 +1,7 @@
+import { graphSearchParams } from '@/app/(app)/graph/search-params'
 import { getRelatedWorks } from '@/app/actions/api/get-related-works'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
+import { useQueryState } from 'nuqs'
 import { useCallback, useMemo, useState } from 'react'
 import { match } from 'ts-pattern'
 
@@ -27,7 +29,10 @@ export const useWorkGraph = (initialWork: Work, initialRelatedWorks: Work[]) => 
     })),
   )
   const [pendingWorkId, setPendingWorkId] = useState<Work['id'] | null>(null)
-  const [selectedWorkId, setSelectedWorkId] = useState<Work['id']>(initialWork.id)
+  const [selectedWorkId, setSelectedWorkId] = useQueryState<Work['id']>('current', {
+    ...graphSearchParams.current,
+    defaultValue: initialWork.id,
+  })
   const [expandedWorkIds, setExpandedWorkIds] = useState<Set<Work['id']>>(new Set([initialWork.id]))
 
   const nodes = useMemo<WorkNode[]>(() => {
@@ -76,7 +81,7 @@ export const useWorkGraph = (initialWork: Work, initialRelatedWorks: Work[]) => 
         return newSet
       })
     },
-    [expandedWorkIds],
+    [expandedWorkIds, setSelectedWorkId],
   )
 
   const selectedWork = useMemo(() => works[selectedWorkId], [works, selectedWorkId])

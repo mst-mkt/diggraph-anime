@@ -1,13 +1,21 @@
-import type { components } from '@/lib/api/jikan/schema.gen'
+import { getWorkTrailer } from '@/app/actions/api/get-work-trailer'
+import { annictToMal } from '@/lib/anime-id'
 import { cn } from '@/lib/classnames'
 import type { FC } from 'react'
 
 type WorkTrailerProps = {
-  currentWorkTrailer: components['schemas']['trailer_base'] | null
+  currentWorkId: number
   className?: string
 }
 
-export const WorkTrailer: FC<WorkTrailerProps> = ({ currentWorkTrailer, className }) => {
+export const WorkTrailer: FC<WorkTrailerProps> = async ({ currentWorkId, className }) => {
+  const malId = annictToMal(currentWorkId)
+  const currentWorkTrailer = malId === undefined ? null : await getWorkTrailer(malId)
+
+  if (currentWorkTrailer?.embed_url === null) {
+    return null
+  }
+
   const trailerUrl = `${currentWorkTrailer?.embed_url}&autoplay=1&mute=1`
   return (
     <div className={cn(className)}>{trailerUrl && <iframe src={trailerUrl} title="trailer" />}</div>
