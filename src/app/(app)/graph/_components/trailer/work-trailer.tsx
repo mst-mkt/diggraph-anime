@@ -12,14 +12,15 @@ export const WorkTrailer: FC<WorkTrailerProps> = async ({ currentWorkId }) => {
 
   const currentWorkTrailer = await getWorkTrailer(malId)
 
-  if (!currentWorkTrailer?.embed_url) {
+  if (currentWorkTrailer?.embed_url === undefined) {
     return null
   }
 
-  const trailerUrl = `${currentWorkTrailer?.embed_url}&autoplay=1&mute=1`
+  const trailerUrl = `${currentWorkTrailer.embed_url}&autoplay=1&mute=1`
+
   return (
     <div className="fixed right-4 bottom-4 z-50 aspect-video w-80 rounded bg-background p-2 shadow-lg">
-      {trailerUrl && <iframe src={trailerUrl} title="trailer" />}
+      <iframe src={trailerUrl} title="trailer" />
     </div>
   )
 }
