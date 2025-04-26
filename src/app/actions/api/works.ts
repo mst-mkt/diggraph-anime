@@ -3,7 +3,7 @@
 import { annictApiClient } from '@/lib/api/annict-rest'
 import type { Work, WorkWithStatus } from '@/lib/api/annict-rest/schema/works'
 import { auth } from '@/lib/auth'
-import { getValidWorkImage } from '@/lib/image'
+import { getValidWorkImage } from '@/lib/images/valid-thumbnail'
 import { isErr } from '@/lib/result'
 import { getCurrentSeason } from '@/utils/get-season'
 
@@ -13,32 +13,6 @@ export type WorkWithThumbnail = Work & {
 
 export type WorkWithThumbnailAndStatus = WorkWithStatus & {
   thumbnail: string | null
-}
-
-export const getCurrentSeasonWorks = async (count = 12) => {
-  await auth()
-
-  const currentSeason = getCurrentSeason()
-
-  const worksResult = await annictApiClient.getWorks({
-    query: { filter_season: currentSeason, sort_watchers_count: 'desc', per_page: count },
-  })
-
-  if (isErr(worksResult)) {
-    console.error('Failed to fetch current-season works:', worksResult.error)
-    return null
-  }
-
-  const worksWithValidThumbnail = await worksResult.value.works.reduce(
-    async (acc: Promise<WorkWithThumbnail[]>, work: Work) => {
-      const works = await acc
-      const thumbnail = await getValidWorkImage(work)
-      return [...works, { ...work, thumbnail }]
-    },
-    Promise.resolve([]),
-  )
-
-  return { data: worksWithValidThumbnail, next_page: worksResult.value.next_page }
 }
 
 export const searchWorks = async (
@@ -58,7 +32,7 @@ export const searchWorks = async (
   const worksResult = await annictApiClient.getWorks({
     query: {
       filter_title: search.q || undefined,
-      filter_season: currentSeason || search.season || undefined,
+      filter_season: currentSeason ? search.season : undefined,
       sort_id: search.sort === 'id' ? search.order : undefined,
       sort_season: search.sort === 'season' ? search.order : undefined,
       sort_watchers_count: search.sort === 'watchers' ? search.order : undefined,
