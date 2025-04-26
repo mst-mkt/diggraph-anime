@@ -1,5 +1,5 @@
 import { Skeleton } from '@/components/ui/skeleton'
-import { TvIcon } from 'lucide-react'
+import { LibraryBigIcon } from 'lucide-react'
 
 const GraphLoading = () => (
   <div className="flex h-full w-full">
@@ -20,7 +20,7 @@ const GraphLoading = () => (
         </div>
         <div className="flex flex-col gap-y-4">
           <hgroup className="flex items-center gap-x-2">
-            <TvIcon size={24} className="text-diggraph-accent" />
+            <LibraryBigIcon size={24} className="text-diggraph-accent" />
             <h3 className="font-bold text-lg">関連作品</h3>
           </hgroup>
           <div className="grid @lg/panel:grid-cols-3 grid-cols-2 gap-x-4 gap-y-8">
