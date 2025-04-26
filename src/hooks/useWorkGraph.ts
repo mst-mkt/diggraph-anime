@@ -1,6 +1,8 @@
+import { graphSearchParams } from '@/app/(app)/graph/search-params'
 import { getRelatedWorks } from '@/app/actions/api/get-related-works'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
 import type { WorkWithThumbnail } from '@/lib/image'
+import { useQueryState } from 'nuqs'
 import { useCallback, useMemo, useState } from 'react'
 import { match } from 'ts-pattern'
 
@@ -31,7 +33,10 @@ export const useWorkGraph = (
     })),
   )
   const [pendingWorkId, setPendingWorkId] = useState<Work['id'] | null>(null)
-  const [selectedWorkId, setSelectedWorkId] = useState<Work['id']>(initialWork.id)
+  const [selectedWorkId, setSelectedWorkId] = useQueryState<Work['id']>('current', {
+    ...graphSearchParams.current,
+    defaultValue: initialWork.id,
+  })
   const [expandedWorkIds, setExpandedWorkIds] = useState<Set<Work['id']>>(new Set([initialWork.id]))
 
   const nodes = useMemo<WorkNode[]>(() => {
@@ -80,17 +85,20 @@ export const useWorkGraph = (
         return newSet
       })
     },
-    [expandedWorkIds],
+    [expandedWorkIds, setSelectedWorkId],
   )
 
-  const selectedWork = useMemo(() => works[selectedWorkId], [works, selectedWorkId])
-  const selectedWorkRelatedWorks = useMemo(
-    () =>
-      links
-        .filter((link) => link.source === selectedWorkId.toString())
-        .map((link) => works[link.target]),
-    [links, selectedWorkId, works],
+  const selectedWork = useMemo(
+    () => works[selectedWorkId] ?? initialWork,
+    [works, initialWork, selectedWorkId],
   )
+  const selectedWorkRelatedWorks = useMemo(() => {
+    const currentWork = works[selectedWorkId] ?? initialWork
+
+    return links
+      .filter((link) => link.source === currentWork.id.toString())
+      .map((link) => works[link.target])
+  }, [links, selectedWorkId, works, initialWork])
 
   return {
     graph: { nodes, links },

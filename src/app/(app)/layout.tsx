@@ -6,9 +6,9 @@ type AppLayoutProps = {
 }
 
 const AppLayout: FC<AppLayoutProps> = ({ children }) => (
-  <div className="flex h-svh flex-col">
+  <div className="grid h-svh grid-rows-[auto_1fr] overflow-y-hidden">
     <Header />
-    <main className="grow">{children}</main>
+    <main className="h-full min-h-0">{children}</main>
   </div>
 )
 
