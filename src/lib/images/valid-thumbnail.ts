@@ -2,6 +2,8 @@ import 'server-only'
 import type { Work } from '../api/annict-rest/schema/works'
 import { jikanApiClient } from '../api/jikan'
 
+const httpRegex = /^http:\/\//
+
 const checkImage = async (url: string) => {
   try {
     const res = await fetch(url, { method: 'HEAD' })
@@ -14,7 +16,7 @@ const checkImage = async (url: string) => {
 
 export const getValidWorkImage = async (work: Work) => {
   // 1st. check annictWork.images.facebook.og_image_url
-  const ogpImage = work.images.facebook.og_image_url
+  const ogpImage = work.images.facebook.og_image_url.replace(httpRegex, 'https://')
 
   if (ogpImage !== '') {
     const isValid = await checkImage(ogpImage)
@@ -29,7 +31,7 @@ export const getValidWorkImage = async (work: Work) => {
       params: { path: { id: Number.parseInt(malId) } },
     })
 
-    const malImage = data?.data?.images?.webp?.image_url
+    const malImage = data?.data?.images?.webp?.image_url?.replace(httpRegex, 'https://')
 
     if (typeof malImage === 'string' && malImage !== '') {
       return malImage
@@ -42,7 +44,7 @@ export const getValidWorkImage = async (work: Work) => {
     work.images.twitter.image_url,
     work.images.twitter.normal_avatar_url,
     work.images.twitter.original_avatar_url,
-  ]
+  ].map((url) => url.replace(httpRegex, 'https://'))
 
   for (const url of urls) {
     if (url !== '') {
