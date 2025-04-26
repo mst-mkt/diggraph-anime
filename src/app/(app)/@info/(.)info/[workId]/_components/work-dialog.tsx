@@ -3,8 +3,8 @@ import type { Work } from '@/lib/api/annict-rest/schema/works'
 import { CloudMoonRainIcon } from 'lucide-react'
 import { type FC, Suspense } from 'react'
 import { BackDialog } from '../../../back-dialog'
-import { CastList, CastListSkeleton } from './cast-list'
-import { EpisodeList, EpisodeListSkeleton } from './episode-list'
+import { CastList, CastListSkeleton } from './cast/cast-list'
+import { EpisodeList, EpisodeListSkeleton } from './episode/episode-list'
 import { WorkInfo } from './work-info'
 
 type WorkDialogProps = {
