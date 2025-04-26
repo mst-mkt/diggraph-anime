@@ -22,7 +22,12 @@ export const Panels: FC<PanelProps> = ({ initialWork, initialRelatedWorks }) => 
   return (
     <ResizablePanelGroup direction="horizontal">
       <ResizablePanel minSize={50}>
-        <WorkGraph nodes={graph.nodes} links={graph.links} expand={expand} />
+        <WorkGraph
+          selectedWorkId={selectedWork.id}
+          nodes={graph.nodes}
+          links={graph.links}
+          expand={expand}
+        />
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel className="@container/panel">
