@@ -1,21 +1,55 @@
-import type { SearchParams } from 'nuqs'
+import { SearchIcon } from 'lucide-react'
+import type { SearchParams } from 'nuqs/server'
 import type { FC } from 'react'
-import { SearchForms } from './_components/searchForms'
-import { SearchWorks } from './_components/searchWorks'
+import { PROJECT_NAME } from '../../../constants/project'
+import { SearchInput } from './_components/form/search-input'
+import { SearchTabs } from './_components/form/search-tab'
+import { SeasonSelect } from './_components/form/season-select'
+import { SortSelect } from './_components/form/sort-select'
+import { WorkList } from './_components/work/work-list'
 import { loadSearchParams } from './search-params'
 
-type SelectPageProps = {
+type SearchPageProps = {
   searchParams: Promise<SearchParams>
 }
 
-const SelectPage: FC<SelectPageProps> = async ({ searchParams }) => {
-  const { q } = await loadSearchParams(searchParams)
+export const generateMetadata = async ({ searchParams }: SearchPageProps) => {
+  const { q: query } = await loadSearchParams(searchParams)
+
+  return {
+    title: `検索 ${query === null ? '' : `"${query}" `}| ${PROJECT_NAME}`,
+    description: `アニメ作品検索結果 "${query}"`,
+  }
+}
+
+const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
+  const { q: query, t: tab, sort, order, season } = await loadSearchParams(searchParams)
+
   return (
-    <div>
-      <SearchForms />
-      <SearchWorks query={q} />
+    <div className="flex flex-col gap-y-8">
+      <div className="flex items-center justify-between">
+        <h1 className="flex items-center gap-x-2 font-bold text-lg">
+          <SearchIcon size={24} className="select-works-icon" />
+          作品を選択
+        </h1>
+        <SearchTabs />
+      </div>
+      <div className="flex flex-col gap-y-6">
+        <SearchInput />
+        <div className="flex flex-wrap gap-4">
+          <SortSelect />
+          <SeasonSelect />
+        </div>
+      </div>
+      <WorkList
+        q={query}
+        t={tab}
+        sort={sort ?? 'watchers'}
+        order={order}
+        season={season === 'all' ? undefined : `${season.year}-${season.season}`}
+      />
     </div>
   )
 }
 
-export default SelectPage
+export default SearchPage

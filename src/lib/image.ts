@@ -25,14 +25,18 @@ export const getValidWorkImage = async (work: Work) => {
   const malId = work.mal_anime_id
 
   if (malId !== '') {
-    const { data } = await jikanApiClient.GET('/anime/{id}', {
-      params: { path: { id: Number.parseInt(malId) } },
-    })
+    try {
+      const { data } = await jikanApiClient.GET('/anime/{id}', {
+        params: { path: { id: Number.parseInt(malId) } },
+      })
 
-    const malImage = data?.data?.images?.webp?.image_url
+      const malImage = data?.data?.images?.webp?.image_url
 
-    if (typeof malImage === 'string' && malImage !== '') {
-      return malImage
+      if (typeof malImage === 'string' && malImage !== '') {
+        return malImage
+      }
+    } catch (error) {
+      console.error(`Failed to fetch MAL image for malId: ${malId}`, error)
     }
   }
 
