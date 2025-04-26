@@ -1,5 +1,5 @@
 import { cn } from '@/lib/classnames'
-import type { WorkWithThumbnail } from '@/lib/image'
+import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
 import { ImageOffIcon } from 'lucide-react'
 import type { FC } from 'react'
 
