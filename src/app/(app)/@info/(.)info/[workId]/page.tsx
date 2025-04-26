@@ -1,5 +1,7 @@
 import { WorkThumbnail } from '@/app/(app)/graph/_components/anime/work-thumbnail'
-import { getWorkInfo } from '@/app/actions/api/get-work-info'
+import { getWorkCasts } from '@/app/actions/api/get-work-casts'
+import { getWorkEpisodes } from '@/app/actions/api/get-work-episodes'
+import { getWorks } from '@/app/actions/api/get-works'
 import { Badge } from '@/components/ui/badge'
 import { ClapperboardIcon, EyeIcon, MessageCircleHeartIcon } from 'lucide-react'
 import type { FC } from 'react'
@@ -13,7 +15,7 @@ type TrackModalProps = {
 
 const TrackModal: FC<TrackModalProps> = async ({ params }) => {
   const { workId } = await params
-  const work = await getWorkInfo(Number.parseInt(workId))
+  const work = await getWorks(Number.parseInt(workId))
   if (work === null) {
     return (
       <BackDialog title="詳細情報">
@@ -21,6 +23,9 @@ const TrackModal: FC<TrackModalProps> = async ({ params }) => {
       </BackDialog>
     )
   }
+  const episodes = await getWorkEpisodes(Number.parseInt(workId))
+  const casts = await getWorkCasts(Number.parseInt(workId))
+
   return (
     <BackDialog title="詳細情報">
       <div className="flex flex-col gap-y-8 px-6 py-4">
@@ -55,8 +60,8 @@ const TrackModal: FC<TrackModalProps> = async ({ params }) => {
 
         <hr className="my-2 border-muted" />
 
-        <EpisodeList episodes={work.episodes} initialVisibleCount={16} />
-        <CastList casts={work.casts} />
+        <EpisodeList episodes={episodes} initialVisibleCount={16} />
+        <CastList casts={casts} />
       </div>
     </BackDialog>
   )

@@ -1,7 +1,6 @@
 import { Badge } from '@/components/ui/badge'
 import type { WorkWithThumbnail } from '@/lib/image'
 import { BinocularsIcon, MessageCircleHeartIcon } from 'lucide-react'
-import Link from 'next/link'
 import type { FC } from 'react'
 import { WorkThumbnail } from './work-thumbnail'
 
@@ -42,11 +41,5 @@ export const WorkInfo: FC<WorkInfoProps> = ({ work }) => (
         </div>
       </div>
     </div>
-    <Link
-      href={`/info/${work.id}`}
-      className="text-muted-foreground text-sm hover:text-diggraph-accent"
-    >
-      詳細情報
-    </Link>
   </div>
 )

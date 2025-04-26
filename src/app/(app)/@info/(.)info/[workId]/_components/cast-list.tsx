@@ -9,6 +9,14 @@ type CastListProps = {
 }
 
 export const CastList: FC<CastListProps> = ({ casts }) => {
+  if (casts.length === 0) {
+    return (
+      <div>
+        <h3 className="pb-4 font-bold text-lg">キャスト</h3>
+        <p className="text-muted-foreground">キャストが見つかりませんでした</p>
+      </div>
+    )
+  }
   return (
     <div>
       <h3 className="pb-4 font-bold text-lg">キャスト</h3>

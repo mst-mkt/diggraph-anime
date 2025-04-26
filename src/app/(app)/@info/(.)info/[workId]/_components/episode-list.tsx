@@ -16,6 +16,15 @@ export const EpisodeList: FC<EpisodeListProps> = ({ episodes, initialVisibleCoun
 
   const visibleEpisodes = expanded || !hasMore ? episodes : episodes.slice(0, threshold)
 
+  if (visibleEpisodes.length === 0) {
+    return (
+      <div>
+        <h3 className="mb-2 font-bold">エピソード一覧</h3>
+        <p className="text-muted-foreground">エピソードが見つかりませんでした</p>
+      </div>
+    )
+  }
+
   return (
     <div>
       <h3 className="mb-2 font-bold">エピソード一覧</h3>
