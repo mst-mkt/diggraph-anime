@@ -5,7 +5,6 @@ import type { Work, WorkWithStatus } from '@/lib/api/annict-rest/schema/works'
 import { auth } from '@/lib/auth'
 import { getValidWorkImage } from '@/lib/images/valid-thumbnail'
 import { isErr } from '@/lib/result'
-import { getCurrentSeason } from '@/utils/get-season'
 
 export type WorkWithThumbnail = Work & {
   thumbnail: string | null
@@ -18,7 +17,6 @@ export type WorkWithThumbnailAndStatus = WorkWithStatus & {
 export const searchWorks = async (
   search: {
     q?: string
-    t?: 'search' | 'current_season' | 'watched'
     sort?: 'id' | 'season' | 'watchers'
     order?: 'asc' | 'desc'
     season?: string
@@ -27,12 +25,10 @@ export const searchWorks = async (
 ) => {
   await auth()
 
-  const currentSeason = search.t === 'current_season' ? getCurrentSeason() : undefined
-
   const worksResult = await annictApiClient.getWorks({
     query: {
       filter_title: search.q || undefined,
-      filter_season: currentSeason ? search.season : undefined,
+      filter_season: search.season || undefined,
       sort_id: search.sort === 'id' ? search.order : undefined,
       sort_season: search.sort === 'season' ? search.order : undefined,
       sort_watchers_count: search.sort === 'watchers' ? search.order : undefined,

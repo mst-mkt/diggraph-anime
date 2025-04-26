@@ -1,5 +1,6 @@
 import type { SearchOrder, SearchSort } from '@/app/(main)/select/search-params'
 import { searchWorks } from '@/app/actions/api/works'
+import { getCurrentSeason } from '@/utils/get-season'
 import type { FC } from 'react'
 import WorkCard from './work-card'
 
@@ -12,12 +13,13 @@ type SearchWorksProps = {
 }
 
 export const WorkList: FC<SearchWorksProps> = async ({ q, t, sort, order, season }) => {
+  const filterSeason = t === 'current_season' ? getCurrentSeason() : season
+
   const works = await searchWorks({
     q,
-    t,
     sort,
     order,
-    season,
+    season: filterSeason,
   })
 
   if (!works) {
