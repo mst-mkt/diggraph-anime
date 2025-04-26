@@ -12,10 +12,9 @@ import { CalendarDaysIcon, CalendarRangeIcon, LoaderIcon } from 'lucide-react'
 import { useQueryStates } from 'nuqs'
 import { useMemo, useTransition } from 'react'
 import { match } from 'ts-pattern'
-import { SeasonIcon } from '../../icon/season'
-
-import { SEASON_NAME_TEXT, isSeason } from '@/constants/text/season'
+import { SEASON_NAME_TEXT, isSeason } from '../../../../../constants/text-season'
 import { searchSearchParams } from '../../search-params'
+import { SeasonIcon } from '../icon-season'
 
 export const SeasonSelect = () => {
   const [isPending, startTransition] = useTransition()

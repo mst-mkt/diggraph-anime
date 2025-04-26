@@ -1,6 +1,5 @@
 import { P, match } from 'ts-pattern'
-import type { introspection_types } from '../../lib/api/annict-graphql/schema.gen.d'
-
+import type { introspection_types } from '../lib/api/annict-graphql/schema.gen.d'
 export const SESONS = ['spring', 'summer', 'autumn', 'winter', 'all'] as const
 export type Season = (typeof SESONS)[number]
 export const isSeason = (value: unknown): value is Season => SESONS.includes(value as Season)
