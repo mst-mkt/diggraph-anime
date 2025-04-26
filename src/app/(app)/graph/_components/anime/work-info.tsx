@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import type { WorkWithThumbnail } from '@/lib/image'
 import { getSearchLink } from '@/lib/search-link'
-import { BinocularsIcon, ClapperboardIcon, EarthIcon, TvIcon } from 'lucide-react'
+import { BinocularsIcon, BookOpenText, ClapperboardIcon, EarthIcon, TvIcon } from 'lucide-react'
 import Link from 'next/link'
 import type { FC } from 'react'
 import { WorkThumbnail } from './work-thumbnail'
@@ -59,6 +59,12 @@ export const WorkInfo: FC<WorkInfoProps> = ({ work }) => {
               </div>
             )}
           </div>
+          <Button asChild={true} variant="secondary" size="sm">
+            <Link href={`/info/${work.id}`}>
+              <BookOpenText />
+              <span>詳しく情報を見る</span>
+            </Link>
+          </Button>
         </div>
       </div>
       <div>
