@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
 import { cn } from '@/lib/classnames'
 import type { WorkWithThumbnail } from '@/lib/image'
-import { SproutIcon, TvIcon } from 'lucide-react'
+import { LibraryBigIcon, SproutIcon } from 'lucide-react'
 import { type FC, useState, useTransition } from 'react'
 import { WorkThumbnail } from './work-thumbnail'
 
@@ -28,7 +28,7 @@ export const RelatedWorks: FC<RelatedWorksProps> = ({ relatedWorks, expand }) =>
   return (
     <div className="flex flex-col gap-y-4">
       <hgroup className="flex items-center gap-x-2">
-        <TvIcon size={24} className="text-diggraph-accent" />
+        <LibraryBigIcon size={24} className="text-diggraph-accent" />
         <h3 className="font-bold text-lg">関連作品</h3>
       </hgroup>
       <div className="grid @lg/panel:grid-cols-3 grid-cols-2 gap-x-4 gap-y-8">
