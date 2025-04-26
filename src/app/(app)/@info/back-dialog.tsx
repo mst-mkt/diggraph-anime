@@ -14,11 +14,11 @@ export const BackDialog: FC<BackDialogProps> = (props) => {
 
   return (
     <Dialog open={true} onOpenChange={(open) => !open && router.back()}>
-      <DialogContent className="!w-[92svw] !max-w-[800px] !max-h-[90svh] grid-rows-[auto_1fr] overflow-hidden">
-        <DialogHeader>
+      <DialogContent className="!w-[92svw] !max-w-[800px] !max-h-[90svh] @container/dialog grid-rows-[auto_1fr] overflow-hidden">
+        <DialogHeader className="text-left">
           <DialogTitle>{props.title}</DialogTitle>
         </DialogHeader>
-        <div className="scrollbar-thin h-full min-h-0 w-full overflow-x-hidden overflow-y-scroll">
+        <div className="scrollbar-thin h-full min-h-0 w-full overflow-x-hidden overflow-y-scroll p-2">
           {props.children}
         </div>
       </DialogContent>

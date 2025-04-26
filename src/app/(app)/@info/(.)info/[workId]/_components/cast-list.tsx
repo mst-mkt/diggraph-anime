@@ -1,40 +1,38 @@
-'use client'
-
-import type { Cast } from '@/lib/api/annict-rest/schema/casts'
-import { UserIcon } from 'lucide-react'
+import { getWorkCasts } from '@/app/actions/api/get-work-casts'
+import type { Work } from '@/lib/api/annict-rest/schema/works'
+import { UserIcon, UsersIcon } from 'lucide-react'
 import type { FC } from 'react'
 
 type CastListProps = {
-  casts: Cast[]
+  workId: Work['id']
 }
 
-export const CastList: FC<CastListProps> = ({ casts }) => {
-  if (casts.length === 0) {
-    return (
-      <div>
-        <h3 className="pb-4 font-bold text-lg">キャスト</h3>
-        <p className="text-muted-foreground">キャストが見つかりませんでした</p>
-      </div>
-    )
-  }
+export const CastList: FC<CastListProps> = async ({ workId }) => {
+  const casts = await getWorkCasts(workId)
+
+  if (casts.length === 0) return null
+
   return (
-    <div>
-      <h3 className="pb-4 font-bold text-lg">キャスト</h3>
-      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <>
+      <h3 className="flex items-center gap-x-2 font-bold text-lg">
+        <UsersIcon size={24} className="text-diggraph-accent" />
+        <span>キャスト</span>
+      </h3>
+      <ul className="grid @sm/dialog:grid-cols-2 grid-cols-1 gap-4">
         {casts.map((cast) => (
           <li key={cast.id}>
-            <div className="flex items-center space-x-4 rounded-xl p-4 shadow">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted-foreground/10 ">
-                <UserIcon size={24} className="text-muted-foreground" />
+            <div className="flex items-center gap-x-2 rounded-lg border border-border p-3 shadow-xs">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground ">
+                <UserIcon size={24} />
               </div>
-              <div className="flex-1">
-                <p className="font-bold text-sm leading-snug">{cast.character.name}</p>
-                <p className="pt-1 text-muted-foreground text-sm">{cast.person.name}</p>
+              <div className="min-w-0 grow text-sm">
+                <p className="truncate font-bold">{cast.character.name}</p>
+                <p className="truncate text-muted-foreground">{cast.person.name}</p>
               </div>
             </div>
           </li>
         ))}
       </ul>
-    </div>
+    </>
   )
 }
