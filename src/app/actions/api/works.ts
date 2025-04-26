@@ -18,7 +18,7 @@ export type WorkWithThumbnailAndStatus = WorkWithStatus & {
 export const searchWorks = async (
   search: {
     q?: string
-    t?: 'no_select' | 'current_season' | 'watched'
+    t?: 'search' | 'current_season' | 'watched'
     sort?: 'id' | 'season' | 'watchers'
     order?: 'asc' | 'desc'
     season?: string

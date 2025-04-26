@@ -5,7 +5,7 @@ import WorkCard from './work-card'
 
 type SearchWorksProps = {
   q?: string
-  t?: 'no_select' | 'current_season' | 'watched'
+  t?: 'search' | 'current_season' | 'watched'
   sort?: SearchSort
   order?: SearchOrder
   season?: string

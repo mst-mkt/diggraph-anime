@@ -9,7 +9,7 @@ export const SearchTabs = () => {
   const [isPending, startTransition] = useTransition()
   const [tab, setTab] = useQueryState('t', {
     ...searchSearchParams.t,
-    defaultValue: 'no_select',
+    defaultValue: 'search',
     history: 'push',
     startTransition,
   })
@@ -18,12 +18,12 @@ export const SearchTabs = () => {
     <div className="scrollbar-thin flex w-fit max-w-full scroll-p-1 self-start overflow-x-auto rounded-lg bg-muted p-1 ring-2 ring-muted">
       <button
         type="button"
-        onClick={() => setTab('no_select')}
+        onClick={() => setTab('search')}
         className={cn(
           'w-fit cursor-pointer break-keep rounded-md px-3 py-2 font-bold text-muted-foreground text-sm transition-colors hover:text-foreground-300',
-          tab === 'no_select' &&
+          tab === 'search' &&
             'cursor-default bg-background text-foreground shadow-xs hover:text-foreground',
-          tab === 'no_select' && isPending && 'animate-pulse',
+          tab === 'search' && isPending && 'animate-pulse',
         )}
       >
         検索
