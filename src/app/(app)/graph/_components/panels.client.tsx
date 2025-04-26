@@ -26,7 +26,7 @@ export const Panels: FC<PanelProps> = ({ initialWork, initialRelatedWorks }) => 
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel className="@container/panel">
-        <div className="flex min-w-80 flex-col gap-y-8 p-4">
+        <div className="scrollbar-thin flex h-full min-w-80 flex-col gap-y-8 overflow-y-scroll p-4 pb-64">
           <WorkInfo work={selectedWork} />
           <RelatedWorks relatedWorks={selectedWorkRelatedWorks} expand={expand} />
         </div>

@@ -30,7 +30,7 @@ const GraphPage: FC<GraphPageProps> = async ({ searchParams }) => {
       : await getRelatedWorks(Number.parseInt(initialWork.mal_anime_id))
 
   return (
-    <div>
+    <div className="h-full">
       <Panels initialWork={initialWork} initialRelatedWorks={initialRelatedWorks} />
       <Suspense>
         <WorkTrailer currentWorkId={currentWorkId ?? initialWork.id} />

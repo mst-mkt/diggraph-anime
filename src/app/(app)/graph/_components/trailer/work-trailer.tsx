@@ -26,14 +26,14 @@ export const WorkTrailer: FC<WorkTrailerProps> = async ({ currentWorkId }) => {
   return (
     <div
       className={cn(
-        'fixed right-4 bottom-4 w-80 rounded-lg bg-background p-2 shadow-[0_0_4px] shadow-foreground/24 transition-opacity',
+        'fixed right-4 bottom-4 h-50 rounded-lg bg-background p-2 shadow-[0_0_4px] shadow-foreground/24 transition-opacity',
         trailerUrl === undefined && 'pointer-events-none opacity-0',
       )}
     >
       <iframe
         src={trailerUrl ?? 'https://www.youtube.com/embed'}
         title="trailer"
-        className="rounded-md"
+        className="aspect-video h-full rounded-md"
       />
     </div>
   )
