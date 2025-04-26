@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import type { WorkWithThumbnail } from '@/lib/image'
 import { getSearchLink } from '@/lib/search-link'
-import { BinocularsIcon, MessageCircleHeartIcon, TvIcon } from 'lucide-react'
+import { BinocularsIcon, ClapperboardIcon, TvIcon } from 'lucide-react'
 import Link from 'next/link'
 import type { FC } from 'react'
 import { WorkThumbnail } from './work-thumbnail'
@@ -37,13 +37,16 @@ export const WorkInfo: FC<WorkInfoProps> = ({ work }) => {
                 人が視聴中
               </span>
             </div>
-            <div className="flex items-center gap-x-2 text-sm">
-              <MessageCircleHeartIcon size={20} className="text-muted-foreground" />
-              <span>{work.reviews_count}</span>
-              <span className="@lg/panel:inline hidden text-muted-foreground text-xs">
-                件のレビュー
-              </span>
-            </div>
+            {work.episodes_count > 0 && (
+              <div className="flex items-center gap-x-2 text-sm">
+                <ClapperboardIcon size={20} className="text-muted-foreground" />
+                <span className="@lg/panel:inline hidden text-muted-foreground text-xs">全</span>
+                <span>{work.episodes_count}</span>
+                <span className="@lg/panel:inline hidden text-muted-foreground text-xs">
+                  エピソード
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>
