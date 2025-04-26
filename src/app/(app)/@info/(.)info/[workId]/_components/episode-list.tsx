@@ -1,5 +1,6 @@
 import { getWorkEpisodes } from '@/app/actions/api/get-work-episodes'
 import { Badge } from '@/components/ui/badge'
+import { Skeleton } from '@/components/ui/skeleton'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
 import { LibraryBigIcon } from 'lucide-react'
 import type { FC } from 'react'
@@ -42,3 +43,22 @@ export const EpisodeList: FC<EpisodeListProps> = async ({ workId }) => {
     </>
   )
 }
+
+type EpisodeListSkeletonProps = {
+  episodeCount?: number
+}
+
+export const EpisodeListSkeleton: FC<EpisodeListSkeletonProps> = ({ episodeCount = 8 }) => (
+  <>
+    <h3 className="flex items-center gap-x-2 font-bold text-lg">
+      <LibraryBigIcon size={24} className="text-diggraph-accent" />
+      <span>エピソード</span>
+    </h3>
+    <div className="flex flex-col gap-y-2">
+      {[...Array(episodeCount)].map((_, index) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: index of static array
+        <Skeleton key={index} className="h-[1lh] w-full" />
+      ))}
+    </div>
+  </>
+)
