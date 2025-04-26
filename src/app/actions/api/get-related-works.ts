@@ -5,7 +5,7 @@ import { annictApiClient } from '@/lib/api/annict-rest'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
 import { jikanApiClient } from '@/lib/api/jikan'
 import { auth } from '@/lib/auth'
-import { type WorkWithThumbnail, getValidWorkImage } from '@/lib/image'
+import { type WorkWithThumbnail, getValidWorkImage } from '@/lib/images/valid-thumbnail'
 
 export const getRelatedWorks = async (malId: number) => {
   await auth()

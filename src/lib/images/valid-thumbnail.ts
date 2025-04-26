@@ -1,6 +1,6 @@
 import 'server-only'
-import type { Work } from './api/annict-rest/schema/works'
-import { jikanApiClient } from './api/jikan'
+import type { Work } from '../api/annict-rest/schema/works'
+import { jikanApiClient } from '../api/jikan'
 
 const checkImage = async (url: string) => {
   try {

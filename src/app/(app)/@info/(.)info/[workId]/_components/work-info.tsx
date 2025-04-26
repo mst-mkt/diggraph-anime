@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge'
-import type { WorkWithThumbnail } from '@/lib/image'
+import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
 import { ClapperboardIcon, EyeIcon } from 'lucide-react'
 import type { FC } from 'react'
 import { WorkThumbnail } from './work-thumbnail'

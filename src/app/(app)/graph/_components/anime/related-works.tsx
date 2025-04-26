@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
 import { cn } from '@/lib/classnames'
-import type { WorkWithThumbnail } from '@/lib/image'
+import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
 import { LibraryBigIcon, SproutIcon } from 'lucide-react'
 import { type FC, useState, useTransition } from 'react'
 import { WorkThumbnail } from './work-thumbnail'
