@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import type { WorkWithThumbnail } from '@/lib/image'
 import { getSearchLink } from '@/lib/search-link'
-import { BinocularsIcon, ClapperboardIcon, TvIcon } from 'lucide-react'
+import { BinocularsIcon, ClapperboardIcon, EarthIcon, TvIcon } from 'lucide-react'
 import Link from 'next/link'
 import type { FC } from 'react'
 import { WorkThumbnail } from './work-thumbnail'
@@ -21,12 +21,23 @@ export const WorkInfo: FC<WorkInfoProps> = ({ work }) => {
           work={work}
           className="@md/panel:aspect-square aspect-video @md/panel:w-48 w-full shrink-0"
         />
-        <div className="flex grow flex-col justify-center gap-y-1">
+        <div className="flex min-w-0 grow flex-col justify-center gap-y-1">
           <h2 className="line-clamp-2 font-bold text-lg">{work.title}</h2>
           <div className="flex items-center gap-x-1">
             <Badge>{work.media_text}</Badge>
             {work.season_name_text !== undefined && work.season_name_text !== '' && (
               <Badge>{work.season_name_text}</Badge>
+            )}
+            {work.official_site_url !== '' && (
+              <Link
+                href={work.official_site_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-x-1.5 overflow-hidden px-3 text-diggraph-accent text-sm hover:underline"
+              >
+                <EarthIcon size={16} className="shrink-0" />
+                <span className="truncate">{work.official_site_url}</span>
+              </Link>
             )}
           </div>
           <div className="flex items-center gap-x-4 py-4">
