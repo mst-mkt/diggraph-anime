@@ -3,6 +3,11 @@
 :root {
   --diggraph-accent: oklch(0.61 0.1962 6.28);
 
+  --diggraph-rating-great: oklch(74.5% 0.15 175);
+  --diggraph-rating-good: oklch(60.35% 0.17 260);
+  --diggraph-rating-average: oklch(77% 0.14 58.1);
+  --diggraph-rating-bad: oklch(64% 0.19 22.8);
+
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
