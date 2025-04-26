@@ -51,6 +51,11 @@
 
   --color-diggraph-accent: var(--diggraph-accent);
 
+  --color-diggraph-rating-great: var(--diggraph-rating-great);
+  --color-diggraph-rating-good: var(--diggraph-rating-good);
+  --color-diggraph-rating-average: var(--diggraph-rating-average);
+  --color-diggraph-rating-bad: var(--diggraph-rating-bad);
+
   --color-diggraph-accent-50: color-mix(
     in srgb,
     var(--color-diggraph-accent),

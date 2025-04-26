@@ -1,7 +1,7 @@
 import { graphSearchParams } from '@/app/(app)/graph/search-params'
 import { getRelatedWorks } from '@/app/actions/api/get-related-works'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
-import type { WorkWithThumbnail } from '@/lib/image'
+import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
 import { useQueryState } from 'nuqs'
 import { useCallback, useMemo, useState } from 'react'
 import { match } from 'ts-pattern'
