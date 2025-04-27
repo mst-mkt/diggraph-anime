@@ -1,5 +1,5 @@
 import type { SearchOrder, SearchSort } from '@/app/(main)/select/search-params'
-import { searchWorks } from '@/app/actions/api/works'
+import { getMyWorks, searchWorks } from '@/app/actions/api/works'
 import { getCurrentSeason } from '@/utils/get-season'
 import type { FC } from 'react'
 import WorkCard from './work-card'
@@ -15,20 +15,37 @@ type SearchWorksProps = {
 export const WorkList: FC<SearchWorksProps> = async ({ q, t, sort, order, season }) => {
   const filterSeason = t === 'current_season' ? getCurrentSeason() : season
 
-  const works = await searchWorks({
-    q,
-    sort,
-    order,
-    season: filterSeason,
-  })
+  const fetchWorks = async () => {
+    if (t === 'search' || t === 'current_season') {
+      return await searchWorks({
+        q,
+        sort,
+        order,
+        season: filterSeason,
+      })
+    }
 
-  if (!works) {
+    if (t === 'watched') {
+      return await getMyWorks('watched', {
+        q,
+        sort,
+        order,
+        season: filterSeason,
+      })
+    }
+
+    return null
+  }
+
+  const result = await fetchWorks()
+
+  if (!result) {
     return <div>エラーが発生しました</div>
   }
 
   return (
     <div className="flex flex-col gap-4">
-      {works.data.map((work) => (
+      {result.data.map((work) => (
         <div key={work.id} className="h-full w-full">
           <WorkCard work={work} />
         </div>
