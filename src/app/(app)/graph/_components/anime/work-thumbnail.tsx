@@ -11,7 +11,7 @@ type WorkThumbnailProps = {
 export const WorkThumbnail: FC<WorkThumbnailProps> = ({ work, className }) => (
   <div
     className={cn(
-      'flex items-center justify-center overflow-hidden rounded-lg bg-muted',
+      'flex items-center justify-center overflow-hidden rounded-md bg-muted',
       className,
     )}
   >
@@ -23,7 +23,7 @@ export const WorkThumbnail: FC<WorkThumbnailProps> = ({ work, className }) => (
         alt={work.title}
         height={144}
         width={256}
-        className="h-full w-full rounded-lg object-cover"
+        className="h-full w-full rounded-md object-cover"
       />
     )}
   </div>

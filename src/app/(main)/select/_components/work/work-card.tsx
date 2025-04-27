@@ -14,7 +14,7 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
   return (
     <div className="flex flex-col gap-3">
       <Link href={`/graph?root=${work.id}`}>
-        <div key={work.id} className="h-full rounded-md border transition-colors hover:bg-muted">
+        <div key={work.id} className="h-full rounded-xl border transition-colors hover:bg-muted">
           <div className="flex h-full flex-col sm:flex-row">
             <div className="h-full w-full flex-shrink-0 p-1.5 sm:h-auto sm:w-52">
               <WorkThumbnail className="aspect-16/9 h-full w-full object-cover" work={work} />
