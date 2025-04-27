@@ -1,5 +1,4 @@
 'use client'
-
 import { LoaderIcon, SearchIcon } from 'lucide-react'
 import { useQueryState } from 'nuqs'
 import { useTransition } from 'react'
@@ -13,6 +12,7 @@ export const SearchInput = () => {
     ...searchSearchParams.q,
     throttleMs: 1024,
     defaultValue: '',
+    startTransition,
   })
   const [_, setSearchInstantly] = useQueryState('q', {
     ...searchSearchParams.q,
