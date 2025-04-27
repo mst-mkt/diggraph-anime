@@ -36,3 +36,7 @@ pnpm dev
 - `ANNICT_CLIENT_ID`: [Annict OAuth](https://annict.com/oauth/applications) client ID
 - `ANNICT_CLIENT_SECRET`: [Annict OAuth](https://annict.com/oauth/applications) client secret
 - `AUTH_SECRET`: Secret for Auth.js (generate with `pnpx auth secret --raw`)
+
+## Screen Shot
+
+![image](https://github.com/user-attachments/assets/c19f01ec-0ceb-4d1f-8b61-ee7ce34719d1)
