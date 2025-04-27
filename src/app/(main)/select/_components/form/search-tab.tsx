@@ -38,7 +38,7 @@ export const SearchTabs = () => {
           tab === 'current_season' && isPending && 'animate-pulse',
         )}
       >
-        今期の作品
+        放送中
       </button>
       <button
         type="button"
@@ -50,7 +50,7 @@ export const SearchTabs = () => {
           tab === 'watched' && isPending && 'animate-pulse',
         )}
       >
-        見た作品
+        視聴済み
       </button>
     </div>
   )

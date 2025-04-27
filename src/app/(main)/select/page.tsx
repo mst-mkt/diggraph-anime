@@ -36,9 +36,13 @@ const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
       </div>
       <div className="flex flex-col gap-y-6">
         <SearchInput />
-        <div className="flex flex-wrap gap-4">
-          <SortSelect />
-          <SeasonSelect />
+        <div className="flex flex-wrap gap-4 sm:flex-wrap sm:gap-4 md:flex-nowrap md:justify-start">
+          <div className="w-full sm:w-auto md:w-auto">
+            <SortSelect />
+          </div>
+          <div className="w-full sm:w-auto md:w-auto">
+            <SeasonSelect />
+          </div>
         </div>
       </div>
       <WorkList

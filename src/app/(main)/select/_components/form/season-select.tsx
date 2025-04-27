@@ -36,8 +36,8 @@ export const SeasonSelect = () => {
 
   return (
     <Select onValueChange={handleChange} value={seasonText}>
-      <SelectTrigger className="w-fit shrink-0 cursor-pointer gap-x-2 justify-self-start">
-        <div className="flex items-center gap-x-2">
+      <SelectTrigger className="w-full cursor-pointer gap-x-2 justify-self-start">
+        <div className="flex w-full items-center gap-x-2">
           {isPending ? (
             <LoaderIcon size={16} className="animate-spin text-muted-foreground" />
           ) : (
@@ -50,7 +50,7 @@ export const SeasonSelect = () => {
                 <SeasonIcon season={season} size={16} className="text-muted-foreground" />
               ))
           )}
-          <span className="sm:inline">
+          <span>
             {match(query.season)
               .with('all', () => '全期間')
               .with({ season: 'all' }, ({ year }) => `${year}年`)
