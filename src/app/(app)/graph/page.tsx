@@ -1,5 +1,6 @@
 import { getRelatedWorks } from '@/app/actions/api/get-related-works'
 import { getWork } from '@/app/actions/api/get-work'
+import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import type { SearchParams } from 'nuqs/server'
 import { type FC, Suspense } from 'react'
@@ -13,6 +14,9 @@ interface GraphPageProps {
 
 const GraphPage: FC<GraphPageProps> = async ({ searchParams }) => {
   const { root: rootWorkId, current: currentWorkId } = await loadSearchParams(searchParams)
+  const session = await auth()
+
+  if (session === null) redirect('/signin')
 
   if (rootWorkId === null) {
     redirect('/')

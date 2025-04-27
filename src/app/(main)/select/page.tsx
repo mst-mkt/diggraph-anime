@@ -1,4 +1,6 @@
+import { auth } from '@/lib/auth'
 import { SearchIcon } from 'lucide-react'
+import { redirect } from 'next/navigation'
 import type { SearchParams } from 'nuqs/server'
 import { type FC, Suspense } from 'react'
 import { PROJECT_NAME } from '../../../constants/project'
@@ -24,6 +26,9 @@ export const generateMetadata = async ({ searchParams }: SearchPageProps) => {
 
 const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
   const { q: query, t: tab, sort, order, season } = await loadSearchParams(searchParams)
+  const session = await auth()
+
+  if (session === null) redirect('/signin')
 
   return (
     <div className="flex flex-col gap-y-8">
