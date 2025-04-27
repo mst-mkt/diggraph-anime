@@ -6,8 +6,7 @@ export const Cards = () => (
       className="rounded-lg border border-border bg-background p-2 shadow-xs"
       style={{
         transformOrigin: 'bottom center',
-        rotate: '-12deg',
-        translate: '0 24px',
+        transform: 'rotate(-12deg) translate(0, 24px)',
       }}
     >
       <img
