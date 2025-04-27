@@ -1,12 +1,12 @@
 import { SearchIcon } from 'lucide-react'
 import type { SearchParams } from 'nuqs/server'
-import type { FC } from 'react'
+import { type FC, Suspense } from 'react'
 import { PROJECT_NAME } from '../../../constants/project'
 import { SearchInput } from './_components/form/search-input'
 import { SearchTabs } from './_components/form/search-tab'
 import { SeasonSelect } from './_components/form/season-select'
 import { SortSelect } from './_components/form/sort-select'
-import { WorkList } from './_components/work/work-list'
+import { WorkList, WorkListSkeleton } from './_components/work/work-list'
 import { loadSearchParams } from './search-params'
 
 type SearchPageProps = {
@@ -45,13 +45,15 @@ const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
           </div>
         </div>
       </div>
-      <WorkList
-        q={query}
-        t={tab}
-        sort={sort ?? 'watchers'}
-        order={order}
-        season={season === 'all' ? undefined : `${season.year}-${season.season}`}
-      />
+      <Suspense fallback={<WorkListSkeleton />}>
+        <WorkList
+          q={query}
+          t={tab}
+          sort={sort ?? 'watchers'}
+          order={order}
+          season={season === 'all' ? undefined : `${season.year}-${season.season}`}
+        />
+      </Suspense>
     </div>
   )
 }

@@ -3,14 +3,13 @@ import { Badge } from '@/components/ui/badge'
 import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
 import { BinocularsIcon, MessageCircleHeartIcon } from 'lucide-react'
 import Link from 'next/link'
-
-import type React from 'react'
+import type { FC } from 'react'
 
 type WorkCardProps = {
   work: WorkWithThumbnail
 }
 
-const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
+export const WorkCard: FC<WorkCardProps> = ({ work }) => {
   return (
     <div className="flex flex-col gap-3">
       <Link href={`/graph?root=${work.id}`}>
@@ -52,5 +51,3 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
     </div>
   )
 }
-
-export default WorkCard
