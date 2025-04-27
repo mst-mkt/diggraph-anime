@@ -2,18 +2,10 @@
 
 import { annictApiClient } from '@/lib/api/annict-rest'
 import type { Status } from '@/lib/api/annict-rest/schema/common'
-import type { Work, WorkWithStatus } from '@/lib/api/annict-rest/schema/works'
+import type { Work } from '@/lib/api/annict-rest/schema/works'
 import { auth } from '@/lib/auth'
-import { getValidWorkImage } from '@/lib/images/valid-thumbnail'
+import { type WorkWithThumbnail, getValidWorkImage } from '@/lib/images/valid-thumbnail'
 import { isErr } from '@/lib/result'
-
-export type WorkWithThumbnail = Work & {
-  thumbnail: string | null
-}
-
-export type WorkWithThumbnailAndStatus = WorkWithStatus & {
-  thumbnail: string | null
-}
 
 export const searchWorks = async (
   search: {
