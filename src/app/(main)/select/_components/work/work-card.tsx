@@ -20,8 +20,8 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
               <WorkThumbnail className="aspect-16/9 h-full w-full object-cover" work={work} />
             </div>
             <div className="flex flex-1 p-3">
-              <div className="flex flex-col gap-2">
-                <div className="line-clamp-2 flex h-12 items-center font-semibold text-base">
+              <div className="flex flex-col justify-center gap-2">
+                <div className="line-clamp-2 flex items-center font-semibold text-base">
                   {work.title}
                 </div>
 
