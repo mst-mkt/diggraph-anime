@@ -23,7 +23,7 @@ export const WorkThumbnail: FC<WorkThumbnailProps> = ({ work, className }) => (
         alt={work.title}
         height={144}
         width={256}
-        className="h-full w-full rounded-sm object-cover"
+        className="h-full w-full rounded-lg object-cover"
       />
     )}
   </div>

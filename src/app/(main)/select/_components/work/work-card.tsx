@@ -1,7 +1,6 @@
 import { WorkThumbnail } from '@/app/(app)/graph/_components/anime/work-thumbnail'
-import type { WorkWithThumbnail } from '@/app/actions/api/works'
-
 import { Badge } from '@/components/ui/badge'
+import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
 import { BinocularsIcon, MessageCircleHeartIcon } from 'lucide-react'
 import Link from 'next/link'
 
@@ -17,15 +16,14 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
       <Link href={`/graph?root=${work.id}`}>
         <div key={work.id} className="h-full rounded-md border transition-colors hover:bg-muted">
           <div className="flex h-full flex-col sm:flex-row">
-            <div className="w-full p-1.5 sm:h-full sm:w-52">
-              <WorkThumbnail
-                className="aspect-16/9 h-full w-full rounded-none object-cover"
-                work={work}
-              />
+            <div className="h-full w-full flex-shrink-0 p-1.5 sm:h-auto sm:w-52">
+              <WorkThumbnail className="aspect-16/9 h-full w-full object-cover" work={work} />
             </div>
             <div className="flex flex-1 p-3">
               <div className="flex flex-col gap-2">
-                <div className="line-clamp-2 pt-2 font-semibold text-base">{work.title}</div>
+                <div className="line-clamp-2 flex h-12 items-center font-semibold text-base">
+                  {work.title}
+                </div>
 
                 <div className="flex flex-wrap items-center gap-1">
                   {work.media_text && <Badge>{work.media_text}</Badge>}
