@@ -2,7 +2,6 @@ import { WorkThumbnail } from '@/app/(app)/graph/_components/anime/work-thumbnai
 import type { WorkWithThumbnail } from '@/app/actions/api/works'
 
 import { Badge } from '@/components/ui/badge'
-import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { BinocularsIcon, MessageCircleHeartIcon } from 'lucide-react'
 import Link from 'next/link'
 
@@ -16,41 +15,41 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
   return (
     <div className="flex flex-col gap-3">
       <Link href={`/graph?root=${work.id}`}>
-        <Card key={work.id} className="h-full transition-colors hover:bg-muted">
-          <div className="flex h-full">
-            <div className="relative w-28 flex-shrink-0 overflow-hidden">
+        <div key={work.id} className="h-full rounded-md border transition-colors hover:bg-muted">
+          <div className="flex h-full flex-col sm:flex-row">
+            <div className="w-full p-1.5 sm:h-full sm:w-52">
               <WorkThumbnail
-                work={work}
                 className="aspect-16/9 h-full w-full rounded-none object-cover"
+                work={work}
               />
             </div>
-            <div className="flex flex-1 flex-col">
-              <CardHeader className="p-3 pb-0">
-                <CardTitle className="line-clamp-2 text-base">{work.title}</CardTitle>
-                <div className="mt-1 flex flex-wrap items-center gap-1">
+            <div className="flex flex-1 p-3">
+              <div className="flex flex-col gap-2">
+                <div className="line-clamp-2 pt-2 font-semibold text-base">{work.title}</div>
+
+                <div className="flex flex-wrap items-center gap-1">
                   {work.media_text && <Badge>{work.media_text}</Badge>}
                   {work.season_name_text && <Badge>{work.season_name_text}</Badge>}
                 </div>
-              </CardHeader>
-              <CardFooter className="mt-auto p-3 pt-2">
-                <div className="flex items-center gap-x-3 text-xs">
+
+                <div className=" flex items-center gap-3 text-muted-foreground text-xs">
                   {work.watchers_count !== undefined && (
-                    <div className="flex items-center gap-x-1 text-muted-foreground">
+                    <div className="flex items-center gap-1">
                       <BinocularsIcon size={14} />
-                      <span>{work.watchers_count}</span>
+                      {work.watchers_count}
                     </div>
                   )}
                   {work.reviews_count !== undefined && (
-                    <div className="flex items-center gap-x-1 text-muted-foreground">
+                    <div className="flex items-center gap-1">
                       <MessageCircleHeartIcon size={14} />
-                      <span>{work.reviews_count}</span>
+                      {work.reviews_count}
                     </div>
                   )}
                 </div>
-              </CardFooter>
+              </div>
             </div>
           </div>
-        </Card>
+        </div>
       </Link>
     </div>
   )

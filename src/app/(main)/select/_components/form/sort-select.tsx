@@ -45,8 +45,8 @@ export const SortSelect = () => {
 
   return (
     <Select onValueChange={(value) => handleChange(value)} value={`${sort}:${order}`}>
-      <SelectTrigger className="w-fit shrink-0 cursor-pointer gap-x-2 justify-self-start">
-        <div className="flex w-fit items-center gap-x-2">
+      <SelectTrigger className="w-full cursor-pointer gap-x-2 justify-self-start">
+        <div className="flex w-full items-center gap-x-2">
           {isPending ? (
             <LoaderIcon size={16} className="animate-spin text-muted-foreground" />
           ) : (
@@ -71,7 +71,7 @@ export const SortSelect = () => {
               ))
               .exhaustive()
           )}
-          <span className="hidden sm:inline">
+          <span>
             {match([sort, order])
               .with(['id', 'asc'], () => '作成日: 古い順')
               .with(['id', 'desc'], () => '作成日: 新しい順')

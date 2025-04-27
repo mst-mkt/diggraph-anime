@@ -1,10 +1,10 @@
 import { createLoader, createParser, parseAsString, parseAsStringLiteral } from 'nuqs/server'
-import { isSeason } from '../../../constants/text/season'
+import { isSeason } from '../../../constants/text-season'
 
 export const searchSearchParams = {
   q: parseAsString.withDefault('').withOptions({ shallow: false }),
-  t: parseAsStringLiteral(['no_select', 'current_season', 'watched'])
-    .withDefault('no_select')
+  t: parseAsStringLiteral(['search', 'current_season', 'watched'])
+    .withDefault('search')
     .withOptions({ shallow: false }),
   sort: parseAsStringLiteral(['id', 'season', 'watchers']).withOptions({ shallow: false }),
   order: parseAsStringLiteral(['asc', 'desc']).withDefault('desc').withOptions({ shallow: false }),
