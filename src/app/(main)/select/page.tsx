@@ -29,7 +29,7 @@ const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
     <div className="flex flex-col gap-y-8">
       <div className="flex items-center justify-between">
         <h1 className="flex items-center gap-x-2 font-bold text-lg">
-          <SearchIcon size={24} className="select-works-icon" />
+          <SearchIcon size={24} className="text-diggraph-accent" />
           作品を選択
         </h1>
         <SearchTabs />

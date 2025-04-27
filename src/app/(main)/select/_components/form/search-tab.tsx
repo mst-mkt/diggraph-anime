@@ -50,7 +50,7 @@ export const SearchTabs = () => {
           tab === 'watched' && isPending && 'animate-pulse',
         )}
       >
-        視聴済み
+        視聴済
       </button>
     </div>
   )

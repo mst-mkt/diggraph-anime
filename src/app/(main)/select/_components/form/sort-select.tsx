@@ -101,6 +101,7 @@ export const SortSelect = () => {
             新しい順
           </SelectItem>
         </SelectGroup>
+        <SelectSeparator />
         <SelectGroup>
           <SelectLabel>放送時期</SelectLabel>
           <SelectItem
