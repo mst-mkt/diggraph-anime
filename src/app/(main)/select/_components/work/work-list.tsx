@@ -1,5 +1,5 @@
 import type { SearchOrder, SearchSort } from '@/app/(main)/select/search-params'
-import { getMyWorks, searchWorks } from '@/app/actions/api/works'
+import { getMyWorks, searchWorks } from '@/app/actions/api/get-select-works'
 import { getCurrentSeason } from '@/utils/get-season'
 import type { FC } from 'react'
 import WorkCard from './work-card'

@@ -1,5 +1,5 @@
 import { WorkThumbnail } from '@/app/(app)/graph/_components/anime/work-thumbnail'
-import type { WorkWithThumbnail } from '@/app/actions/api/works'
+import type { WorkWithThumbnail } from '@/app/actions/api/get-select-works'
 
 import { Badge } from '@/components/ui/badge'
 import { BinocularsIcon, MessageCircleHeartIcon } from 'lucide-react'
