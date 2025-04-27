@@ -1,4 +1,4 @@
-import { getWorks } from '@/app/actions/api/get-works'
+import { getWork } from '@/app/actions/api/get-work'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
 import { CloudMoonRainIcon } from 'lucide-react'
 import { type FC, Suspense } from 'react'
@@ -13,7 +13,7 @@ type WorkDialogProps = {
 }
 
 export const WorkDialog: FC<WorkDialogProps> = async ({ workId }) => {
-  const work = await getWorks(workId)
+  const work = await getWork(workId)
 
   return (
     <BackDialog title={work === null ? '作品情報' : `「${work.title}」`}>
