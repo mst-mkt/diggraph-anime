@@ -9,7 +9,7 @@ type LpLayoutProps = {
 const LpLayout: FC<LpLayoutProps> = ({ children }) => (
   <div className="relative overflow-hidden">
     <Graph />
-    <div className="relative flex h-svh min-h-0 flex-col items-center justify-center gap-y-16 bg-background/32 px-4 pt-16 pb-64">
+    <div className="relative flex h-svh min-h-0 flex-col items-center justify-center gap-y-16 px-4 pt-16 pb-64">
       {children}
     </div>
     <Cards />
