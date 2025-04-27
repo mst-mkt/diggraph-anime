@@ -1,5 +1,5 @@
 import { getRelatedWorks } from '@/app/actions/api/get-related-works'
-import { getWorks } from '@/app/actions/api/get-works'
+import { getWork } from '@/app/actions/api/get-work'
 import { redirect } from 'next/navigation'
 import type { SearchParams } from 'nuqs/server'
 import { type FC, Suspense } from 'react'
@@ -18,7 +18,7 @@ const GraphPage: FC<GraphPageProps> = async ({ searchParams }) => {
     redirect('/')
   }
 
-  const initialWork = await getWorks(rootWorkId)
+  const initialWork = await getWork(rootWorkId)
 
   if (initialWork === null) {
     redirect('/')

@@ -4,7 +4,7 @@ import { annictApiClient } from '@/lib/api/annict-rest'
 import { auth } from '@/lib/auth'
 import { getValidWorkImage } from '@/lib/images/valid-thumbnail'
 
-export const getWorks = async (id: number) => {
+export const getWork = async (id: number) => {
   await auth()
 
   const workResult = await annictApiClient.getWorks({
