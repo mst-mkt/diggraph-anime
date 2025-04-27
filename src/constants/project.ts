@@ -14,4 +14,9 @@ export const PROJECT_LINKS = {
 export const BASIC_METADATA = {
   title: PROJECT_NAME,
   description: PROJECT_DESCRIPTION,
+  openGraph: {
+    title: PROJECT_NAME,
+    description: PROJECT_DESCRIPTION,
+    images: [{ url: '/ogp.png', width: 1200, height: 630 }],
+  },
 } satisfies Metadata
