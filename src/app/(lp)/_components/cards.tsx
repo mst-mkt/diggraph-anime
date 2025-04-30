@@ -1,12 +1,11 @@
 import { Badge } from '@/components/ui/badge'
 
 export const Cards = () => (
-  <div className="-bottom-4 absolute mx-auto flex w-full items-center justify-center gap-x-8">
+  <div className="-bottom-8 absolute mx-auto flex w-full select-none items-center justify-center gap-x-8">
     <div
-      className="rounded-lg border border-border bg-background p-2 shadow-xs"
+      className="-rotate-12 hover:-rotate-6 hover:-translate-4 rounded-lg border border-border bg-background p-2 shadow-xs transition-[rotate,translate,scale] hover:scale-110"
       style={{
         transformOrigin: 'bottom center',
-        transform: 'rotate(-12deg) translate(0, 24px)',
       }}
     >
       <img
@@ -22,7 +21,7 @@ export const Cards = () => (
         </div>
       </div>
     </div>
-    <div className="rounded-lg border border-border bg-background p-2 shadow-xs">
+    <div className="-translate-y-6 hover:-translate-y-12 rounded-lg border border-border bg-background p-2 shadow-xs transition-[translate,scale] hover:scale-110">
       <img
         src="https://maidragon.jp//img/ogp.jpg"
         alt="小林さんちのメイドラゴン"
@@ -37,11 +36,9 @@ export const Cards = () => (
       </div>
     </div>
     <div
-      className="rounded-lg border border-border bg-background p-2 shadow-xs"
+      className="hover:-translate-y-4 rotate-12 rounded-lg border border-border bg-background p-2 shadow-xs transition-[rotate,translate,scale] hover:translate-x-4 hover:rotate-6 hover:scale-110"
       style={{
         transformOrigin: 'bottom center',
-        rotate: '12deg',
-        translate: '0 24px',
       }}
     >
       <img

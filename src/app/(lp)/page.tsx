@@ -11,7 +11,7 @@ const Home = async () => (
   <>
     <h1
       className={cn(
-        'w-full text-center font-black text-6xl sm:text-7xl md:text-8xl',
+        'w-full select-none text-center font-black text-6xl sm:text-7xl md:text-8xl',
         figtreeFont.className,
       )}
     >
@@ -42,13 +42,13 @@ const Home = async () => (
       </p>
       <p className="text-muted-foreground text-sm">知らなかった面白い作品に出会えるかも !?</p>
     </div>
-    <Button asChild={true}>
+    <Button asChild={true} className="select-none">
       <Link href="/select">
         <SparklesIcon />
         <span>アニメを選択して、探索をはじめる</span>
       </Link>
     </Button>
-    <Button asChild={true} variant="link" size="sm">
+    <Button asChild={true} variant="link" size="sm" className="select-none">
       <Link
         href={PROJECT_REPOSITORY_URL}
         target="_blank"
