@@ -19,7 +19,7 @@ export const WorkInfo: FC<WorkInfoProps> = ({ work }) => {
       <div className="flex @md/panel:flex-row flex-col gap-8">
         <WorkThumbnail
           work={work}
-          className="@md/panel:aspect-square aspect-video @md/panel:w-48 w-full shrink-0"
+          className="@md/panel:aspect-square aspect-video @md/panel:w-32 w-full shrink-0 sm:@md/panel:w-48"
         />
         <div className="flex min-w-0 grow flex-col justify-center gap-y-1">
           <h2 className="line-clamp-2 font-bold text-lg">{work.title}</h2>

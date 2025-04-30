@@ -37,10 +37,14 @@ const Home = async () => (
       </span>
     </h1>
     <div className="flex flex-col items-center gap-y-2">
-      <p className="text-muted-foreground text-sm">
-        好きなアニメを選んで、そのアニメに関連する作品を探索しよう !
+      <p className="break-keep text-center text-muted-foreground text-xs sm:text-sm">
+        好きなアニメを選んで、
+        <wbr />
+        そのアニメに関連する作品を探索しよう !
       </p>
-      <p className="text-muted-foreground text-sm">知らなかった面白い作品に出会えるかも !?</p>
+      <p className="text-muted-foreground text-xs sm:text-sm">
+        知らなかった面白い作品に出会えるかも !?
+      </p>
     </div>
     <Button asChild={true} className="select-none">
       <Link href="/select">

@@ -1,9 +1,9 @@
 import { Badge } from '@/components/ui/badge'
 
 export const Cards = () => (
-  <div className="-bottom-8 absolute mx-auto flex w-full select-none items-center justify-center gap-x-8">
+  <div className="-bottom-16 sm:-bottom-8 absolute mx-auto flex w-full scale-75 select-none items-center justify-center gap-x-8 sm:scale-100">
     <div
-      className="-rotate-12 hover:-rotate-6 hover:-translate-4 rounded-lg border border-border bg-background p-2 shadow-xs transition-[rotate,translate,scale] hover:scale-110"
+      className="-rotate-12 hover:-rotate-6 hover:-translate-4 shrink-0 rounded-lg border border-border bg-background p-2 shadow-xs transition-[rotate,translate,scale] hover:scale-110"
       style={{
         transformOrigin: 'bottom center',
       }}
@@ -21,7 +21,7 @@ export const Cards = () => (
         </div>
       </div>
     </div>
-    <div className="-translate-y-6 hover:-translate-y-12 rounded-lg border border-border bg-background p-2 shadow-xs transition-[translate,scale] hover:scale-110">
+    <div className="-translate-y-6 hover:-translate-y-12 shrink-0 rounded-lg border border-border bg-background p-2 shadow-xs transition-[translate,scale] hover:scale-110">
       <img
         src="https://maidragon.jp//img/ogp.jpg"
         alt="小林さんちのメイドラゴン"
@@ -36,7 +36,7 @@ export const Cards = () => (
       </div>
     </div>
     <div
-      className="hover:-translate-y-4 rotate-12 rounded-lg border border-border bg-background p-2 shadow-xs transition-[rotate,translate,scale] hover:translate-x-4 hover:rotate-6 hover:scale-110"
+      className="hover:-translate-y-4 shrink-0 rotate-12 rounded-lg border border-border bg-background p-2 shadow-xs transition-[rotate,translate,scale] hover:translate-x-4 hover:rotate-6 hover:scale-110"
       style={{
         transformOrigin: 'bottom center',
       }}

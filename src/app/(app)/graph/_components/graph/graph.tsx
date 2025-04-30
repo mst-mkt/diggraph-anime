@@ -20,7 +20,7 @@ export const WorkGraph: FC<GraphProps> = ({ selectedWorkId, nodes, links, expand
       nodes,
       links,
     }}
-    className="h-full w-full overflow-hidden"
+    className="h-full w-full overflow-hidden [&>svg]:w-full"
     style={
       {
         '--vis-graph-node-label-background': 'var(--color-muted)',
