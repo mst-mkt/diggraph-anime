@@ -1,11 +1,20 @@
 import { Button } from '@/components/ui/button'
 import { PROJECT_REPOSITORY_URL } from '@/constants/project'
+import { cn } from '@/lib/classnames'
 import { SparklesIcon, TerminalIcon } from 'lucide-react'
+import { Figtree } from 'next/font/google'
 import Link from 'next/link'
+
+const figtreeFont = Figtree({ subsets: ['latin'], weight: ['900'] })
 
 const Home = async () => (
   <>
-    <h1 className="w-full text-center font-black text-6xl sm:text-7xl md:text-8xl">
+    <h1
+      className={cn(
+        'w-full text-center font-black text-6xl sm:text-7xl md:text-8xl',
+        figtreeFont.className,
+      )}
+    >
       <span
         className="-mr-2 sm:-mr-3 md:-mr-4 text-background"
         style={{
