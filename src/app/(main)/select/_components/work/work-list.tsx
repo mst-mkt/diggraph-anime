@@ -15,7 +15,6 @@ type SearchWorksProps = {
 }
 
 export const WorkList: FC<SearchWorksProps> = async ({ q, t, sort, order, season }) => {
-  await new Promise((resolve) => setTimeout(resolve, 5000))
   const filterSeason = t === 'current_season' ? getCurrentSeason() : season
 
   const fetchWorks = async () => {
