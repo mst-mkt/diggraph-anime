@@ -1,7 +1,7 @@
 'use client'
 
 import type { SearchOrder, SearchSort } from '@/app/(main)/select/search-params'
-import { getMyWorks, searchWorks } from '@/app/actions/api/get-select-works'
+import { getSearchMyWorks, getSearchWorks } from '@/app/actions/api/get-search-works'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll'
 import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
@@ -30,7 +30,7 @@ export const WorkListClient: FC<WorkListClientProps> = ({
 }) => {
   const fetchData = async (page: number) => {
     if (t === 'search' || t === 'current_season') {
-      return await searchWorks(
+      return await getSearchWorks(
         {
           q,
           sort,
@@ -42,7 +42,7 @@ export const WorkListClient: FC<WorkListClientProps> = ({
     }
 
     if (t === 'watched') {
-      return await getMyWorks(
+      return await getSearchMyWorks(
         'watched',
         {
           q,

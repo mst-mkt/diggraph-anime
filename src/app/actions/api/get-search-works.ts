@@ -7,7 +7,7 @@ import { auth } from '@/lib/auth'
 import { type WorkWithThumbnail, getValidWorkImage } from '@/lib/images/valid-thumbnail'
 import { isErr } from '@/lib/result'
 
-export const searchWorks = async (
+export const getSearchWorks = async (
   search: {
     q?: string
     sort?: 'id' | 'season' | 'watchers'
@@ -46,7 +46,7 @@ export const searchWorks = async (
   return { data: worksWithThumbnail, next_page: worksResult.value.next_page }
 }
 
-export const getMyWorks = async (
+export const getSearchMyWorks = async (
   status: Status,
   search: {
     q?: string

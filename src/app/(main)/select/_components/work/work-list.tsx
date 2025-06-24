@@ -1,5 +1,5 @@
 import type { SearchOrder, SearchSort } from '@/app/(main)/select/search-params'
-import { getMyWorks, searchWorks } from '@/app/actions/api/get-select-works'
+import { getSearchMyWorks, getSearchWorks } from '@/app/actions/api/get-search-works'
 import { getCurrentSeason } from '@/utils/get-season'
 import { CloudAlertIcon } from 'lucide-react'
 import type { FC } from 'react'
@@ -18,7 +18,7 @@ export const WorkList: FC<SearchWorksProps> = async ({ q, t, sort, order, season
 
   const fetchWorks = async () => {
     if (t === 'search' || t === 'current_season') {
-      return await searchWorks(
+      return await getSearchWorks(
         {
           q,
           sort,
@@ -30,7 +30,7 @@ export const WorkList: FC<SearchWorksProps> = async ({ q, t, sort, order, season
     }
 
     if (t === 'watched') {
-      return await getMyWorks(
+      return await getSearchMyWorks(
         'watched',
         {
           q,
