@@ -51,7 +51,7 @@ export const WorkListClient: FC<WorkListClientProps> = ({
     return (
       <div className="flex flex-col items-center gap-y-4 py-16">
         <CloudAlertIcon size={40} className="text-diggraph-accent" />
-        <p>作品の読み込みに失敗しました</p>
+        <p>作品の検索に失敗しました</p>
       </div>
     )
   }
