@@ -8,7 +8,8 @@ import { SearchInput } from './_components/form/search-input'
 import { SearchTabs } from './_components/form/search-tab'
 import { SeasonSelect } from './_components/form/season-select'
 import { SortSelect } from './_components/form/sort-select'
-import { WorkList, WorkListSkeleton } from './_components/work/work-list'
+import { WorkList } from './_components/work/work-list'
+import { WorkListClientSkeleton } from './_components/work/work-list.client'
 import { loadSearchParams } from './search-params'
 
 type SearchPageProps = {
@@ -50,7 +51,7 @@ const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
           </div>
         </div>
       </div>
-      <Suspense fallback={<WorkListSkeleton />}>
+      <Suspense fallback={<WorkListClientSkeleton />}>
         <WorkList
           q={query}
           t={tab}
