@@ -1,7 +1,7 @@
 'use client'
 
 import type { SearchOrder, SearchSort } from '@/app/(main)/select/search-params'
-import { getSearchMyWorks, getSearchWorks } from '@/app/actions/api/get-search-works'
+import { getSearchByTab } from '@/app/actions/api/get-search-works'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll'
 import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
@@ -28,39 +28,23 @@ export const WorkListClient: FC<WorkListClientProps> = ({
   order,
   filterSeason,
 }) => {
-  const fetchData = async (page: number) => {
-    if (t === 'search' || t === 'current_season') {
-      return await getSearchWorks(
-        {
-          q,
-          sort,
-          order,
-          season: filterSeason,
-        },
-        page,
-      )
-    }
-
-    if (t === 'watched') {
-      return await getSearchMyWorks(
-        'watched',
-        {
-          q,
-          sort,
-          order,
-          season: filterSeason,
-        },
-        page,
-      )
-    }
-
-    return null
+  const fetchMoreWorks = async (page: number) => {
+    return await getSearchByTab(
+      t,
+      {
+        q,
+        sort,
+        order,
+        season: filterSeason,
+      },
+      page,
+    )
   }
 
   const { works, hasMore, isPending, error, loadingRef } = useInfiniteScroll({
     initialData,
     initialHasMore,
-    fetchData,
+    fetchMoreWorks,
   })
 
   if (error) {

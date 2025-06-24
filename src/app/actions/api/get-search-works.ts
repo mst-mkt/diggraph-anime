@@ -87,3 +87,24 @@ export const getSearchMyWorks = async (
 
   return { data: myWorksWithThumbnail, next_page: worksResult.value.next_page }
 }
+
+export const getSearchByTab = async (
+  type: 'search' | 'current_season' | 'watched' | undefined,
+  search: {
+    q?: string
+    sort?: 'id' | 'season' | 'watchers'
+    order?: 'asc' | 'desc'
+    season?: string
+  },
+  page = 1,
+) => {
+  if (type === 'search' || type === 'current_season') {
+    return await getSearchWorks(search, page)
+  }
+
+  if (type === 'watched') {
+    return await getSearchMyWorks('watched', search, page)
+  }
+
+  return null
+}

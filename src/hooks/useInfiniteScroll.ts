@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState, useTransition } from 'react'
 type UseInfiniteScrollProps = {
   initialData: WorkWithThumbnail[]
   initialHasMore: boolean
-  fetchData: (page: number) => Promise<{
+  fetchMoreWorks: (page: number) => Promise<{
     data: WorkWithThumbnail[]
     next_page: number | null
   } | null>
@@ -13,7 +13,7 @@ type UseInfiniteScrollProps = {
 export const useInfiniteScroll = ({
   initialData,
   initialHasMore,
-  fetchData,
+  fetchMoreWorks,
 }: UseInfiniteScrollProps) => {
   const [works, setWorks] = useState<WorkWithThumbnail[]>(initialData)
   const [hasMore, setHasMore] = useState(initialHasMore)
@@ -32,7 +32,7 @@ export const useInfiniteScroll = ({
     const nextPage = currentPage + 1
 
     try {
-      const result = await fetchData(nextPage)
+      const result = await fetchMoreWorks(nextPage)
       if (result === null) {
         throw new Error('Failed to fetch works')
       }
@@ -47,7 +47,7 @@ export const useInfiniteScroll = ({
     } finally {
       isLoadingRef.current = false
     }
-  }, [currentPage, hasMore, fetchData])
+  }, [currentPage, hasMore, fetchMoreWorks])
 
   useEffect(() => {
     const handleIntersection = (entries: IntersectionObserverEntry[]) => {
