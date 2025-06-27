@@ -1,5 +1,7 @@
+import { fetchWorksByTab } from '@/app/actions/api/get-search-works'
 import { auth } from '@/lib/auth'
-import { SearchIcon } from 'lucide-react'
+import { getCurrentSeason } from '@/utils/get-season'
+import { CloudAlertIcon, SearchIcon } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import type { SearchParams } from 'nuqs/server'
 import { type FC, Suspense } from 'react'
@@ -8,7 +10,7 @@ import { SearchInput } from './_components/form/search-input'
 import { SearchTabs } from './_components/form/search-tab'
 import { SeasonSelect } from './_components/form/season-select'
 import { SortSelect } from './_components/form/sort-select'
-import { WorkList, WorkListSkeleton } from './_components/work/work-list'
+import { WorkListClient, WorkListClientSkeleton } from './_components/work/work-list.client'
 import { loadSearchParams } from './search-params'
 
 type SearchPageProps = {
@@ -30,6 +32,24 @@ const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
 
   if (session === null) redirect('/signin')
 
+  const filterSeason =
+    tab === 'current_season'
+      ? getCurrentSeason()
+      : season === 'all'
+        ? undefined
+        : `${season.year}-${season.season}`
+
+  const result = await fetchWorksByTab(
+    {
+      t: tab,
+      q: query,
+      sort,
+      order,
+      season: filterSeason,
+    },
+    1,
+  )
+
   return (
     <div className="flex flex-col gap-y-8">
       <div className="flex items-center justify-between">
@@ -50,15 +70,26 @@ const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
           </div>
         </div>
       </div>
-      <Suspense fallback={<WorkListSkeleton />}>
-        <WorkList
-          q={query}
-          t={tab}
-          sort={sort ?? 'watchers'}
-          order={order}
-          season={season === 'all' ? undefined : `${season.year}-${season.season}`}
-        />
-      </Suspense>
+      {result?.data ? (
+        <Suspense fallback={<WorkListClientSkeleton />}>
+          <WorkListClient
+            key={`${tab}-${query || ''}-${sort || ''}-${order || ''}-${filterSeason || ''}`}
+            initialData={result.data}
+            search={{
+              t: tab,
+              q: query,
+              sort,
+              order,
+              season: filterSeason,
+            }}
+          />
+        </Suspense>
+      ) : (
+        <div className="flex flex-col items-center gap-y-4 py-16">
+          <CloudAlertIcon size={40} className="text-diggraph-accent" />
+          <p>作品の検索に失敗しました</p>
+        </div>
+      )}
     </div>
   )
 }

@@ -7,7 +7,7 @@ import { auth } from '@/lib/auth'
 import { type WorkWithThumbnail, getValidWorkImage } from '@/lib/images/valid-thumbnail'
 import { isErr } from '@/lib/result'
 
-export const searchWorks = async (
+export const fetchWorksBySearch = async (
   search: {
     q?: string
     sort?: 'id' | 'season' | 'watchers'
@@ -46,7 +46,7 @@ export const searchWorks = async (
   return { data: worksWithThumbnail, next_page: worksResult.value.next_page }
 }
 
-export const getMyWorks = async (
+export const fetchMyWorksBySearch = async (
   status: Status,
   search: {
     q?: string
@@ -86,4 +86,27 @@ export const getMyWorks = async (
   )
 
   return { data: myWorksWithThumbnail, next_page: worksResult.value.next_page }
+}
+
+export const fetchWorksByTab = async (
+  search: {
+    t?: 'search' | 'current_season' | 'watched'
+    q?: string
+    sort?: 'id' | 'season' | 'watchers'
+    order?: 'asc' | 'desc'
+    season?: string
+  },
+  page = 1,
+) => {
+  const { t, ...searchParams } = search
+
+  if (t === 'search' || t === 'current_season') {
+    return await fetchWorksBySearch(searchParams, page)
+  }
+
+  if (t === 'watched') {
+    return await fetchMyWorksBySearch('watched', searchParams, page)
+  }
+
+  return null
 }
