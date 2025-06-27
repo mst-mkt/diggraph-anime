@@ -43,7 +43,7 @@ const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
     {
       t: tab,
       q: query,
-      sort: sort ?? 'watchers',
+      sort,
       order,
       season: filterSeason,
     },
@@ -77,7 +77,7 @@ const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
           search={{
             t: tab,
             q: query,
-            sort: sort ?? 'watchers',
+            sort,
             order,
             season: filterSeason,
           }}
