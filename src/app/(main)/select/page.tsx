@@ -1,4 +1,6 @@
+import { fetchWorksByTab } from '@/app/actions/api/get-search-works'
 import { auth } from '@/lib/auth'
+import { getCurrentSeason } from '@/utils/get-season'
 import { SearchIcon } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import type { SearchParams } from 'nuqs/server'
@@ -8,8 +10,7 @@ import { SearchInput } from './_components/form/search-input'
 import { SearchTabs } from './_components/form/search-tab'
 import { SeasonSelect } from './_components/form/season-select'
 import { SortSelect } from './_components/form/sort-select'
-import { WorkList } from './_components/work/work-list'
-import { WorkListClientSkeleton } from './_components/work/work-list.client'
+import { WorkListClient, WorkListClientSkeleton } from './_components/work/work-list.client'
 import { loadSearchParams } from './search-params'
 
 type SearchPageProps = {
@@ -30,6 +31,24 @@ const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
   const session = await auth()
 
   if (session === null) redirect('/signin')
+
+  const filterSeason =
+    tab === 'current_season'
+      ? getCurrentSeason()
+      : season === 'all'
+        ? undefined
+        : `${season.year}-${season.season}`
+
+  const result = await fetchWorksByTab(
+    {
+      t: tab,
+      q: query,
+      sort: sort ?? 'watchers',
+      order,
+      season: filterSeason,
+    },
+    1,
+  )
 
   return (
     <div className="flex flex-col gap-y-8">
@@ -52,12 +71,16 @@ const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
         </div>
       </div>
       <Suspense fallback={<WorkListClientSkeleton />}>
-        <WorkList
-          q={query}
-          t={tab}
-          sort={sort ?? 'watchers'}
-          order={order}
-          season={season === 'all' ? undefined : `${season.year}-${season.season}`}
+        <WorkListClient
+          key={`${tab}-${query || ''}-${sort || ''}-${order || ''}-${filterSeason || ''}`}
+          initialData={result?.data ?? null}
+          search={{
+            t: tab,
+            q: query,
+            sort: sort ?? 'watchers',
+            order,
+            season: filterSeason,
+          }}
         />
       </Suspense>
     </div>
