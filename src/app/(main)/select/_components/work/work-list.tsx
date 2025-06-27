@@ -40,7 +40,6 @@ export const WorkList: FC<SearchWorksProps> = async ({ q, t, sort, order, season
     <WorkListClient
       key={`${t}-${q || ''}-${sort || ''}-${order || ''}-${filterSeason || ''}`}
       initialData={result.data}
-      initialHasMore={result.next_page !== null}
       q={q}
       t={t}
       sort={sort}

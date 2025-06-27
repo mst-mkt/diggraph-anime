@@ -1,87 +1,104 @@
-import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
-import { useCallback, useEffect, useRef, useState, useTransition } from 'react'
+import { type RefObject, useCallback, useEffect, useRef, useState, useTransition } from 'react'
 
-type UseInfiniteScrollProps = {
-  initialData: WorkWithThumbnail[]
-  initialHasMore: boolean
-  fetchMoreWorks: (page: number) => Promise<{
-    data: WorkWithThumbnail[]
-    next_page: number | null
-  } | null>
+export type InfiniteScrollResponse<T> = {
+  next_page: number | null
+  data: T[]
+} | null
+
+type UseInfiniteScrollOptions<T> = {
+  initialData: T[]
+  fetchData: (page: number) => Promise<InfiniteScrollResponse<T>>
+  initialPage?: number
 }
 
-export const useInfiniteScroll = ({
+type UseInfiniteScrollReturn<T> = {
+  data: T[]
+  currentPage: number
+  nextPage: number | null
+  hasMore: boolean
+  error: Error | null
+  isLoading: boolean
+  triggerRef: RefObject<HTMLDivElement | null>
+}
+
+export function useInfiniteScroll<T>({
   initialData,
-  initialHasMore,
-  fetchMoreWorks,
-}: UseInfiniteScrollProps) => {
-  const [works, setWorks] = useState<WorkWithThumbnail[]>(initialData)
-  const [hasMore, setHasMore] = useState(initialHasMore)
-  const [currentPage, setCurrentPage] = useState(1)
+  fetchData,
+  initialPage = 1,
+}: UseInfiniteScrollOptions<T>): UseInfiniteScrollReturn<T> {
+  const [data, setData] = useState<T[]>(initialData)
+  const [currentPage, setCurrentPage] = useState(initialPage)
+  const [nextPage, setNextPage] = useState<number | null>(initialPage + 1)
   const [error, setError] = useState<Error | null>(null)
   const [isPending, startTransition] = useTransition()
 
-  const observerRef = useRef<IntersectionObserver | null>(null)
-  const loadingRef = useRef<HTMLDivElement | null>(null)
+  const triggerRef = useRef<HTMLDivElement>(null)
   const isLoadingRef = useRef(false)
 
-  const loadMore = useCallback(async () => {
-    if (isLoadingRef.current || !hasMore) return
+  const fetchNextPage = useCallback(async () => {
+    if (isLoadingRef.current || nextPage === null) return
 
     isLoadingRef.current = true
-    const nextPage = currentPage + 1
 
     try {
-      const result = await fetchMoreWorks(nextPage)
+      const result = await fetchData(nextPage)
+
       if (result === null) {
-        throw new Error('Failed to fetch works')
+        throw new Error('Failed to fetch data')
       }
 
-      setWorks((prev) => [...prev, ...result.data])
-      setHasMore(result.next_page !== null)
-      setCurrentPage(nextPage)
-      setError(null)
+      if (result.data.length > 0) {
+        setData((prev) => [...prev, ...result.data])
+        setCurrentPage(nextPage)
+        setNextPage(result.next_page)
+        setError(null)
+      } else {
+        setNextPage(null)
+      }
     } catch (err) {
+      setNextPage(null)
       setError(err instanceof Error ? err : new Error('Unknown error'))
-      setHasMore(false)
     } finally {
       isLoadingRef.current = false
     }
-  }, [currentPage, hasMore, fetchMoreWorks])
+  }, [fetchData, nextPage])
 
   useEffect(() => {
     const handleIntersection = (entries: IntersectionObserverEntry[]) => {
       const target = entries[0]
-      if (target.isIntersecting && hasMore && !isPending) {
+      if (target.isIntersecting && nextPage !== null && !isPending) {
         startTransition(() => {
-          loadMore()
+          fetchNextPage()
         })
       }
     }
 
-    observerRef.current = new IntersectionObserver(handleIntersection, {
+    const observer = new IntersectionObserver(handleIntersection, {
       root: null,
       rootMargin: '200px',
       threshold: 0.1,
     })
 
-    const currentLoadingRef = loadingRef.current
-    if (currentLoadingRef && observerRef.current) {
-      observerRef.current.observe(currentLoadingRef)
+    const currentTrigger = triggerRef.current
+    if (currentTrigger) {
+      observer.observe(currentTrigger)
     }
 
     return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect()
+      if (currentTrigger) {
+        observer.unobserve(currentTrigger)
       }
+      observer.disconnect()
     }
-  }, [hasMore, isPending, loadMore])
+  }, [nextPage, isPending, fetchNextPage])
 
   return {
-    works,
-    hasMore,
-    isPending,
+    data,
+    currentPage,
+    nextPage,
+    hasMore: nextPage !== null,
     error,
-    loadingRef,
+    isLoading: isLoadingRef.current || isPending,
+    triggerRef,
   }
 }

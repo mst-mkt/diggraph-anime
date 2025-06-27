@@ -11,7 +11,6 @@ import { WorkCard } from './work-card'
 
 type WorkListClientProps = {
   initialData: WorkWithThumbnail[]
-  initialHasMore: boolean
   q?: string
   t?: 'search' | 'current_season' | 'watched'
   sort?: SearchSort
@@ -21,30 +20,26 @@ type WorkListClientProps = {
 
 export const WorkListClient: FC<WorkListClientProps> = ({
   initialData,
-  initialHasMore,
   q,
   t,
   sort,
   order,
   filterSeason,
 }) => {
-  const fetchMoreWorks = async (page: number) => {
-    return await getSearchByTab(
-      t,
-      {
-        q,
-        sort,
-        order,
-        season: filterSeason,
-      },
-      page,
-    )
-  }
-
-  const { works, hasMore, isPending, error, loadingRef } = useInfiniteScroll({
+  const { data, hasMore, error, isLoading, triggerRef } = useInfiniteScroll<WorkWithThumbnail>({
     initialData,
-    initialHasMore,
-    fetchMoreWorks,
+    fetchData: async (page) => {
+      return await getSearchByTab(
+        t,
+        {
+          q,
+          sort,
+          order,
+          season: filterSeason,
+        },
+        page,
+      )
+    },
   })
 
   if (error) {
@@ -56,7 +51,7 @@ export const WorkListClient: FC<WorkListClientProps> = ({
     )
   }
 
-  if (works.length === 0) {
+  if (data.length === 0) {
     return (
       <div className="flex flex-col items-center gap-y-4 py-16">
         <OrigamiIcon size={40} className="text-diggraph-accent" />
@@ -68,7 +63,7 @@ export const WorkListClient: FC<WorkListClientProps> = ({
   return (
     <>
       <div className="flex flex-col gap-4">
-        {works.map((work) => (
+        {data.map((work) => (
           <div key={work.id} className="h-full w-full">
             <WorkCard work={work} />
           </div>
@@ -77,8 +72,8 @@ export const WorkListClient: FC<WorkListClientProps> = ({
 
       {/* Sentinel element for infinite scroll */}
       {hasMore && (
-        <div ref={loadingRef} className="flex justify-center py-4">
-          {isPending && (
+        <div ref={triggerRef} className="flex justify-center py-4">
+          {isLoading && (
             <div className="flex items-center">
               <Loader2Icon className="animate-spin text-diggraph-accent" size={30} />
             </div>
