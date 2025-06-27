@@ -10,7 +10,7 @@ import type { FC } from 'react'
 import { WorkCard } from './work-card'
 
 type WorkListClientProps = {
-  initialData: WorkWithThumbnail[] | null
+  initialData: WorkWithThumbnail[]
   search: {
     t?: 'search' | 'current_season' | 'watched'
     q?: string
@@ -22,21 +22,11 @@ type WorkListClientProps = {
 
 export const WorkListClient: FC<WorkListClientProps> = ({ initialData, search }) => {
   const { data, hasMore, error, isLoading, triggerRef } = useInfiniteScroll<WorkWithThumbnail>({
-    initialData: initialData ?? [],
+    initialData,
     fetchData: async (page) => {
       return await fetchWorksByTab(search, page)
     },
   })
-
-  // Handle initial data fetch error
-  if (initialData === null) {
-    return (
-      <div className="flex flex-col items-center gap-y-4 py-16">
-        <CloudAlertIcon size={40} className="text-diggraph-accent" />
-        <p>作品の検索に失敗しました</p>
-      </div>
-    )
-  }
 
   if (error) {
     return (

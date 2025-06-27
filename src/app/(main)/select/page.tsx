@@ -1,7 +1,7 @@
 import { fetchWorksByTab } from '@/app/actions/api/get-search-works'
 import { auth } from '@/lib/auth'
 import { getCurrentSeason } from '@/utils/get-season'
-import { SearchIcon } from 'lucide-react'
+import { CloudAlertIcon, SearchIcon } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import type { SearchParams } from 'nuqs/server'
 import { type FC, Suspense } from 'react'
@@ -70,19 +70,26 @@ const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
           </div>
         </div>
       </div>
-      <Suspense fallback={<WorkListClientSkeleton />}>
-        <WorkListClient
-          key={`${tab}-${query || ''}-${sort || ''}-${order || ''}-${filterSeason || ''}`}
-          initialData={result?.data ?? null}
-          search={{
-            t: tab,
-            q: query,
-            sort,
-            order,
-            season: filterSeason,
-          }}
-        />
-      </Suspense>
+      {result?.data ? (
+        <Suspense fallback={<WorkListClientSkeleton />}>
+          <WorkListClient
+            key={`${tab}-${query || ''}-${sort || ''}-${order || ''}-${filterSeason || ''}`}
+            initialData={result.data}
+            search={{
+              t: tab,
+              q: query,
+              sort,
+              order,
+              season: filterSeason,
+            }}
+          />
+        </Suspense>
+      ) : (
+        <div className="flex flex-col items-center gap-y-4 py-16">
+          <CloudAlertIcon size={40} className="text-diggraph-accent" />
+          <p>作品の検索に失敗しました</p>
+        </div>
+      )}
     </div>
   )
 }
