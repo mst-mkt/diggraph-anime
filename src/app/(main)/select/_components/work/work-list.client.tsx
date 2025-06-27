@@ -11,34 +11,20 @@ import { WorkCard } from './work-card'
 
 type WorkListClientProps = {
   initialData: WorkWithThumbnail[]
-  q?: string
-  t?: 'search' | 'current_season' | 'watched'
-  sort?: SearchSort
-  order?: SearchOrder
-  filterSeason?: string
+  search: {
+    t?: 'search' | 'current_season' | 'watched'
+    q?: string
+    sort?: SearchSort
+    order?: SearchOrder
+    season?: string
+  }
 }
 
-export const WorkListClient: FC<WorkListClientProps> = ({
-  initialData,
-  q,
-  t,
-  sort,
-  order,
-  filterSeason,
-}) => {
+export const WorkListClient: FC<WorkListClientProps> = ({ initialData, search }) => {
   const { data, hasMore, error, isLoading, triggerRef } = useInfiniteScroll<WorkWithThumbnail>({
     initialData,
     fetchData: async (page) => {
-      return await getSearchByTab(
-        t,
-        {
-          q,
-          sort,
-          order,
-          season: filterSeason,
-        },
-        page,
-      )
+      return await getSearchByTab(search, page)
     },
   })
 

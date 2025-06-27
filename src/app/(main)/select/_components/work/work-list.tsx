@@ -17,8 +17,8 @@ export const WorkList: FC<SearchWorksProps> = async ({ q, t, sort, order, season
   const filterSeason = t === 'current_season' ? getCurrentSeason() : season
 
   const result = await getSearchByTab(
-    t,
     {
+      t,
       q,
       sort,
       order,
@@ -40,11 +40,13 @@ export const WorkList: FC<SearchWorksProps> = async ({ q, t, sort, order, season
     <WorkListClient
       key={`${t}-${q || ''}-${sort || ''}-${order || ''}-${filterSeason || ''}`}
       initialData={result.data}
-      q={q}
-      t={t}
-      sort={sort}
-      order={order}
-      filterSeason={filterSeason}
+      search={{
+        t,
+        q,
+        sort,
+        order,
+        season: filterSeason,
+      }}
     />
   )
 }

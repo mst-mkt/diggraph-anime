@@ -89,8 +89,8 @@ export const getSearchMyWorks = async (
 }
 
 export const getSearchByTab = async (
-  type: 'search' | 'current_season' | 'watched' | undefined,
   search: {
+    t?: 'search' | 'current_season' | 'watched'
     q?: string
     sort?: 'id' | 'season' | 'watchers'
     order?: 'asc' | 'desc'
@@ -98,12 +98,14 @@ export const getSearchByTab = async (
   },
   page = 1,
 ) => {
-  if (type === 'search' || type === 'current_season') {
-    return await getSearchWorks(search, page)
+  const { t, ...searchParams } = search
+
+  if (t === 'search' || t === 'current_season') {
+    return await getSearchWorks(searchParams, page)
   }
 
-  if (type === 'watched') {
-    return await getSearchMyWorks('watched', search, page)
+  if (t === 'watched') {
+    return await getSearchMyWorks('watched', searchParams, page)
   }
 
   return null
