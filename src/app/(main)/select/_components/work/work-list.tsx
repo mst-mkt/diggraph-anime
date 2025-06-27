@@ -1,5 +1,5 @@
 import type { SearchOrder, SearchSort } from '@/app/(main)/select/search-params'
-import { getSearchByTab } from '@/app/actions/api/get-search-works'
+import { fetchWorksByTab } from '@/app/actions/api/get-search-works'
 import { getCurrentSeason } from '@/utils/get-season'
 import { CloudAlertIcon } from 'lucide-react'
 import type { FC } from 'react'
@@ -16,7 +16,7 @@ type SearchWorksProps = {
 export const WorkList: FC<SearchWorksProps> = async ({ q, t, sort, order, season }) => {
   const filterSeason = t === 'current_season' ? getCurrentSeason() : season
 
-  const result = await getSearchByTab(
+  const result = await fetchWorksByTab(
     {
       t,
       q,

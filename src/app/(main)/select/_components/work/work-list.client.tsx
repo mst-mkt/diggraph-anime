@@ -1,7 +1,7 @@
 'use client'
 
 import type { SearchOrder, SearchSort } from '@/app/(main)/select/search-params'
-import { getSearchByTab } from '@/app/actions/api/get-search-works'
+import { fetchWorksByTab } from '@/app/actions/api/get-search-works'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll'
 import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
@@ -24,7 +24,7 @@ export const WorkListClient: FC<WorkListClientProps> = ({ initialData, search })
   const { data, hasMore, error, isLoading, triggerRef } = useInfiniteScroll<WorkWithThumbnail>({
     initialData,
     fetchData: async (page) => {
-      return await getSearchByTab(search, page)
+      return await fetchWorksByTab(search, page)
     },
   })
 
