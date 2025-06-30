@@ -21,11 +21,11 @@ type UseInfiniteScrollReturn<T> = {
   triggerRef: RefObject<HTMLDivElement | null>
 }
 
-export function useInfiniteScroll<T>({
+export const useInfiniteScroll = <T>({
   initialData,
   fetchData,
   initialPage = 1,
-}: UseInfiniteScrollOptions<T>): UseInfiniteScrollReturn<T> {
+}: UseInfiniteScrollOptions<T>): UseInfiniteScrollReturn<T> => {
   const [data, setData] = useState<T[]>(initialData)
   const [currentPage, setCurrentPage] = useState(initialPage)
   const [nextPage, setNextPage] = useState<number | null>(initialPage + 1)
