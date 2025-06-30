@@ -4,6 +4,7 @@ import { SearchIcon } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import type { SearchParams } from 'nuqs/server'
 import { type FC, Suspense } from 'react'
+import { P, match } from 'ts-pattern'
 import { PROJECT_NAME } from '../../../constants/project'
 import { SearchInput } from './_components/form/search-input'
 import { SearchTabs } from './_components/form/search-tab'
@@ -32,12 +33,11 @@ const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
 
   if (session === null) redirect('/signin')
 
-  const filterSeason =
-    tab === 'current_season'
-      ? getCurrentSeason()
-      : season === 'all'
-        ? undefined
-        : `${season.year}-${season.season}`
+  const filterSeason = match([tab, season])
+    .with(['current_season', P._], () => getCurrentSeason())
+    .with([P._, 'all'], () => undefined)
+    .with([P._, P.not('all')], ([_, season]) => `${season.year}-${season.season}`)
+    .exhaustive()
 
   return (
     <div className="flex flex-col gap-y-8">
