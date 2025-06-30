@@ -1,7 +1,6 @@
-import { fetchWorksByTab } from '@/app/actions/api/get-search-works'
 import { auth } from '@/lib/auth'
 import { getCurrentSeason } from '@/utils/get-season'
-import { CloudAlertIcon, SearchIcon } from 'lucide-react'
+import { SearchIcon } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import type { SearchParams } from 'nuqs/server'
 import { type FC, Suspense } from 'react'
@@ -10,7 +9,8 @@ import { SearchInput } from './_components/form/search-input'
 import { SearchTabs } from './_components/form/search-tab'
 import { SeasonSelect } from './_components/form/season-select'
 import { SortSelect } from './_components/form/sort-select'
-import { WorkListClient, WorkListClientSkeleton } from './_components/work/work-list.client'
+import { WorkListInitialData } from './_components/work/work-list-initial-data'
+import { WorkListClientSkeleton } from './_components/work/work-list.client'
 import { loadSearchParams } from './search-params'
 
 type SearchPageProps = {
@@ -39,17 +39,6 @@ const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
         ? undefined
         : `${season.year}-${season.season}`
 
-  const result = await fetchWorksByTab(
-    {
-      t: tab,
-      q: query,
-      sort,
-      order,
-      season: filterSeason,
-    },
-    1,
-  )
-
   return (
     <div className="flex flex-col gap-y-8">
       <div className="flex items-center justify-between">
@@ -70,26 +59,18 @@ const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
           </div>
         </div>
       </div>
-      {result?.data ? (
-        <Suspense fallback={<WorkListClientSkeleton />}>
-          <WorkListClient
-            key={`${tab}-${query || ''}-${sort || ''}-${order || ''}-${filterSeason || ''}`}
-            initialData={result.data}
-            search={{
-              t: tab,
-              q: query,
-              sort,
-              order,
-              season: filterSeason,
-            }}
-          />
-        </Suspense>
-      ) : (
-        <div className="flex flex-col items-center gap-y-4 py-16">
-          <CloudAlertIcon size={40} className="text-diggraph-accent" />
-          <p>作品の検索に失敗しました</p>
-        </div>
-      )}
+      <Suspense fallback={<WorkListClientSkeleton />}>
+        <WorkListInitialData
+          key={`${tab}-${query || ''}-${sort || ''}-${order || ''}-${filterSeason || ''}`}
+          search={{
+            t: tab,
+            q: query,
+            sort,
+            order,
+            season: filterSeason,
+          }}
+        />
+      </Suspense>
     </div>
   )
 }
