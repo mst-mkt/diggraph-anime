@@ -13,11 +13,16 @@ export const getAccessToken = async () => {
 
   const userId = session.user.id
 
-  const [{ accessToken }] = await dbClient
+  const result = await dbClient
     .select({ accessToken: accounts.access_token })
     .from(accounts)
     .where(eq(accounts.userId, userId))
     .limit(1)
 
+  if (result.length === 0) {
+    return null
+  }
+
+  const { accessToken } = result[0]
   return accessToken
 }
