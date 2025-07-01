@@ -15,7 +15,7 @@
 pnpm i
 ```
 
-1. Copy env file
+2. Copy env file
 
 ```sh
 cp .env.local.example .env.local
