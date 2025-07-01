@@ -37,13 +37,12 @@ const searchWorks = async (
     console.error(`Failed to search works (query:${search.query}):`, worksResult.error)
     return null
   }
-  const worksWithThumbnail = await worksResult.value.works.reduce(
-    async (acc: Promise<WorkWithThumbnail[]>, work: Work) => {
-      const works = await acc
+
+  const worksWithThumbnail = await Promise.all(
+    worksResult.value.works.map(async (work: Work): Promise<WorkWithThumbnail> => {
       const thumbnail = await getValidWorkImage(work)
-      return [...works, { ...work, thumbnail }]
-    },
-    Promise.resolve([]),
+      return { ...work, thumbnail }
+    }),
   )
 
   return { data: worksWithThumbnail, next_page: worksResult.value.next_page }
@@ -79,13 +78,11 @@ const getMyWorks = async (
     return null
   }
 
-  const myWorksWithThumbnail = await worksResult.value.works.reduce(
-    async (acc: Promise<WorkWithThumbnail[]>, work: Work) => {
-      const works = await acc
+  const myWorksWithThumbnail = await Promise.all(
+    worksResult.value.works.map(async (work: Work): Promise<WorkWithThumbnail> => {
       const thumbnail = await getValidWorkImage(work)
-      return [...works, { ...work, thumbnail }]
-    },
-    Promise.resolve([]),
+      return { ...work, thumbnail }
+    }),
   )
 
   return { data: myWorksWithThumbnail, next_page: worksResult.value.next_page }

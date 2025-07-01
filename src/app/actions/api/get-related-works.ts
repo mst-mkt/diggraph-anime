@@ -45,13 +45,11 @@ export const getRelatedWorks = async (malId: number) => {
     return []
   }
 
-  const relatedWorksWithThumbnail = await relatedAnnictWorks.value.works.reduce(
-    async (acc: Promise<WorkWithThumbnail[]>, work: Work) => {
-      const works = await acc
+  const relatedWorksWithThumbnail = await Promise.all(
+    relatedAnnictWorks.value.works.map(async (work: Work): Promise<WorkWithThumbnail> => {
       const thumbnail = await getValidWorkImage(work)
-      return [...works, { ...work, thumbnail }]
-    },
-    Promise.resolve([]),
+      return { ...work, thumbnail }
+    }),
   )
 
   return relatedWorksWithThumbnail
