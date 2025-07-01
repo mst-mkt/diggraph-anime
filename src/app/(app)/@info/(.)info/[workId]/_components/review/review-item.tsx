@@ -36,11 +36,17 @@ export const ReviewItem: FC<ReviewItemProps> = ({ review }) => (
         <Markdown className="break-all">{review.body}</Markdown>
         <div className="flex flex-wrap gap-2">
           {review.rating_overall_state !== null && (
-            <RatingBadge rating={review.rating_overall_state} showRating={true} showTitle={true} />
+            <RatingBadge
+              rating={review.rating_overall_state}
+              kind="overall"
+              showRating={true}
+              showTitle={true}
+            />
           )}
           {review.rating_animation_state !== null && (
             <RatingBadge
               rating={review.rating_animation_state}
+              kind="animation"
               showRating={true}
               showTitle={true}
             />
@@ -48,15 +54,26 @@ export const ReviewItem: FC<ReviewItemProps> = ({ review }) => (
           {review.rating_character_state !== null && (
             <RatingBadge
               rating={review.rating_character_state}
+              kind="character"
               showRating={true}
               showTitle={true}
             />
           )}
           {review.rating_music_state !== null && (
-            <RatingBadge rating={review.rating_music_state} showRating={true} showTitle={true} />
+            <RatingBadge
+              rating={review.rating_music_state}
+              kind="music"
+              showRating={true}
+              showTitle={true}
+            />
           )}
           {review.rating_story_state !== null && (
-            <RatingBadge rating={review.rating_story_state} showRating={true} showTitle={true} />
+            <RatingBadge
+              rating={review.rating_story_state}
+              kind="story"
+              showRating={true}
+              showTitle={true}
+            />
           )}
         </div>
       </div>
