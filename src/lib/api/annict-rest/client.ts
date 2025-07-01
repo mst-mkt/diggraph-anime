@@ -1,3 +1,5 @@
+import { auth } from '@/lib/auth'
+import { getAccessToken } from '@/lib/auth/accessToken'
 import { type Result, err, ok } from '@/lib/result'
 import type { BaseIssue, BaseSchema, InferInput, InferOutput } from 'valibot'
 import {
@@ -55,22 +57,10 @@ type Method = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
 
 export class AnnictClient {
   private baseUrl: string
-  private accessToken: string | null
 
-  constructor(
-    baseUrl: string,
-    options?: {
-      accessToken?: string | null
-    },
-  ) {
+  constructor(baseUrl: string) {
     this.baseUrl = baseUrl
-    this.accessToken = options?.accessToken ?? null
   }
-
-  setAccessToken(accessToken: string) {
-    this.accessToken = accessToken
-  }
-
   private createFetcher = <
     Path extends string,
     QuerySchema extends ValibotSchema | undefined = undefined,
@@ -99,13 +89,16 @@ export class AnnictClient {
       params: Params,
       options?: RequestInit,
     ): Promise<Result<Response, string>> => {
-      if (this.accessToken === null) {
+      await auth()
+      const accessToken = await getAccessToken()
+
+      if (accessToken === null) {
         return err('Access token is not set')
       }
 
       const pathWithParams = generatePath(path, params.path)
       const headers = {
-        Authorization: `Bearer ${this.accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
       }
 

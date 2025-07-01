@@ -16,6 +16,7 @@
     "studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^1.10.0",
     "@kawaiioverflow/arm": "^0.211.0",
     "@libsql/client": "^0.15.9",
     "@radix-ui/react-avatar": "^1.1.7",

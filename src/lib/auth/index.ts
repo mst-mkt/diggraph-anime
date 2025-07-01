@@ -1,12 +1,14 @@
 import 'server-only'
+import { DrizzleAdapter } from '@auth/drizzle-adapter'
 import NextAuth from 'next-auth'
 import { AnnictProvider } from './provider'
 import 'next-auth/jwt'
-import { annictApiClient } from '../api/annict-rest'
+import { dbClient } from '@/db/client'
 import { ANNICT_CLIENT_ID, ANNICT_CLIENT_SECRET, AUTH_SECRET, BASE_URL } from '../env-variables'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: AUTH_SECRET,
+  adapter: DrizzleAdapter(dbClient),
   providers: [
     AnnictProvider({
       redirectUri: `${BASE_URL}/api/auth/callback/annict`,
@@ -15,33 +17,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       scope: ['read'],
     }),
   ],
-  callbacks: {
-    jwt: ({ token, account }) => {
-      if (account?.access_token !== undefined) {
-        token.accessToken = account.access_token
-      }
-
-      return token
-    },
-    session: ({ session, token }) => {
-      if (token.accessToken !== undefined) {
-        session.accessToken = token.accessToken
-        annictApiClient.setAccessToken(token.accessToken)
-      }
-
-      return session
-    },
-  },
 })
-
-declare module 'next-auth' {
-  interface Session {
-    accessToken?: string
-  }
-}
-
-declare module 'next-auth/jwt' {
-  interface JWT {
-    accessToken?: string
-  }
-}
