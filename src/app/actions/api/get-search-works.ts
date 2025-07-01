@@ -1,13 +1,16 @@
 'use server'
 
+import type { SearchOrder, SearchSort } from '@/app/(main)/select/search-params'
 import { annictApiClient } from '@/lib/api/annict-rest'
 import type { Status } from '@/lib/api/annict-rest/schema/common'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
 import { auth } from '@/lib/auth'
 import { type WorkWithThumbnail, getValidWorkImage } from '@/lib/images/valid-thumbnail'
 import { isErr } from '@/lib/result'
+import { getCurrentSeason } from '@/utils/get-season'
+import { match } from 'ts-pattern'
 
-export const fetchWorksBySearch = async (
+const searchWorks = async (
   search: {
     q?: string
     sort?: 'id' | 'season' | 'watchers'
@@ -46,7 +49,7 @@ export const fetchWorksBySearch = async (
   return { data: worksWithThumbnail, next_page: worksResult.value.next_page }
 }
 
-export const fetchMyWorksBySearch = async (
+const getMyWorks = async (
   status: Status,
   search: {
     q?: string
@@ -88,25 +91,21 @@ export const fetchMyWorksBySearch = async (
   return { data: myWorksWithThumbnail, next_page: worksResult.value.next_page }
 }
 
-export const fetchWorksByTab = async (
+export const getWorks = async (
+  tab: 'search' | 'current_season' | 'watched',
   search: {
-    t?: 'search' | 'current_season' | 'watched'
-    q?: string
-    sort?: 'id' | 'season' | 'watchers'
-    order?: 'asc' | 'desc'
+    query: string
+    sort: SearchSort
+    order: SearchOrder
     season?: string
   },
   page = 1,
 ) => {
-  const { t, ...searchParams } = search
+  const workResult = await match(tab)
+    .with('watched', () => getMyWorks('watched', search, page))
+    .with('search', () => searchWorks({ ...search, season: undefined }, page))
+    .with('current_season', () => searchWorks({ ...search, season: getCurrentSeason() }, page))
+    .exhaustive()
 
-  if (t === 'search' || t === 'current_season') {
-    return await fetchWorksBySearch(searchParams, page)
-  }
-
-  if (t === 'watched') {
-    return await fetchMyWorksBySearch('watched', searchParams, page)
-  }
-
-  return null
+  return workResult
 }

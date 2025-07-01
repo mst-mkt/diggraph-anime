@@ -37,3 +37,4 @@ export const loadSearchParams = createLoader(searchSearchParams)
 
 export type SearchSort = NonNullable<ReturnType<typeof searchSearchParams.sort.parse>>
 export type SearchOrder = typeof searchSearchParams.order.defaultValue
+export type SearchSeason = NonNullable<ReturnType<typeof searchSearchParams.season.parse>>

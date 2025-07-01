@@ -1,47 +1,35 @@
 'use client'
 
 import type { SearchOrder, SearchSort } from '@/app/(main)/select/search-params'
-import { fetchWorksByTab } from '@/app/actions/api/get-search-works'
-import { Skeleton } from '@/components/ui/skeleton'
+import { getWorks } from '@/app/actions/api/get-search-works'
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll'
 import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
-import { CloudAlertIcon, Loader2Icon, OrigamiIcon } from 'lucide-react'
+import { CloudAlertIcon, Loader2Icon } from 'lucide-react'
 import type { FC } from 'react'
 import { WorkCard } from './work-card'
 
-type WorkListClientProps = {
-  initialData: WorkWithThumbnail[] | null
+type WorkListProps = {
+  initialData: WorkWithThumbnail[]
+  tab: 'search' | 'current_season' | 'watched'
   search: {
-    t?: 'search' | 'current_season' | 'watched'
-    q?: string
-    sort?: SearchSort
-    order?: SearchOrder
+    query: string
+    sort: SearchSort
+    order: SearchOrder
     season?: string
   }
 }
 
-export const WorkListClient: FC<WorkListClientProps> = ({ initialData, search }) => {
+export const WorkList: FC<WorkListProps> = ({ initialData, search, tab }) => {
   const { data, hasMore, error, isLoading, triggerRef } = useInfiniteScroll<WorkWithThumbnail>({
-    initialData: initialData ?? [],
-    fetchData: async (page) => {
-      return await fetchWorksByTab(search, page)
-    },
+    initialData,
+    fetchData: (page) => getWorks(tab, search, page),
   })
 
-  if (error || initialData === null) {
+  if (error instanceof Error) {
     return (
       <div className="flex flex-col items-center gap-y-4 py-16">
         <CloudAlertIcon size={40} className="text-diggraph-accent" />
         <p>作品の検索に失敗しました</p>
-      </div>
-    )
-  }
-
-  if (data.length === 0) {
-    return (
-      <div className="flex flex-col items-center gap-y-4 py-16">
-        <OrigamiIcon size={40} className="text-diggraph-accent" />
-        <p>作品の検索結果が見当たりませんでした</p>
       </div>
     )
   }
@@ -55,8 +43,6 @@ export const WorkListClient: FC<WorkListClientProps> = ({ initialData, search })
           </div>
         ))}
       </div>
-
-      {/* Sentinel element for infinite scroll */}
       {hasMore && (
         <div ref={triggerRef} className="flex justify-center py-4">
           {isLoading && (
@@ -69,22 +55,3 @@ export const WorkListClient: FC<WorkListClientProps> = ({ initialData, search })
     </>
   )
 }
-
-export const WorkListClientSkeleton = () => (
-  <div className="flex flex-col gap-4">
-    {[...Array(8)].map((_, index) => (
-      <div
-        // biome-ignore lint/suspicious/noArrayIndexKey: index of static array
-        key={index}
-        className="flex h-full w-full flex-col items-center gap-3 rounded-xl border border-border p-2 shadow-xs sm:flex-row"
-      >
-        <Skeleton className="aspect-video w-full shrink-0 sm:h-full sm:w-52" />
-        <div className="flex h-full w-full flex-col gap-y-1 py-3">
-          <Skeleton className="h-[1lh] w-2/3" />
-          <Skeleton className="h-[1lh] w-2/5 text-sm" />
-          <Skeleton className="h-[1lh] w-1/2 text-xs" />
-        </div>
-      </div>
-    ))}
-  </div>
-)
