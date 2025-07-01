@@ -15,7 +15,7 @@
 pnpm i
 ```
 
-2. Copy env file
+1. Copy env file
 
 ```sh
 cp .env.local.example .env.local
@@ -23,12 +23,22 @@ cp .env.local.example .env.local
 
 3. Fill your [env variables](#environment-variables) in `.env.local`
 
-4. Start the development server
+4. Set up the database
+
+```sh
+cp example.db local.db
+```
+
+```sh
+pnpm migrate
+```
+
+5. Start the development server
 
 ```sh
 pnpm dev
 ```
-5. Open your browser and go to [`http://localhost:3000`](http://localhost:3000)
+6. Open your browser and go to [`http://localhost:3000`](http://localhost:3000)
 
 ## Environment Variables
 
