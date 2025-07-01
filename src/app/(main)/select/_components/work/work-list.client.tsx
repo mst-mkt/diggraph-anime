@@ -25,15 +25,6 @@ export const WorkList: FC<WorkListProps> = ({ initialData, search, tab }) => {
     fetchData: (page) => getWorks(tab, search, page),
   })
 
-  if (error instanceof Error) {
-    return (
-      <div className="flex flex-col items-center gap-y-4 py-16">
-        <CloudAlertIcon size={40} className="text-diggraph-accent" />
-        <p>作品の検索に失敗しました</p>
-      </div>
-    )
-  }
-
   return (
     <>
       <div className="flex flex-col gap-4">
@@ -43,6 +34,12 @@ export const WorkList: FC<WorkListProps> = ({ initialData, search, tab }) => {
           </div>
         ))}
       </div>
+      {error instanceof Error && (
+        <div className="flex flex-col items-center gap-y-4 py-16">
+          <CloudAlertIcon size={40} className="text-diggraph-accent" />
+          <p>作品の検索に失敗しました</p>
+        </div>
+      )}
       {hasMore && (
         <div ref={triggerRef} className="flex justify-center py-4">
           {isLoading && (
