@@ -8,7 +8,7 @@ import { SearchInput } from './_components/form/search-input'
 import { SearchTabs } from './_components/form/search-tab'
 import { SeasonSelect } from './_components/form/season-select'
 import { SortSelect } from './_components/form/sort-select'
-import { WorkList, WorkListSkeleton } from './_components/work/work-list'
+import { WorkListSkeleton, WorkListWrapper } from './_components/work/work-list-wrapper'
 import { loadSearchParams } from './search-params'
 
 type SearchPageProps = {
@@ -19,7 +19,7 @@ export const generateMetadata = async ({ searchParams }: SearchPageProps) => {
   const { q: query } = await loadSearchParams(searchParams)
 
   return {
-    title: `検索 ${query === null ? '' : `"${query}" `}| ${PROJECT_NAME}`,
+    title: `検索 ${query === '' ? '' : `"${query}" `}| ${PROJECT_NAME}`,
     description: `アニメ作品検索結果 "${query}"`,
   }
 }
@@ -51,10 +51,10 @@ const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
         </div>
       </div>
       <Suspense fallback={<WorkListSkeleton />}>
-        <WorkList
-          q={query}
-          t={tab}
-          sort={sort ?? 'watchers'}
+        <WorkListWrapper
+          tab={tab}
+          query={query}
+          sort={sort}
           order={order}
           season={season === 'all' ? undefined : `${season.year}-${season.season}`}
         />

@@ -1,46 +1,22 @@
 import type { SearchOrder, SearchSort } from '@/app/(main)/select/search-params'
-import { getMyWorks, searchWorks } from '@/app/actions/api/get-select-works'
+import { getWorks } from '@/app/actions/api/get-search-works'
 import { Skeleton } from '@/components/ui/skeleton'
-import { getCurrentSeason } from '@/utils/get-season'
 import { CloudAlertIcon, OrigamiIcon } from 'lucide-react'
 import type { FC } from 'react'
-import { WorkCard } from './work-card'
+import { WorkList } from './work-list.client'
 
-type SearchWorksProps = {
-  q?: string
-  t?: 'search' | 'current_season' | 'watched'
-  sort?: SearchSort
-  order?: SearchOrder
+type WorkListWrapperProps = {
+  tab: 'search' | 'current_season' | 'watched'
+  query: string
+  sort: SearchSort
+  order: SearchOrder
   season?: string
 }
 
-export const WorkList: FC<SearchWorksProps> = async ({ q, t, sort, order, season }) => {
-  const filterSeason = t === 'current_season' ? getCurrentSeason() : season
+export const WorkListWrapper: FC<WorkListWrapperProps> = async ({ tab, ...search }) => {
+  const workResult = await getWorks(tab, search)
 
-  const fetchWorks = async () => {
-    if (t === 'search' || t === 'current_season') {
-      return await searchWorks({
-        q,
-        sort,
-        order,
-        season: filterSeason,
-      })
-    }
-
-    if (t === 'watched') {
-      return await getMyWorks('watched', {
-        q,
-        sort,
-        order,
-        season: filterSeason,
-      })
-    }
-
-    return null
-  }
-
-  const result = await fetchWorks()
-  if (result === null) {
+  if (workResult === null) {
     return (
       <div className="flex flex-col items-center gap-y-4 py-16">
         <CloudAlertIcon size={40} className="text-diggraph-accent" />
@@ -49,7 +25,7 @@ export const WorkList: FC<SearchWorksProps> = async ({ q, t, sort, order, season
     )
   }
 
-  if (result.data.length === 0) {
+  if (workResult.data.length === 0) {
     return (
       <div className="flex flex-col items-center gap-y-4 py-16">
         <OrigamiIcon size={40} className="text-diggraph-accent" />
@@ -58,15 +34,7 @@ export const WorkList: FC<SearchWorksProps> = async ({ q, t, sort, order, season
     )
   }
 
-  return (
-    <div className="flex flex-col gap-4">
-      {result.data.map((work) => (
-        <div key={work.id} className="h-full w-full">
-          <WorkCard work={work} />
-        </div>
-      ))}
-    </div>
-  )
+  return <WorkList initialData={workResult.data} tab={tab} search={search} />
 }
 
 export const WorkListSkeleton = () => (

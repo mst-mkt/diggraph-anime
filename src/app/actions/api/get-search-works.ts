@@ -1,13 +1,16 @@
 'use server'
 
+import type { SearchOrder, SearchSort } from '@/app/(main)/select/search-params'
 import { annictApiClient } from '@/lib/api/annict-rest'
 import type { Status } from '@/lib/api/annict-rest/schema/common'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
 import { auth } from '@/lib/auth'
 import { type WorkWithThumbnail, getValidWorkImage } from '@/lib/images/valid-thumbnail'
 import { isErr } from '@/lib/result'
+import { getCurrentSeason } from '@/utils/get-season'
+import { match } from 'ts-pattern'
 
-export const searchWorks = async (
+const searchWorks = async (
   search: {
     q?: string
     sort?: 'id' | 'season' | 'watchers'
@@ -46,7 +49,7 @@ export const searchWorks = async (
   return { data: worksWithThumbnail, next_page: worksResult.value.next_page }
 }
 
-export const getMyWorks = async (
+const getMyWorks = async (
   status: Status,
   search: {
     q?: string
@@ -86,4 +89,23 @@ export const getMyWorks = async (
   )
 
   return { data: myWorksWithThumbnail, next_page: worksResult.value.next_page }
+}
+
+export const getWorks = async (
+  tab: 'search' | 'current_season' | 'watched',
+  search: {
+    query: string
+    sort: SearchSort
+    order: SearchOrder
+    season?: string
+  },
+  page = 1,
+) => {
+  const workResult = await match(tab)
+    .with('watched', () => getMyWorks('watched', search, page))
+    .with('search', () => searchWorks({ ...search, season: undefined }, page))
+    .with('current_season', () => searchWorks({ ...search, season: getCurrentSeason() }, page))
+    .exhaustive()
+
+  return workResult
 }

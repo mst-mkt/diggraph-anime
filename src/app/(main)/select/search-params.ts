@@ -6,7 +6,9 @@ export const searchSearchParams = {
   t: parseAsStringLiteral(['search', 'current_season', 'watched'])
     .withDefault('search')
     .withOptions({ shallow: false }),
-  sort: parseAsStringLiteral(['id', 'season', 'watchers']).withOptions({ shallow: false }),
+  sort: parseAsStringLiteral(['id', 'season', 'watchers'])
+    .withDefault('watchers')
+    .withOptions({ shallow: false }),
   order: parseAsStringLiteral(['asc', 'desc']).withDefault('desc').withOptions({ shallow: false }),
   season: createParser({
     parse: (value) => {
@@ -35,3 +37,4 @@ export const loadSearchParams = createLoader(searchSearchParams)
 
 export type SearchSort = NonNullable<ReturnType<typeof searchSearchParams.sort.parse>>
 export type SearchOrder = typeof searchSearchParams.order.defaultValue
+export type SearchSeason = NonNullable<ReturnType<typeof searchSearchParams.season.parse>>
