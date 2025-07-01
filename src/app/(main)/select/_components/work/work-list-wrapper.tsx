@@ -34,7 +34,14 @@ export const WorkListWrapper: FC<WorkListWrapperProps> = async ({ tab, ...search
     )
   }
 
-  return <WorkList initialData={workResult.data} tab={tab} search={search} />
+  return (
+    <WorkList
+      key={JSON.stringify({ tab, ...search })}
+      initialData={workResult.data}
+      tab={tab}
+      search={search}
+    />
+  )
 }
 
 export const WorkListSkeleton = () => (
