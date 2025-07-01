@@ -103,7 +103,7 @@ export const getWorks = async (
 ) => {
   const workResult = await match(tab)
     .with('watched', () => getMyWorks('watched', search, page))
-    .with('search', () => searchWorks({ ...search, season: undefined }, page))
+    .with('search', () => searchWorks(search, page))
     .with('current_season', () => searchWorks({ ...search, season: getCurrentSeason() }, page))
     .exhaustive()
 
