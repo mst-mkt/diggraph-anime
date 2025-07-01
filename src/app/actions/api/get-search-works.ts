@@ -12,7 +12,7 @@ import { match } from 'ts-pattern'
 
 const searchWorks = async (
   search: {
-    q?: string
+    query?: string
     sort?: 'id' | 'season' | 'watchers'
     order?: 'asc' | 'desc'
     season?: string
@@ -23,7 +23,7 @@ const searchWorks = async (
 
   const worksResult = await annictApiClient.getWorks({
     query: {
-      filter_title: search.q || undefined,
+      filter_title: search.query || undefined,
       filter_season: search.season || undefined,
       sort_id: search.sort === 'id' ? search.order : undefined,
       sort_season: search.sort === 'season' ? search.order : undefined,
@@ -34,7 +34,7 @@ const searchWorks = async (
   })
 
   if (isErr(worksResult)) {
-    console.error(`Failed to search works (query:${search.q}):`, worksResult.error)
+    console.error(`Failed to search works (query:${search.query}):`, worksResult.error)
     return null
   }
   const worksWithThumbnail = await worksResult.value.works.reduce(
@@ -52,7 +52,7 @@ const searchWorks = async (
 const getMyWorks = async (
   status: Status,
   search: {
-    q?: string
+    query?: string
     sort?: 'id' | 'season' | 'watchers'
     order?: 'asc' | 'desc'
     season?: string
@@ -63,7 +63,7 @@ const getMyWorks = async (
 
   const worksResult = await annictApiClient.getMyWorks({
     query: {
-      filter_title: search.q || undefined,
+      filter_title: search.query || undefined,
       filter_season: search.season || undefined,
       filter_status: status,
       sort_id: search.sort === 'id' ? search.order : undefined,
