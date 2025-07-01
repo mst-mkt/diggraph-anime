@@ -36,7 +36,7 @@ export const WorkListWrapper: FC<WorkListWrapperProps> = async ({ tab, ...search
 
   return (
     <WorkList
-      key={JSON.stringify({ tab, ...search })}
+      key={`${tab}-${search.query}-${search.sort}-${search.order}-${search.season}`}
       initialData={workResult.data}
       tab={tab}
       search={search}
