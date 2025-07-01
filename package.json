@@ -10,10 +10,15 @@
     "check": "biome check",
     "fix": "biome check --write",
     "typecheck": "tsc --noEmit",
-    "generate:jikan": "pnpx openapi-typescript https://raw.githubusercontent.com/jikan-me/jikan-rest/master/storage/api-docs/api-docs.json -o ./src/lib/api/jikan/schema.gen.d.ts"
+    "generate:jikan": "pnpx openapi-typescript https://raw.githubusercontent.com/jikan-me/jikan-rest/master/storage/api-docs/api-docs.json -o ./src/lib/api/jikan/schema.gen.d.ts",
+    "generate:db": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate",
+    "studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^1.10.0",
     "@kawaiioverflow/arm": "^0.211.0",
+    "@libsql/client": "^0.15.9",
     "@radix-ui/react-avatar": "^1.1.7",
     "@radix-ui/react-collapsible": "^1.1.8",
     "@radix-ui/react-dialog": "^1.1.11",
@@ -26,6 +31,7 @@
     "@urql/core": "^5.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "drizzle-orm": "^0.44.2",
     "gql.tada": "^1.8.10",
     "lucide-react": "^0.503.0",
     "next": "15.3.1",
@@ -50,6 +56,8 @@
     "@types/node": "^20.17.30",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
+    "dotenv": "^17.0.0",
+    "drizzle-kit": "^0.31.4",
     "lefthook": "^1.11.11",
     "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4.1.4",

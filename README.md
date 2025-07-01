@@ -22,13 +22,25 @@ cp .env.local.example .env.local
 ```
 
 3. Fill your [env variables](#environment-variables) in `.env.local`
+4. Generate AUTH_SECRET with `pnpx auth secret`
 
-4. Start the development server
+5. Set up the database
+
+```sh
+cp example.db local.db
+```
+
+```sh
+pnpm migrate
+```
+
+6. Start the development server
 
 ```sh
 pnpm dev
 ```
-5. Open your browser and go to [`http://localhost:3000`](http://localhost:3000)
+
+7. Open your browser and go to [`http://localhost:3000`](http://localhost:3000)
 
 ## Environment Variables
 

@@ -1,13 +1,15 @@
 import { ANNICT_API_BASEURL } from '@/constants/annict'
 import { auth } from '@/lib/auth'
+import { getAccessToken } from '@/lib/auth/accessToken'
 import { createClient, fetchExchange } from '@urql/core'
 
 export const annictGraphqlClient = createClient({
   url: `${ANNICT_API_BASEURL}/graphql`,
   fetch: async (url, fetchOptions = {}) => {
-    const session = await auth()
+    await auth()
+    const accessToken = await getAccessToken()
 
-    if (session?.accessToken === undefined) {
+    if (accessToken === null) {
       throw new Error('No token found')
     }
 
@@ -16,7 +18,7 @@ export const annictGraphqlClient = createClient({
       ...fetchOptions,
       headers: {
         ...fetchOptions.headers,
-        Authorization: `Bearer ${session.accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
       next: {
         revalidate: 3600,
