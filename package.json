@@ -28,6 +28,7 @@
     "@unovis/react": "^1.5.1",
     "@unovis/ts": "^1.5.1",
     "@urql/core": "^5.1.1",
+    "better-auth": "^1.2.12",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.44.2",
