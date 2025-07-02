@@ -1,11 +1,11 @@
+import { useGraphControls } from '@/hooks/useGraphControls'
 import type { WorkLink, WorkNode as WorkNodeType } from '@/hooks/useWorkGraph'
 import { annictToMal } from '@/lib/anime-id'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
-import { VisGraph, type VisGraphRef, VisSingleContainer } from '@unovis/react'
-import { Graph, type GraphInputLink, GraphLayoutType, type GraphNode } from '@unovis/ts'
-import { useSearchParams } from 'next/navigation'
-import { type CSSProperties, type FC, useCallback, useMemo, useRef } from 'react'
-import { GraphControls } from './graph-controls'
+import { VisGraph, VisSingleContainer } from '@unovis/react'
+import { Graph, GraphLayoutType, type GraphNode } from '@unovis/ts'
+import type { CSSProperties, FC } from 'react'
+import { GraphControls } from './controls'
 import { WorkNode } from './node'
 
 type GraphProps = {
@@ -16,58 +16,7 @@ type GraphProps = {
 }
 
 export const WorkGraph: FC<GraphProps> = ({ selectedWorkId, nodes, links, expand }) => {
-  const graphRef = useRef<VisGraphRef<WorkNodeType, GraphInputLink>>(null)
-  const searchParams = useSearchParams()
-
-  const getConnectedNodeIds = useCallback(
-    (nodeId: string): string[] => {
-      const connectedIds = new Set<string>([nodeId])
-
-      for (const link of links) {
-        if (link.source === nodeId) {
-          connectedIds.add(link.target)
-        }
-      }
-
-      return Array.from(connectedIds)
-    },
-    [links],
-  )
-
-  const startNodeId = useMemo(() => {
-    const rootId = searchParams.get('root')
-    return rootId ? rootId.toString() : null
-  }, [searchParams])
-
-  const onFocusSelected = useCallback(() => {
-    if (graphRef.current?.component) {
-      graphRef.current.component.fitView(500, getConnectedNodeIds(selectedWorkId.toString()))
-    }
-  }, [selectedWorkId, getConnectedNodeIds])
-
-  const onFocusStart = useCallback(() => {
-    if (graphRef.current?.component && startNodeId) {
-      graphRef.current.component.fitView(500, getConnectedNodeIds(startNodeId))
-    }
-  }, [startNodeId, getConnectedNodeIds])
-
-  const onFitAll = useCallback(() => {
-    if (graphRef.current?.component) {
-      graphRef.current.component.fitView(500)
-    }
-  }, [])
-
-  const onZoomIn = useCallback(() => {
-    if (graphRef.current?.component) {
-      graphRef.current.component.zoomIn()
-    }
-  }, [])
-
-  const onZoomOut = useCallback(() => {
-    if (graphRef.current?.component) {
-      graphRef.current.component.zoomOut()
-    }
-  }, [])
+  const { graphRef, handlers } = useGraphControls(links, selectedWorkId)
 
   return (
     <div className="relative h-full w-full">
@@ -113,13 +62,7 @@ export const WorkGraph: FC<GraphProps> = ({ selectedWorkId, nodes, links, expand
           }}
         />
       </VisSingleContainer>
-      <GraphControls
-        onFocusSelected={onFocusSelected}
-        onFocusStart={onFocusStart}
-        onFitAll={onFitAll}
-        onZoomIn={onZoomIn}
-        onZoomOut={onZoomOut}
-      />
+      <GraphControls {...handlers} />
     </div>
   )
 }

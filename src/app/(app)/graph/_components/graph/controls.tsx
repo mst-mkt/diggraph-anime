@@ -3,13 +3,21 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { CrosshairIcon, FlagIcon, FullscreenIcon, ZoomInIcon, ZoomOutIcon } from 'lucide-react'
 import type { FC } from 'react'
 
-export const GraphControls: FC<{
+type GraphControlsProps = {
   onFocusSelected: () => void
   onFocusStart: () => void
   onFitAll: () => void
   onZoomIn: () => void
   onZoomOut: () => void
-}> = ({ onFocusSelected, onFocusStart, onFitAll, onZoomIn, onZoomOut }) => (
+}
+
+export const GraphControls: FC<GraphControlsProps> = ({
+  onFocusSelected,
+  onFocusStart,
+  onFitAll,
+  onZoomIn,
+  onZoomOut,
+}) => (
   <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
     <Tooltip delayDuration={800}>
       <TooltipTrigger asChild={true}>
