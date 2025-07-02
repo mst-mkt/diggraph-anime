@@ -1,87 +1,80 @@
-import { primaryKey, sqliteTable } from 'drizzle-orm/sqlite-core'
-import type { AdapterAccountType } from 'next-auth/adapters'
+import { sql } from 'drizzle-orm'
+import { sqliteTable } from 'drizzle-orm/sqlite-core'
 
 export const users = sqliteTable('user', (d) => ({
   id: d
     .text('id')
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  name: d.text('name'),
-  email: d.text('email').unique(),
-  emailVerified: d.integer('emailVerified', { mode: 'timestamp_ms' }),
+  name: d.text('name').notNull(),
+  email: d.text('email').unique().notNull(),
+  emailVerified: d.integer('emailVerified', { mode: 'boolean' }).default(false),
   image: d.text('image'),
+  createdAt: d
+    .integer('createdAt', { mode: 'timestamp_ms' })
+    .notNull()
+    .default(sql`(current_timestamp)`),
+  updatedAt: d
+    .integer('updatedAt', { mode: 'timestamp_ms' })
+    .notNull()
+    .default(sql`(current_timestamp)`),
 }))
 
-export const accounts = sqliteTable(
-  'account',
-  (d) => ({
-    userId: d
-      .text('userId')
-      .notNull()
-      .references(() => users.id, { onDelete: 'cascade' }),
-    type: d.text('type').$type<AdapterAccountType>().notNull(),
-    provider: d.text('provider').notNull(),
-    providerAccountId: d.text('providerAccountId').notNull(),
-    refresh_token: d.text('refresh_token'),
-    access_token: d.text('access_token'),
-    expires_at: d.integer('expires_at'),
-    token_type: d.text('token_type'),
-    scope: d.text('scope'),
-    id_token: d.text('id_token'),
-    session_state: d.text('session_state'),
-  }),
-  (account) => [
-    primaryKey({
-      columns: [account.provider, account.providerAccountId],
-    }),
-  ],
-)
-
-export const sessions = sqliteTable('session', (d) => ({
-  sessionToken: d.text('sessionToken').primaryKey(),
+export const accounts = sqliteTable('account', (d) => ({
+  id: d.text('id').primaryKey(),
   userId: d
     .text('userId')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
-  expires: d.integer('expires', { mode: 'timestamp_ms' }).notNull(),
+  providerId: d.text('providerId').notNull(),
+  accountId: d.text('accountId').notNull(),
+  refreshToken: d.text('refreshToken'),
+  refreshTokenExpiresAt: d.integer('refreshTokenExpiresAt', { mode: 'timestamp_ms' }),
+  accessToken: d.text('accessToken'),
+  accessTokenExpiresAt: d.integer('accessTokenExpiresAt'),
+  scope: d.text('scope'),
+  idToken: d.text('idToken'),
+  createdAt: d
+    .integer('createdAt', { mode: 'timestamp_ms' })
+    .notNull()
+    .default(sql`(current_timestamp)`),
+  updatedAt: d
+    .integer('updatedAt', { mode: 'timestamp_ms' })
+    .notNull()
+    .default(sql`(current_timestamp)`),
 }))
 
-export const verificationTokens = sqliteTable(
-  'verificationToken',
-  (d) => ({
-    identifier: d.text('identifier').notNull(),
-    token: d.text('token').notNull(),
-    expires: d.integer('expires', { mode: 'timestamp_ms' }).notNull(),
-  }),
-  (verificationToken) => [
-    primaryKey({
-      columns: [verificationToken.identifier, verificationToken.token],
-    }),
-  ],
-)
+export const sessions = sqliteTable('session', (d) => ({
+  id: d.text('id').primaryKey(),
+  token: d.text('token').notNull(),
+  userId: d
+    .text('userId')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  expiresAt: d.integer('expiresAt', { mode: 'timestamp_ms' }).notNull(),
+  ipAddress: d.text('ipAddress'),
+  userAgent: d.text('userAgent'),
+  createdAt: d
+    .integer('createdAt', { mode: 'timestamp_ms' })
+    .notNull()
+    .default(sql`(current_timestamp)`),
+  updatedAt: d
+    .integer('updatedAt', { mode: 'timestamp_ms' })
+    .notNull()
+    .default(sql`(current_timestamp)`),
+}))
 
-export const authenticators = sqliteTable(
-  'authenticator',
-  (d) => ({
-    credentialID: d.text('credentialID').notNull().unique(),
-    userId: d
-      .text('userId')
-      .notNull()
-      .references(() => users.id, { onDelete: 'cascade' }),
-    providerAccountId: d.text('providerAccountId').notNull(),
-    credentialPublicKey: d.text('credentialPublicKey').notNull(),
-    counter: d.integer('counter').notNull(),
-    credentialDeviceType: d.text('credentialDeviceType').notNull(),
-    credentialBackedUp: d
-      .integer('credentialBackedUp', {
-        mode: 'boolean',
-      })
-      .notNull(),
-    transports: d.text('transports'),
-  }),
-  (authenticator) => [
-    primaryKey({
-      columns: [authenticator.userId, authenticator.credentialID],
-    }),
-  ],
-)
+export const verifications = sqliteTable('verification', (d) => ({
+  id: d.text('id').primaryKey(),
+  identifier: d.text('identifier').notNull(),
+  value: d.text('value').notNull(),
+  expiresAt: d.integer('expiresAt', { mode: 'timestamp_ms' }).notNull(),
+  createdAt: d
+    .integer('createdAt', { mode: 'timestamp_ms' })
+    .notNull()
+    .default(sql`(current_timestamp)`),
+  updatedAt: d
+    .integer('updatedAt', { mode: 'timestamp_ms' })
+    .notNull()
+    .default(sql`(current_timestamp)`),
+}))
