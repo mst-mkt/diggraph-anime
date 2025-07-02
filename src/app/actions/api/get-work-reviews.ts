@@ -2,11 +2,8 @@
 
 import { annictApiClient } from '@/lib/api/annict-rest'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
-import { auth } from '@/lib/auth'
 
 export const getWorkReviews = async (workId: Work['id'], page = 1) => {
-  await auth()
-
   const reviewsResult = await annictApiClient.getReviews({
     query: {
       filter_work_id: workId,

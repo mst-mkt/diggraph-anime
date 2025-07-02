@@ -4,7 +4,6 @@ import type { SearchOrder, SearchSort } from '@/app/(main)/select/search-params'
 import { annictApiClient } from '@/lib/api/annict-rest'
 import type { Status } from '@/lib/api/annict-rest/schema/common'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
-import { auth } from '@/lib/auth'
 import { type WorkWithThumbnail, getValidWorkImage } from '@/lib/images/valid-thumbnail'
 import { isErr } from '@/lib/result'
 import { getCurrentSeason } from '@/utils/get-season'
@@ -19,8 +18,6 @@ const searchWorks = async (
   },
   page = 1,
 ) => {
-  await auth()
-
   const worksResult = await annictApiClient.getWorks({
     query: {
       filter_title: search.query || undefined,
@@ -58,8 +55,6 @@ const getMyWorks = async (
   } = {},
   page = 1,
 ) => {
-  await auth()
-
   const worksResult = await annictApiClient.getMyWorks({
     query: {
       filter_title: search.query || undefined,

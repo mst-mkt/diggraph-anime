@@ -1,5 +1,5 @@
-import { auth } from '@/lib/auth'
 import { getAccessToken } from '@/lib/auth/accessToken'
+import { getSession } from '@/lib/auth/session'
 import { type Result, err, ok } from '@/lib/result'
 import type { BaseIssue, BaseSchema, InferInput, InferOutput } from 'valibot'
 import {
@@ -89,7 +89,7 @@ export class AnnictClient {
       params: Params,
       options?: RequestInit,
     ): Promise<Result<Response, string>> => {
-      await auth()
+      await getSession()
       const accessToken = await getAccessToken()
 
       if (accessToken === null) {

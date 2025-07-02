@@ -1,20 +1,17 @@
 'use client'
 
-import { signInAction } from '@/app/actions/auth/signin'
 import { Button } from '@/components/ui/button'
-import { LoaderIcon, LogInIcon } from 'lucide-react'
-import { useTransition } from 'react'
+import { signIn } from '@/lib/auth/client'
+import { LogInIcon } from 'lucide-react'
 
 export const SignInButton = () => {
-  const [pending, startTransition] = useTransition()
-
-  const handleClick = () => {
-    startTransition(() => signInAction('annict'))
+  const handleSignIn = () => {
+    signIn.social({ provider: 'annict', callbackURL: '/select' })
   }
 
   return (
-    <Button onClick={handleClick} className="cursor-pointer" disabled={pending}>
-      {pending ? <LoaderIcon className="animate-spin" /> : <LogInIcon />}
+    <Button onClick={handleSignIn} className="cursor-pointer">
+      <LogInIcon />
       Sign In
     </Button>
   )

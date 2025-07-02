@@ -1,12 +1,12 @@
 import { ANNICT_API_BASEURL } from '@/constants/annict'
-import { auth } from '@/lib/auth'
 import { getAccessToken } from '@/lib/auth/accessToken'
+import { getSession } from '@/lib/auth/session'
 import { createClient, fetchExchange } from '@urql/core'
 
 export const annictGraphqlClient = createClient({
   url: `${ANNICT_API_BASEURL}/graphql`,
   fetch: async (url, fetchOptions = {}) => {
-    await auth()
+    await getSession()
     const accessToken = await getAccessToken()
 
     if (accessToken === null) {

@@ -1,12 +1,9 @@
 'use server'
 
 import { annictApiClient } from '@/lib/api/annict-rest'
-import { auth } from '@/lib/auth'
 import { getValidWorkImage } from '@/lib/images/valid-thumbnail'
 
 export const getWork = async (id: number) => {
-  await auth()
-
   const workResult = await annictApiClient.getWorks({
     query: { filter_ids: [id], per_page: 1 },
   })

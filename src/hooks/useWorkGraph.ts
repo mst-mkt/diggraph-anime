@@ -58,6 +58,7 @@ export const useWorkGraph = (
 
   const expand = useCallback(
     async (annictId: Work['id'], malId: number) => {
+      if (pendingWorkId !== null) return
       if (expandedWorkIds.has(annictId)) {
         setSelectedWorkId(annictId)
         return
@@ -85,7 +86,7 @@ export const useWorkGraph = (
         return newSet
       })
     },
-    [expandedWorkIds, setSelectedWorkId],
+    [expandedWorkIds, setSelectedWorkId, pendingWorkId],
   )
 
   const selectedWork = useMemo(
