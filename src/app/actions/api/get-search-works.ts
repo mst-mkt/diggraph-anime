@@ -39,7 +39,7 @@ const searchWorks = async (
   }
 
   const worksWithThumbnail = await Promise.all(
-    worksResult.value.works.map(async (work: Work): Promise<WorkWithThumbnail> => {
+    worksResult.value.works.map(async (work) => {
       const thumbnail = await getValidWorkImage(work)
       return { ...work, thumbnail }
     }),
