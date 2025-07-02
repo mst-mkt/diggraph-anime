@@ -66,7 +66,7 @@ export const GraphControls: FC<GraphControlsProps> = ({
         <Button
           size="icon"
           variant="outline"
-          className="cursor-pointerrounded-full"
+          className="cursor-pointer rounded-full"
           onClick={onZoomIn}
         >
           <ZoomInIcon size={16} />
