@@ -1,9 +1,9 @@
-import { auth } from '@/lib/auth'
+import { getSession } from '@/lib/auth/session'
 import { redirect } from 'next/navigation'
 import { SignOutButton } from '../_components/signout.client'
 
 const SignOutPage = async () => {
-  const session = await auth()
+  const session = await getSession()
 
   if (session === null) redirect('/')
 

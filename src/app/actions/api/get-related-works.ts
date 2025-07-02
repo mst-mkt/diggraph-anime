@@ -3,11 +3,9 @@
 import { malToAnnict } from '@/lib/anime-id'
 import { annictApiClient } from '@/lib/api/annict-rest'
 import { jikanApiClient } from '@/lib/api/jikan'
-import { auth } from '@/lib/auth'
 import { getValidWorkImage } from '@/lib/images/valid-thumbnail'
 
 export const getRelatedWorks = async (malId: number) => {
-  await auth()
   const { data, error } = await jikanApiClient.GET('/anime/{id}/recommendations', {
     params: { path: { id: malId } },
   })

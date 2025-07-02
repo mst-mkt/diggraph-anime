@@ -1,9 +1,9 @@
-import { auth } from '@/lib/auth'
+import { getSession } from '@/lib/auth/session'
 import { redirect } from 'next/navigation'
 import { SignInButton } from '../_components/signin.client'
 
 const SignInPage = async () => {
-  const session = await auth()
+  const session = await getSession()
 
   if (session !== null) redirect('/select')
 

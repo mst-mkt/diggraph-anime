@@ -1,4 +1,4 @@
-import { auth } from '@/lib/auth'
+import { getSession } from '@/lib/auth/session'
 import { SearchIcon } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import type { SearchParams } from 'nuqs/server'
@@ -26,7 +26,7 @@ export const generateMetadata = async ({ searchParams }: SearchPageProps) => {
 
 const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
   const { q: query, t: tab, sort, order, season } = await loadSearchParams(searchParams)
-  const session = await auth()
+  const session = await getSession()
 
   if (session === null) redirect('/signin')
 
