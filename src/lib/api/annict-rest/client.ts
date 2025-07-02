@@ -89,7 +89,6 @@ export class AnnictClient {
       params: Params,
       options?: RequestInit,
     ): Promise<Result<Response, string>> => {
-      await getSession()
       const accessToken = await getAccessToken()
 
       if (accessToken === null) {
