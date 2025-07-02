@@ -21,7 +21,12 @@ export const GraphControls: FC<GraphControlsProps> = ({
   <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
     <Tooltip delayDuration={800}>
       <TooltipTrigger asChild={true}>
-        <Button size="icon" variant="outline" className="rounded-full" onClick={onFocusSelected}>
+        <Button
+          size="icon"
+          variant="outline"
+          className="cursor-pointer rounded-full"
+          onClick={onFocusSelected}
+        >
           <CrosshairIcon size={16} />
         </Button>
       </TooltipTrigger>
@@ -30,7 +35,12 @@ export const GraphControls: FC<GraphControlsProps> = ({
 
     <Tooltip delayDuration={800}>
       <TooltipTrigger asChild={true}>
-        <Button size="icon" variant="outline" className="rounded-full" onClick={onFitAll}>
+        <Button
+          size="icon"
+          variant="outline"
+          className="cursor-pointer rounded-full"
+          onClick={onFitAll}
+        >
           <FullscreenIcon size={16} />
         </Button>
       </TooltipTrigger>
@@ -39,7 +49,12 @@ export const GraphControls: FC<GraphControlsProps> = ({
 
     <Tooltip delayDuration={800}>
       <TooltipTrigger asChild={true}>
-        <Button size="icon" variant="outline" className="rounded-full" onClick={onFocusStart}>
+        <Button
+          size="icon"
+          variant="outline"
+          className="cursor-pointer rounded-full"
+          onClick={onFocusStart}
+        >
           <FlagIcon size={16} />
         </Button>
       </TooltipTrigger>
@@ -48,7 +63,12 @@ export const GraphControls: FC<GraphControlsProps> = ({
 
     <Tooltip delayDuration={800}>
       <TooltipTrigger asChild={true}>
-        <Button size="icon" variant="outline" className="rounded-full" onClick={onZoomIn}>
+        <Button
+          size="icon"
+          variant="outline"
+          className="cursor-pointerrounded-full"
+          onClick={onZoomIn}
+        >
           <ZoomInIcon size={16} />
         </Button>
       </TooltipTrigger>
@@ -57,7 +77,12 @@ export const GraphControls: FC<GraphControlsProps> = ({
 
     <Tooltip delayDuration={800}>
       <TooltipTrigger asChild={true}>
-        <Button size="icon" variant="outline" className="rounded-full" onClick={onZoomOut}>
+        <Button
+          size="icon"
+          variant="outline"
+          className="cursor-pointerrounded-full"
+          onClick={onZoomOut}
+        >
           <ZoomOutIcon size={16} />
         </Button>
       </TooltipTrigger>
