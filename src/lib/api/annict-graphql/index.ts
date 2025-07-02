@@ -6,7 +6,6 @@ import { createClient, fetchExchange } from '@urql/core'
 export const annictGraphqlClient = createClient({
   url: `${ANNICT_API_BASEURL}/graphql`,
   fetch: async (url, fetchOptions = {}) => {
-    await getSession()
     const accessToken = await getAccessToken()
 
     if (accessToken === null) {
