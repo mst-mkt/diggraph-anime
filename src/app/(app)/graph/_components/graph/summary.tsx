@@ -16,13 +16,11 @@ export const GraphSummary: FC<GraphSummaryProps> = ({ nodes, links, expanded }) 
     </li>
     <li className="col-span-3 grid grid-cols-subgrid items-center">
       <ClapperboardIcon size={14} className="text-muted-foreground" />
-
       <span>WORK</span>
       <span>{nodes}</span>
     </li>
     <li className="col-span-3 grid grid-cols-subgrid items-center">
       <WaypointsIcon size={14} className="text-muted-foreground" />
-
       <span>LINK</span>
       <span>{links}</span>
     </li>
