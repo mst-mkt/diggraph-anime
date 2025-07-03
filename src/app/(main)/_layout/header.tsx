@@ -2,6 +2,7 @@ import { PROJECT_NAME } from '@/constants/project'
 import { PickaxeIcon } from 'lucide-react'
 import Link from 'next/link'
 import { ThemeButton } from './theme-button.client'
+import { VisitorButton } from './visitor-button'
 
 export const Header = () => (
   <header className="sticky top-0 z-10 border-muted border-b px-[4svw] backdrop-blur-md">
@@ -10,6 +11,7 @@ export const Header = () => (
       <Link href="/" className="grow">
         <h1 className="truncate font-bold text-lg">{PROJECT_NAME}</h1>
       </Link>
+      <VisitorButton />
       <ThemeButton />
     </div>
   </header>
