@@ -1,6 +1,7 @@
 import { graphSearchParams } from '@/app/(app)/graph/search-params'
 import { getRelatedWorks } from '@/app/actions/api/get-related-works'
 import { getRelatedWorksForVisitor } from '@/app/actions/api/visitor/get-related-works'
+import { createGraph } from '@/app/actions/db/graph'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
 import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
 import { useQueryState } from 'nuqs'
@@ -94,6 +95,22 @@ export const useWorkGraph = (
     [expandedWorkIds, setSelectedWorkId, pendingWorkId, isVisitor],
   )
 
+  const save = useCallback(
+    async (title: string, publicGraph = false) => {
+      return await createGraph(
+        {
+          works,
+          links,
+          selectedWorkId,
+          expandedWorkIds: Array.from(expandedWorkIds),
+        },
+        title,
+        publicGraph,
+      )
+    },
+    [works, links, selectedWorkId, expandedWorkIds],
+  )
+
   const selectedWork = useMemo(
     () => works[selectedWorkId] ?? initialWork,
     [works, initialWork, selectedWorkId],
@@ -109,6 +126,7 @@ export const useWorkGraph = (
   return {
     graph: { nodes, links },
     expand,
+    save,
     selectedWork,
     selectedWorkRelatedWorks,
   }
