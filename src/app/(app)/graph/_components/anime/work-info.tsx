@@ -70,7 +70,9 @@ export const WorkInfo: FC<WorkInfoProps> = ({ work, isVisitor }) => {
           {isVisitor ? (
             <Button variant="secondary" size="sm" disabled={true}>
               <LockIcon />
-              <span>ログインすると、アニメの詳しい情報を閲覧できます</span>
+              <span className="min-w-0 truncate">
+                ログインすると、アニメの詳しい情報を閲覧できます
+              </span>
             </Button>
           ) : (
             <Button asChild={true} variant="secondary" size="sm">
