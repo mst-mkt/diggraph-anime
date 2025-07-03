@@ -108,6 +108,11 @@ export const useWorkGraph = (
 
   return {
     graph: { nodes, links },
+    count: {
+      nodes: Object.keys(works).length,
+      links: links.length,
+      expanded: expandedWorkIds.size,
+    },
     expand,
     selectedWork,
     selectedWorkRelatedWorks,
