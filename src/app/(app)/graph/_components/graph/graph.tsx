@@ -7,15 +7,21 @@ import { Graph, GraphLayoutType, type GraphNode } from '@unovis/ts'
 import type { CSSProperties, FC } from 'react'
 import { GraphControls } from './controls'
 import { WorkNode } from './node'
+import { GraphSummary } from './summary'
 
 type GraphProps = {
   selectedWorkId: Work['id']
   nodes: WorkNodeType[]
   links: WorkLink[]
+  count: {
+    nodes: number
+    links: number
+    expanded: number
+  }
   expand: (annictId: Work['id'], malId: number) => Promise<void>
 }
 
-export const WorkGraph: FC<GraphProps> = ({ selectedWorkId, nodes, links, expand }) => {
+export const WorkGraph: FC<GraphProps> = ({ selectedWorkId, nodes, links, count, expand }) => {
   const { graphRef, handlers } = useGraphControls(links, selectedWorkId)
 
   return (
@@ -63,6 +69,7 @@ export const WorkGraph: FC<GraphProps> = ({ selectedWorkId, nodes, links, expand
         />
       </VisSingleContainer>
       <GraphControls {...handlers} />
+      <GraphSummary {...count} />
     </div>
   )
 }
