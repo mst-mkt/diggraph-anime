@@ -2,16 +2,24 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
 import { getSearchLink } from '@/lib/search-link'
-import { BinocularsIcon, BookOpenText, ClapperboardIcon, EarthIcon, TvIcon } from 'lucide-react'
+import {
+  BinocularsIcon,
+  BookOpenText,
+  ClapperboardIcon,
+  EarthIcon,
+  LockIcon,
+  TvIcon,
+} from 'lucide-react'
 import Link from 'next/link'
 import type { FC } from 'react'
 import { WorkThumbnail } from './work-thumbnail'
 
 type WorkInfoProps = {
   work: WorkWithThumbnail
+  isVisitor: boolean
 }
 
-export const WorkInfo: FC<WorkInfoProps> = ({ work }) => {
+export const WorkInfo: FC<WorkInfoProps> = ({ work, isVisitor }) => {
   const searchLink = getSearchLink(work.title)
 
   return (
@@ -59,12 +67,21 @@ export const WorkInfo: FC<WorkInfoProps> = ({ work }) => {
               </div>
             )}
           </div>
-          <Button asChild={true} variant="secondary" size="sm">
-            <Link href={`/info/${work.id}`}>
-              <BookOpenText />
-              <span>詳しく情報を見る</span>
-            </Link>
-          </Button>
+          {isVisitor ? (
+            <Button variant="secondary" size="sm" disabled={true}>
+              <LockIcon />
+              <span className="min-w-0 truncate">
+                ログインすると、アニメの詳しい情報を閲覧できます
+              </span>
+            </Button>
+          ) : (
+            <Button asChild={true} variant="secondary" size="sm">
+              <Link href={`/info/${work.id}`}>
+                <BookOpenText />
+                <span>詳しく情報を見る</span>
+              </Link>
+            </Button>
+          )}
         </div>
       </div>
       <div>

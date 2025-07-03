@@ -1,9 +1,12 @@
 import { getRelatedWorks } from '@/app/actions/api/get-related-works'
 import { getWork } from '@/app/actions/api/get-work'
+import { getRelatedWorksForVisitor } from '@/app/actions/api/visitor/get-related-works'
+import { getWorkForVisitor } from '@/app/actions/api/visitor/get-work'
 import { getSession } from '@/lib/auth/session'
 import { redirect } from 'next/navigation'
 import type { SearchParams } from 'nuqs/server'
 import { type FC, Suspense } from 'react'
+import { P, match } from 'ts-pattern'
 import { Panels } from './_components/panels.client'
 import { WorkTrailer } from './_components/trailer/work-trailer'
 import { loadSearchParams } from './search-params'
@@ -13,25 +16,29 @@ interface GraphPageProps {
 }
 
 const GraphPage: FC<GraphPageProps> = async ({ searchParams }) => {
-  const { root: rootWorkId, current: currentWorkId } = await loadSearchParams(searchParams)
+  const { root: rootWorkId, current: currentWorkId, visitor } = await loadSearchParams(searchParams)
   const session = await getSession()
 
-  if (session === null) redirect('/signin')
+  if (session === null && !visitor) redirect('/signin')
 
   if (rootWorkId === null) {
     redirect('/')
   }
 
-  const initialWork = await getWork(rootWorkId)
+  const initialWork = await match(visitor)
+    .with(true, () => getWorkForVisitor(rootWorkId))
+    .with(false, () => getWork(rootWorkId))
+    .exhaustive()
 
   if (initialWork === null) {
     redirect('/')
   }
 
-  const initialRelatedWorks =
-    initialWork.mal_anime_id === ''
-      ? []
-      : await getRelatedWorks(Number.parseInt(initialWork.mal_anime_id))
+  const initialRelatedWorks = await match([initialWork.mal_anime_id, visitor])
+    .with(['', P._], () => [])
+    .with([P._, true], () => getRelatedWorksForVisitor(Number.parseInt(initialWork.mal_anime_id)))
+    .with([P._, false], () => getRelatedWorks(Number.parseInt(initialWork.mal_anime_id)))
+    .exhaustive()
 
   return (
     <div className="h-full">

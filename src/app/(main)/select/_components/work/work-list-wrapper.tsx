@@ -1,8 +1,10 @@
 import type { SearchOrder, SearchSort } from '@/app/(main)/select/search-params'
 import { getWorks } from '@/app/actions/api/get-search-works'
+import { getWorksForVisitor } from '@/app/actions/api/visitor/get-search-work'
 import { Skeleton } from '@/components/ui/skeleton'
 import { CloudAlertIcon, OrigamiIcon } from 'lucide-react'
 import type { FC } from 'react'
+import { P, match } from 'ts-pattern'
 import { WorkList } from './work-list.client'
 
 type WorkListWrapperProps = {
@@ -11,10 +13,17 @@ type WorkListWrapperProps = {
   sort: SearchSort
   order: SearchOrder
   season?: string
+  visitor: boolean
 }
 
-export const WorkListWrapper: FC<WorkListWrapperProps> = async ({ tab, ...search }) => {
-  const workResult = await getWorks(tab, search)
+export const WorkListWrapper: FC<WorkListWrapperProps> = async ({ tab, visitor, ...search }) => {
+  const workResult = await match([tab, visitor])
+    .with(['watched', true], () => null)
+    .with([P.not('watched'), true], ([tab]) =>
+      getWorksForVisitor(tab, { query: '', sort: 'watchers', order: 'desc' }),
+    )
+    .with([P._, false], () => getWorks(tab, search))
+    .exhaustive()
 
   if (workResult === null) {
     return (

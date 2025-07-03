@@ -8,15 +8,19 @@ import {
   SelectLabel,
   SelectTrigger,
 } from '@/components/ui/select'
-import { CalendarDaysIcon, CalendarRangeIcon, LoaderIcon } from 'lucide-react'
+import { CalendarDaysIcon, CalendarRangeIcon, LoaderIcon, LockIcon } from 'lucide-react'
 import { useQueryStates } from 'nuqs'
-import { useMemo, useTransition } from 'react'
+import { type FC, useMemo, useTransition } from 'react'
 import { match } from 'ts-pattern'
 import { SEASON_NAME_TEXT, isSeason } from '../../../../../constants/text-season'
 import { searchSearchParams } from '../../search-params'
 import { SeasonIcon } from '../icon-season'
 
-export const SeasonSelect = () => {
+type SeasonSelectProps = {
+  disabled?: boolean
+}
+
+export const SeasonSelect: FC<SeasonSelectProps> = ({ disabled = false }) => {
   const [isPending, startTransition] = useTransition()
   const [query, setQuery] = useQueryStates(searchSearchParams, { startTransition })
 
@@ -35,8 +39,11 @@ export const SeasonSelect = () => {
   }
 
   return (
-    <Select onValueChange={handleChange} value={seasonText}>
-      <SelectTrigger className="w-full cursor-pointer gap-x-2 justify-self-start">
+    <Select onValueChange={handleChange} value={seasonText} disabled={disabled}>
+      <SelectTrigger
+        className="w-full cursor-pointer gap-x-2 justify-self-start"
+        icon={disabled ? LockIcon : undefined}
+      >
         <div className="flex w-full items-center gap-x-2">
           {isPending ? (
             <LoaderIcon size={16} className="animate-spin text-muted-foreground" />

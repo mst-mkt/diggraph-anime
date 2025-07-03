@@ -1,12 +1,6 @@
-import { getAccessToken } from '@/lib/auth/accessToken'
 import { type Result, err, ok } from '@/lib/result'
 import type { BaseIssue, BaseSchema, InferInput, InferOutput } from 'valibot'
-import {
-  getActivitiesQuerySchema,
-  getActivitiesResponseSchema,
-  getFollowingActivitiesQuerySchema,
-  getFollowingActivitiesResponseSchema,
-} from './schema/activities/api'
+import { getActivitiesQuerySchema, getActivitiesResponseSchema } from './schema/activities/api'
 import { getCastsQuerySchema, getCastsResponseSchema } from './schema/casts/api'
 import { getCharactersQuerySchema, getCharactersResponseSchema } from './schema/characters/api'
 import { getEpisodesQuerySchema, getEpisodesResponseSchema } from './schema/episodes/api'
@@ -17,49 +11,27 @@ import {
   getOrganizationsResponseSchema,
 } from './schema/organizations/api'
 import { getPeopleQuerySchema, getPeopleResponseSchema } from './schema/people/api'
-import { getMyProgramsQuerySchema, getMyProgramsResponseSchema } from './schema/programs/api'
-import {
-  createRecordQuerySchema,
-  createRecordResponseSchema,
-  getRecordsQuerySchema,
-  getRecordsResponseSchema,
-  updateRecordQuerySchema,
-  updateRecordResponseSchema,
-} from './schema/records/api'
-import {
-  createReviewsQuerySchema,
-  createReviewsResponseSchema,
-  getReviewsQuerySchema,
-  getReviewsResponseSchema,
-  updateReviewsQuerySchema,
-  updateReviewsResponseSchema,
-} from './schema/reviews/api'
+import { getRecordsQuerySchema, getRecordsResponseSchema } from './schema/records/api'
+import { getReviewsQuerySchema, getReviewsResponseSchema } from './schema/reviews/api'
 import { getSeriesQuerySchema, getSeriesResponseSchema } from './schema/series/api'
 import { getStaffsQuerySchema, getStaffsResponseSchema } from './schema/staffs/api'
-import { createStatusesQuerySchema } from './schema/statuses/api'
-import {
-  getMeResponseSchema,
-  getUsersQuerySchema,
-  getUsersResponseSchema,
-} from './schema/users/api'
-import {
-  getMyWorksQuerySchema,
-  getMyWorksResponseSchema,
-  getWorksQuerySchema,
-  getWorksResponseSchema,
-} from './schema/works/api'
+import { getUsersQuerySchema, getUsersResponseSchema } from './schema/users/api'
+import { getWorksQuerySchema, getWorksResponseSchema } from './schema/works/api'
 import { type ParsePathParam, generatePath, generateUrlWithQuery, validate } from './utils'
 
 // biome-ignore lint/suspicious/noExplicitAny: Any is needed to receive any schema
 type ValibotSchema = BaseSchema<any, any, BaseIssue<unknown>>
-type Method = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
+type Method = 'GET' // | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
 
-export class AnnictClient {
+export class AnnictClientForVisitor {
   private baseUrl: string
+  private personalToken: string
 
-  constructor(baseUrl: string) {
+  constructor(baseUrl: string, personalToken: string) {
     this.baseUrl = baseUrl
+    this.personalToken = personalToken
   }
+
   private createFetcher = <
     Path extends string,
     QuerySchema extends ValibotSchema | undefined = undefined,
@@ -88,15 +60,9 @@ export class AnnictClient {
       params: Params,
       options?: RequestInit,
     ): Promise<Result<Response, string>> => {
-      const accessToken = await getAccessToken()
-
-      if (accessToken === null) {
-        return err('Access token is not set')
-      }
-
       const pathWithParams = generatePath(path, params.path)
       const headers = {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${this.personalToken}`,
         'Content-Type': 'application/json',
       }
 
@@ -117,7 +83,7 @@ export class AnnictClient {
           ...options?.headers,
         },
         next: {
-          revalidate: 60 * 60 * 24 * 7, // 7 days
+          revalidate: 60 * 60 * 24 * 30, // 30 days
           tags: ['annict', ...(options?.next?.tags ?? [])],
           ...options?.next,
         },
@@ -151,10 +117,10 @@ export class AnnictClient {
     response: getWorksResponseSchema,
   })
 
-  getMyWorks = this.createFetcher('/me/works', 'GET', {
-    query: getMyWorksQuerySchema,
-    response: getMyWorksResponseSchema,
-  })
+  // getMyWorks = this.createFetcher('/me/works', 'GET', {
+  //   query: getMyWorksQuerySchema,
+  //   response: getMyWorksResponseSchema,
+  // })
 
   getEpisodes = this.createFetcher('/episodes', 'GET', {
     query: getEpisodesQuerySchema,
@@ -191,19 +157,19 @@ export class AnnictClient {
     response: getStaffsResponseSchema,
   })
 
-  getMyPrograms = this.createFetcher('/me/programs', 'GET', {
-    query: getMyProgramsQuerySchema,
-    response: getMyProgramsResponseSchema,
-  })
+  // getMyPrograms = this.createFetcher('/me/programs', 'GET', {
+  //   query: getMyProgramsQuerySchema,
+  //   response: getMyProgramsResponseSchema,
+  // })
 
   getUsers = this.createFetcher('/users', 'GET', {
     query: getUsersQuerySchema,
     response: getUsersResponseSchema,
   })
 
-  getMe = this.createFetcher('/me', 'GET', {
-    response: getMeResponseSchema,
-  })
+  // getMe = this.createFetcher('/me', 'GET', {
+  //   response: getMeResponseSchema,
+  // })
 
   getFollowing = this.createFetcher('/following', 'GET', {
     query: getFollowingQuerySchema,
@@ -215,51 +181,51 @@ export class AnnictClient {
     response: getFollowersResponseSchema,
   })
 
-  createStatus = this.createFetcher('/me/statuses', 'POST', {
-    query: createStatusesQuerySchema,
-  })
+  // createStatus = this.createFetcher('/me/statuses', 'POST', {
+  //   query: createStatusesQuerySchema,
+  // })
 
   getRecords = this.createFetcher('/records', 'GET', {
     query: getRecordsQuerySchema,
     response: getRecordsResponseSchema,
   })
 
-  createRecords = this.createFetcher('/me/records', 'POST', {
-    query: createRecordQuerySchema,
-    response: createRecordResponseSchema,
-  })
+  // createRecords = this.createFetcher('/me/records', 'POST', {
+  //   query: createRecordQuerySchema,
+  //   response: createRecordResponseSchema,
+  // })
 
-  updateRecords = this.createFetcher('/me/records/{id}', 'PATCH', {
-    query: updateRecordQuerySchema,
-    response: updateRecordResponseSchema,
-  })
+  // updateRecords = this.createFetcher('/me/records/{id}', 'PATCH', {
+  //   query: updateRecordQuerySchema,
+  //   response: updateRecordResponseSchema,
+  // })
 
-  deleteRecords = this.createFetcher('/me/records/{id}', 'DELETE', {})
+  // deleteRecords = this.createFetcher('/me/records/{id}', 'DELETE', {})
 
   getReviews = this.createFetcher('/reviews', 'GET', {
     query: getReviewsQuerySchema,
     response: getReviewsResponseSchema,
   })
 
-  createReviews = this.createFetcher('/me/reviews', 'POST', {
-    query: createReviewsQuerySchema,
-    response: createReviewsResponseSchema,
-  })
+  // createReviews = this.createFetcher('/me/reviews', 'POST', {
+  //   query: createReviewsQuerySchema,
+  //   response: createReviewsResponseSchema,
+  // })
 
-  updateReviews = this.createFetcher('/me/reviews/{id}', 'PATCH', {
-    query: updateReviewsQuerySchema,
-    response: updateReviewsResponseSchema,
-  })
+  // updateReviews = this.createFetcher('/me/reviews/{id}', 'PATCH', {
+  //   query: updateReviewsQuerySchema,
+  //   response: updateReviewsResponseSchema,
+  // })
 
-  deleteReviews = this.createFetcher('/me/reviews/{id}', 'DELETE', {})
+  // deleteReviews = this.createFetcher('/me/reviews/{id}', 'DELETE', {})
 
   getActivities = this.createFetcher('/activities', 'GET', {
     query: getActivitiesQuerySchema,
     response: getActivitiesResponseSchema,
   })
 
-  getFollowingActivities = this.createFetcher('/me/following_activities', 'GET', {
-    query: getFollowingActivitiesQuerySchema,
-    response: getFollowingActivitiesResponseSchema,
-  })
+  // getFollowingActivities = this.createFetcher('/me/following_activities', 'GET', {
+  //   query: getFollowingActivitiesQuerySchema,
+  //   response: getFollowingActivitiesResponseSchema,
+  // })
 }

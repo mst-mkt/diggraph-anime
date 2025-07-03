@@ -9,6 +9,7 @@ const envVariablesSchema = object({
   AUTH_SECRET: pipe(string(), minLength(1)),
   ANNICT_CLIENT_ID: pipe(string(), minLength(1)),
   ANNICT_CLIENT_SECRET: pipe(string(), minLength(1)),
+  ANNICT_TOKEN: pipe(string(), minLength(1)),
 
   // Database
   DATABASE_URL: pipe(string(), minLength(1)),
@@ -30,6 +31,7 @@ export const {
   AUTH_SECRET,
   ANNICT_CLIENT_ID,
   ANNICT_CLIENT_SECRET,
+  ANNICT_TOKEN,
   DATABASE_URL,
   DATABASE_AUTH_TOKEN,
 } = envVariablesResult.output

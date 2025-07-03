@@ -8,6 +8,7 @@ import { SearchInput } from './_components/form/search-input'
 import { SearchTabs } from './_components/form/search-tab'
 import { SeasonSelect } from './_components/form/season-select'
 import { SortSelect } from './_components/form/sort-select'
+import { VisitorForm } from './_components/form/visitor-form'
 import { WorkListSkeleton, WorkListWrapper } from './_components/work/work-list-wrapper'
 import { loadSearchParams } from './search-params'
 
@@ -25,10 +26,10 @@ export const generateMetadata = async ({ searchParams }: SearchPageProps) => {
 }
 
 const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
-  const { q: query, t: tab, sort, order, season } = await loadSearchParams(searchParams)
+  const { q: query, t: tab, sort, order, season, visitor } = await loadSearchParams(searchParams)
   const session = await getSession()
 
-  if (session === null) redirect('/signin')
+  if (session === null && !visitor) redirect('/signin')
 
   return (
     <div className="flex flex-col gap-y-8">
@@ -39,17 +40,21 @@ const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
         </h1>
         <SearchTabs />
       </div>
-      <div className="flex flex-col gap-y-6">
-        <SearchInput />
-        <div className="flex flex-wrap gap-4 sm:flex-wrap sm:gap-4 md:flex-nowrap md:justify-start">
-          <div className="w-full sm:w-auto md:w-auto">
-            <SortSelect />
-          </div>
-          <div className="w-full sm:w-auto md:w-auto">
-            <SeasonSelect />
+      {visitor ? (
+        <VisitorForm />
+      ) : (
+        <div className="flex flex-col gap-y-6">
+          <SearchInput />
+          <div className="flex flex-wrap gap-4 sm:flex-wrap sm:gap-4 md:flex-nowrap md:justify-start">
+            <div className="w-full sm:w-auto md:w-auto">
+              <SortSelect />
+            </div>
+            <div className="w-full sm:w-auto md:w-auto">
+              <SeasonSelect />
+            </div>
           </div>
         </div>
-      </div>
+      )}
       <Suspense fallback={<WorkListSkeleton />}>
         <WorkListWrapper
           tab={tab}
@@ -57,6 +62,7 @@ const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
           sort={sort}
           order={order}
           season={season === 'all' ? undefined : `${season.year}-${season.season}`}
+          visitor={visitor}
         />
       </Suspense>
     </div>

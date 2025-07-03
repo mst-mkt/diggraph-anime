@@ -1,7 +1,14 @@
-import { createLoader, createParser, parseAsString, parseAsStringLiteral } from 'nuqs/server'
+import {
+  createLoader,
+  createParser,
+  parseAsBoolean,
+  parseAsString,
+  parseAsStringLiteral,
+} from 'nuqs/server'
 import { isSeason } from '../../../constants/text-season'
 
 export const searchSearchParams = {
+  visitor: parseAsBoolean.withDefault(false),
   q: parseAsString.withDefault('').withOptions({ shallow: false }),
   t: parseAsStringLiteral(['search', 'current_season', 'watched'])
     .withDefault('search')

@@ -1,11 +1,19 @@
 'use client'
 
-import type { SearchOrder, SearchSort } from '@/app/(main)/select/search-params'
+import {
+  type SearchOrder,
+  type SearchSort,
+  searchSearchParams,
+} from '@/app/(main)/select/search-params'
 import { getWorks } from '@/app/actions/api/get-search-works'
+import { getWorksForVisitor } from '@/app/actions/api/visitor/get-search-work'
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll'
 import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
 import { CloudAlertIcon, Loader2Icon } from 'lucide-react'
+import { redirect } from 'next/navigation'
+import { useQueryState } from 'nuqs'
 import type { FC } from 'react'
+import { P, match } from 'ts-pattern'
 import { WorkCard } from './work-card'
 
 type WorkListProps = {
@@ -20,9 +28,19 @@ type WorkListProps = {
 }
 
 export const WorkList: FC<WorkListProps> = ({ initialData, search, tab }) => {
+  const [isVisitor] = useQueryState('visitor', {
+    ...searchSearchParams.visitor,
+    defaultValue: false,
+  })
+
   const { data, hasMore, error, isLoading, triggerRef } = useInfiniteScroll<WorkWithThumbnail>({
     initialData,
-    fetchData: (page) => getWorks(tab, search, page),
+    fetchData: (page) =>
+      match([tab, isVisitor])
+        .with(['watched', true], () => redirect('/select?visitor=true'))
+        .with([P.not('watched'), true], ([tab]) => getWorksForVisitor(tab, search, page))
+        .with([P._, false], () => getWorks(tab, search, page))
+        .exhaustive(),
   })
 
   return (
@@ -30,7 +48,7 @@ export const WorkList: FC<WorkListProps> = ({ initialData, search, tab }) => {
       <div className="flex flex-col gap-4">
         {data.map((work) => (
           <div key={work.id} className="h-full w-full">
-            <WorkCard work={work} />
+            <WorkCard work={work} isVisitor={isVisitor} />
           </div>
         ))}
       </div>

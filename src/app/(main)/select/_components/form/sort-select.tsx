@@ -8,9 +8,10 @@ import {
   ClockArrowDownIcon,
   ClockArrowUpIcon,
   LoaderIcon,
+  LockIcon,
 } from 'lucide-react'
 import { useQueryState } from 'nuqs'
-import { useTransition } from 'react'
+import { type FC, useTransition } from 'react'
 import { match } from 'ts-pattern'
 import {
   Select,
@@ -23,7 +24,11 @@ import {
 } from '../../../../../components/ui/select'
 import { searchSearchParams } from '../../search-params'
 
-export const SortSelect = () => {
+type SortSelectProps = {
+  disabled?: boolean
+}
+
+export const SortSelect: FC<SortSelectProps> = ({ disabled = false }) => {
   const [isPending, startTransition] = useTransition()
   const [sort, setSort] = useQueryState('sort', {
     ...searchSearchParams.sort,
@@ -44,8 +49,15 @@ export const SortSelect = () => {
   }
 
   return (
-    <Select onValueChange={(value) => handleChange(value)} value={`${sort}:${order}`}>
-      <SelectTrigger className="w-full cursor-pointer gap-x-2 justify-self-start">
+    <Select
+      onValueChange={(value) => handleChange(value)}
+      value={`${sort}:${order}`}
+      disabled={disabled}
+    >
+      <SelectTrigger
+        className="w-full cursor-pointer gap-x-2 justify-self-start"
+        icon={disabled ? LockIcon : undefined}
+      >
         <div className="flex w-full items-center gap-x-2">
           {isPending ? (
             <LoaderIcon size={16} className="animate-spin text-muted-foreground" />

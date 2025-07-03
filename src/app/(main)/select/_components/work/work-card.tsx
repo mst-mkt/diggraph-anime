@@ -7,12 +7,13 @@ import type { FC } from 'react'
 
 type WorkCardProps = {
   work: WorkWithThumbnail
+  isVisitor: boolean
 }
 
-export const WorkCard: FC<WorkCardProps> = ({ work }) => {
+export const WorkCard: FC<WorkCardProps> = ({ work, isVisitor }) => {
   return (
     <div className="flex flex-col gap-3">
-      <Link href={`/graph?root=${work.id}`}>
+      <Link href={isVisitor ? `/graph?root=${work.id}&visitor=true` : `/graph?root=${work.id}`}>
         <div key={work.id} className="h-full rounded-xl border transition-colors hover:bg-muted">
           <div className="flex h-full flex-col sm:flex-row">
             <div className="h-full w-full flex-shrink-0 p-1.5 sm:h-auto sm:w-52">

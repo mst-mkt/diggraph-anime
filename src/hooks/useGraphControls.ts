@@ -1,13 +1,16 @@
+import { graphSearchParams } from '@/app/(app)/graph/search-params'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
 import type { VisGraphRef } from '@unovis/react'
 import type { GraphInputLink } from '@unovis/ts'
-import { useSearchParams } from 'next/navigation'
+import { useQueryState } from 'nuqs'
 import { useCallback, useMemo, useRef } from 'react'
 import type { WorkLink, WorkNode } from './useWorkGraph'
 
 export const useGraphControls = (links: WorkLink[], selectedWorkId: Work['id']) => {
   const graphRef = useRef<VisGraphRef<WorkNode, GraphInputLink>>(null)
-  const searchParams = useSearchParams()
+  const [rootId] = useQueryState('root', {
+    ...graphSearchParams.root,
+  })
 
   const getConnectedNodeIds = useCallback(
     (nodeId: string): string[] => {
@@ -25,9 +28,8 @@ export const useGraphControls = (links: WorkLink[], selectedWorkId: Work['id']) 
   )
 
   const startNodeId = useMemo(() => {
-    const rootId = searchParams.get('root')
     return rootId ? rootId.toString() : null
-  }, [searchParams])
+  }, [rootId])
 
   const onFocusSelected = useCallback(() => {
     if (graphRef.current?.component) {
