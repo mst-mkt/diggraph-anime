@@ -19,7 +19,9 @@ type WorkListWrapperProps = {
 export const WorkListWrapper: FC<WorkListWrapperProps> = async ({ tab, visitor, ...search }) => {
   const workResult = await match([tab, visitor])
     .with(['watched', true], () => null)
-    .with([P.not('watched'), true], ([tab]) => getWorksForVisitor(tab, search))
+    .with([P.not('watched'), true], ([tab]) =>
+      getWorksForVisitor(tab, { query: '', sort: 'watchers', order: 'desc' }),
+    )
     .with([P._, false], () => getWorks(tab, search))
     .exhaustive()
 
