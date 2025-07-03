@@ -1,11 +1,13 @@
+import type { Graph } from '@/app/actions/db/graph'
 import { sql } from 'drizzle-orm'
 import { sqliteTable } from 'drizzle-orm/sqlite-core'
+import { nanoid } from 'nanoid'
 
 export const users = sqliteTable('user', (d) => ({
   id: d
     .text('id')
     .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
+    .$defaultFn(() => nanoid()),
   name: d.text('name').notNull(),
   email: d.text('email').unique().notNull(),
   emailVerified: d.integer('emailVerified', { mode: 'boolean' }).default(false),
@@ -17,7 +19,8 @@ export const users = sqliteTable('user', (d) => ({
   updatedAt: d
     .integer('updatedAt', { mode: 'timestamp_ms' })
     .notNull()
-    .default(sql`(current_timestamp)`),
+    .default(sql`(current_timestamp)`)
+    .$onUpdate(() => new Date()),
 }))
 
 export const accounts = sqliteTable('account', (d) => ({
@@ -41,7 +44,8 @@ export const accounts = sqliteTable('account', (d) => ({
   updatedAt: d
     .integer('updatedAt', { mode: 'timestamp_ms' })
     .notNull()
-    .default(sql`(current_timestamp)`),
+    .default(sql`(current_timestamp)`)
+    .$onUpdate(() => new Date()),
 }))
 
 export const sessions = sqliteTable('session', (d) => ({
@@ -61,7 +65,8 @@ export const sessions = sqliteTable('session', (d) => ({
   updatedAt: d
     .integer('updatedAt', { mode: 'timestamp_ms' })
     .notNull()
-    .default(sql`(current_timestamp)`),
+    .default(sql`(current_timestamp)`)
+    .$onUpdate(() => new Date()),
 }))
 
 export const verifications = sqliteTable('verification', (d) => ({
@@ -77,4 +82,27 @@ export const verifications = sqliteTable('verification', (d) => ({
     .integer('updatedAt', { mode: 'timestamp_ms' })
     .notNull()
     .default(sql`(current_timestamp)`),
+}))
+
+export const savedGraphs = sqliteTable('saved_graph', (d) => ({
+  id: d
+    .text('id')
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
+  graph: d.text('graph', { mode: 'json' }).$type<Graph>().notNull(),
+  userId: d
+    .text('userId')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  title: d.text('title').notNull(),
+  public: d.integer('public', { mode: 'boolean' }).notNull().default(false),
+  createdAt: d
+    .integer('createdAt', { mode: 'timestamp_ms' })
+    .notNull()
+    .default(sql`(current_timestamp)`),
+  updatedAt: d
+    .integer('updatedAt', { mode: 'timestamp_ms' })
+    .notNull()
+    .default(sql`(current_timestamp)`)
+    .$onUpdate(() => new Date()),
 }))
