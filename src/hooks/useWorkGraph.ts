@@ -1,5 +1,6 @@
 import { graphSearchParams } from '@/app/(app)/graph/search-params'
 import { getRelatedWorks } from '@/app/actions/api/get-related-works'
+import { getRelatedWorksForVisitor } from '@/app/actions/api/visitor/get-related-works'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
 import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
 import { useQueryState } from 'nuqs'
@@ -38,6 +39,7 @@ export const useWorkGraph = (
     defaultValue: initialWork.id,
   })
   const [expandedWorkIds, setExpandedWorkIds] = useState<Set<Work['id']>>(new Set([initialWork.id]))
+  const [isVisitor] = useQueryState('visitor', graphSearchParams.visitor)
 
   const nodes = useMemo<WorkNode[]>(() => {
     return Object.entries(works).map(([_, work]) => ({
@@ -65,7 +67,10 @@ export const useWorkGraph = (
       }
 
       setPendingWorkId(annictId)
-      const relatedWorks = await getRelatedWorks(malId)
+      const relatedWorks = await match(isVisitor)
+        .with(true, () => getRelatedWorksForVisitor(malId))
+        .with(false, () => getRelatedWorks(malId))
+        .exhaustive()
 
       setSelectedWorkId(annictId)
       setPendingWorkId(null)
@@ -86,7 +91,7 @@ export const useWorkGraph = (
         return newSet
       })
     },
-    [expandedWorkIds, setSelectedWorkId, pendingWorkId],
+    [expandedWorkIds, setSelectedWorkId, pendingWorkId, isVisitor],
   )
 
   const selectedWork = useMemo(

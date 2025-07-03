@@ -28,7 +28,10 @@ type WorkListProps = {
 }
 
 export const WorkList: FC<WorkListProps> = ({ initialData, search, tab }) => {
-  const [isVisitor] = useQueryState('visitor', searchSearchParams.visitor)
+  const [isVisitor] = useQueryState('visitor', {
+    ...searchSearchParams.visitor,
+    defaultValue: false,
+  })
 
   const { data, hasMore, error, isLoading, triggerRef } = useInfiniteScroll<WorkWithThumbnail>({
     initialData,
@@ -45,7 +48,7 @@ export const WorkList: FC<WorkListProps> = ({ initialData, search, tab }) => {
       <div className="flex flex-col gap-4">
         {data.map((work) => (
           <div key={work.id} className="h-full w-full">
-            <WorkCard work={work} />
+            <WorkCard work={work} isVisitor={isVisitor} />
           </div>
         ))}
       </div>
