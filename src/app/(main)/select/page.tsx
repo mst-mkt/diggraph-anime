@@ -25,10 +25,10 @@ export const generateMetadata = async ({ searchParams }: SearchPageProps) => {
 }
 
 const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
-  const { q: query, t: tab, sort, order, season } = await loadSearchParams(searchParams)
+  const { q: query, t: tab, sort, order, season, visitor } = await loadSearchParams(searchParams)
   const session = await getSession()
 
-  if (session === null) redirect('/signin')
+  if (session === null && !visitor) redirect('/signin')
 
   return (
     <div className="flex flex-col gap-y-8">
@@ -57,6 +57,7 @@ const SearchPage: FC<SearchPageProps> = async ({ searchParams }) => {
           sort={sort}
           order={order}
           season={season === 'all' ? undefined : `${season.year}-${season.season}`}
+          visitor={visitor}
         />
       </Suspense>
     </div>

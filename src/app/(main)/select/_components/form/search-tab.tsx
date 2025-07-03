@@ -13,6 +13,10 @@ export const SearchTabs = () => {
     history: 'push',
     startTransition,
   })
+  const [isVisitor] = useQueryState('visitor', {
+    ...searchSearchParams.visitor,
+    defaultValue: false,
+  })
 
   return (
     <div className="scrollbar-thin flex w-fit max-w-full scroll-p-1 self-start overflow-x-auto rounded-lg bg-muted p-1 ring-2 ring-muted">
@@ -40,18 +44,20 @@ export const SearchTabs = () => {
       >
         放送中
       </button>
-      <button
-        type="button"
-        onClick={() => setTab('watched')}
-        className={cn(
-          'w-fit cursor-pointer break-keep rounded-md px-3 py-2 font-bold text-muted-foreground text-sm transition-colors hover:text-foreground-300',
-          tab === 'watched' &&
-            'cursor-default bg-background text-foreground shadow-xs hover:text-foreground',
-          tab === 'watched' && isPending && 'animate-pulse',
-        )}
-      >
-        視聴済
-      </button>
+      {!isVisitor && (
+        <button
+          type="button"
+          onClick={() => setTab('watched')}
+          className={cn(
+            'w-fit cursor-pointer break-keep rounded-md px-3 py-2 font-bold text-muted-foreground text-sm transition-colors hover:text-foreground-300',
+            tab === 'watched' &&
+              'cursor-default bg-background text-foreground shadow-xs hover:text-foreground',
+            tab === 'watched' && isPending && 'animate-pulse',
+          )}
+        >
+          視聴済
+        </button>
+      )}
     </div>
   )
 }
