@@ -1,5 +1,4 @@
 import { getAccessToken } from '@/lib/auth/accessToken'
-import { getSession } from '@/lib/auth/session'
 import { type Result, err, ok } from '@/lib/result'
 import type { BaseIssue, BaseSchema, InferInput, InferOutput } from 'valibot'
 import {

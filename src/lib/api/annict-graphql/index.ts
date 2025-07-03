@@ -1,6 +1,5 @@
 import { ANNICT_API_BASEURL } from '@/constants/annict'
 import { getAccessToken } from '@/lib/auth/accessToken'
-import { getSession } from '@/lib/auth/session'
 import { createClient, fetchExchange } from '@urql/core'
 
 export const annictGraphqlClient = createClient({
