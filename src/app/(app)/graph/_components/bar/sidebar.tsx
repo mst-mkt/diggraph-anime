@@ -9,7 +9,6 @@ import { Undo2Icon } from 'lucide-react'
 import Link from 'next/link'
 import { useQueryState } from 'nuqs'
 import { type FC, useState } from 'react'
-import { graphSearchParams } from '../../search-params'
 import { SaveDialog } from './save-dialog'
 import { SavedListDialog } from './saved-list-dialog'
 
@@ -30,17 +29,11 @@ export const Sidebar: FC<SidebarProps> = ({
   onGraphChange,
 }) => {
   const [graphs, setGraphs] = useState(isOk(savedGraphsResult) ? savedGraphsResult.value : [])
-  const [_, setUrlId] = useQueryState('id', { ...graphSearchParams.root })
 
   const saveGraph = async (title: string, publicGraph?: boolean) => {
     const result = await save(title, publicGraph)
     if (isOk(result)) setGraphs((prev) => [result.value, ...prev])
     return result
-  }
-
-  const setGraph = (graph: Graph) => {
-    onGraphChange(graph)
-    setUrlId(graph.rootWorkId)
   }
 
   return (
@@ -57,7 +50,9 @@ export const Sidebar: FC<SidebarProps> = ({
       </Tooltip>
       <Separator />
       <SaveDialog save={saveGraph} rootTitle={rootTitle} />
-      {isOk(savedGraphsResult) && <SavedListDialog savedGraphs={graphs} onGraphChange={setGraph} />}
+      {isOk(savedGraphsResult) && (
+        <SavedListDialog savedGraphs={graphs} onGraphChange={onGraphChange} />
+      )}
     </div>
   )
 }
