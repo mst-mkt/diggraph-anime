@@ -2,6 +2,7 @@ import { getRelatedWorks } from '@/app/actions/api/get-related-works'
 import { getWork } from '@/app/actions/api/get-work'
 import { getRelatedWorksForVisitor } from '@/app/actions/api/visitor/get-related-works'
 import { getWorkForVisitor } from '@/app/actions/api/visitor/get-work'
+import { getCollections } from '@/app/actions/db/collection'
 import { getGraph, getGraphs } from '@/app/actions/db/graph'
 import { getSession } from '@/lib/auth/session'
 import { isErr, ok } from '@/lib/result'
@@ -32,6 +33,10 @@ const GraphPage: FC<GraphPageProps> = async ({ searchParams }) => {
     .with(true, () => ok([]))
     .with(false, () => getGraphs())
     .exhaustive()
+  const collectionsResult = await match(visitor)
+    .with(true, () => ok([]))
+    .with(false, () => getCollections())
+    .exhaustive()
 
   if (rootWorkId === null && id === null) {
     redirect('/')
@@ -46,7 +51,11 @@ const GraphPage: FC<GraphPageProps> = async ({ searchParams }) => {
 
     return (
       <div className="h-full">
-        <Panels savedGraphsResult={savedGraphsResult} {...graphResult.value.graph} />
+        <Panels
+          savedGraphsResult={savedGraphsResult}
+          collectionsResult={collectionsResult}
+          {...graphResult.value.graph}
+        />
         <Suspense>
           <WorkTrailer currentWorkId={currentWorkId ?? 0} />
         </Suspense>
@@ -75,6 +84,7 @@ const GraphPage: FC<GraphPageProps> = async ({ searchParams }) => {
         work={initialWork}
         relatedWorks={initialRelatedWorks}
         savedGraphsResult={savedGraphsResult}
+        collectionsResult={collectionsResult}
       />
       <Suspense>
         <WorkTrailer currentWorkId={currentWorkId ?? initialWork.id} />
