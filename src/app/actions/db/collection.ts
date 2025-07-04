@@ -99,6 +99,16 @@ export const addCollectionItem = async (
     return err('Unauthorized')
   }
 
+  const [collection] = await dbClient
+    .select()
+    .from(collections)
+    .where(and(eq(collections.id, collectionId), eq(collections.userId, session.user.id)))
+    .limit(1)
+
+  if (collection === undefined) {
+    return err('Collection not found')
+  }
+
   const [item] = await dbClient
     .insert(collectionItems)
     .values({
