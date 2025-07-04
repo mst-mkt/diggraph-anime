@@ -46,17 +46,15 @@ export const createGraph = async (graph: Graph, title: string, publicGraph = fal
 export const getGraph = async (id: string) => {
   const session = await getSession()
 
-  if (session === null) {
-    return err('Unauthorized')
-  }
-
   const [graph] = await dbClient
     .select()
     .from(savedGraphs)
     .where(
       and(
         eq(savedGraphs.id, id),
-        or(eq(savedGraphs.userId, session.user.id), eq(savedGraphs.public, true)),
+        session === null
+          ? eq(savedGraphs.public, true)
+          : or(eq(savedGraphs.userId, session?.user.id), eq(savedGraphs.public, true)),
       ),
     )
 

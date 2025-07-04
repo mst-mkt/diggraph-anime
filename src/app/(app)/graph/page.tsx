@@ -33,9 +33,11 @@ const GraphPage: FC<GraphPageProps> = async ({ searchParams }) => {
     .with(false, () => getGraphs())
     .exhaustive()
 
-  if (rootWorkId === null) {
-    if (id === null) redirect('/')
+  if (rootWorkId === null && id === null) {
+    redirect('/')
+  }
 
+  if (id !== null) {
     const graphResult = await getGraph(id)
 
     if (isErr(graphResult)) {
@@ -53,8 +55,8 @@ const GraphPage: FC<GraphPageProps> = async ({ searchParams }) => {
   }
 
   const initialWork = await match(visitor)
-    .with(true, () => getWorkForVisitor(rootWorkId))
-    .with(false, () => getWork(rootWorkId))
+    .with(true, () => getWorkForVisitor(rootWorkId ?? 2277))
+    .with(false, () => getWork(rootWorkId ?? 2277))
     .exhaustive()
 
   if (initialWork === null) {

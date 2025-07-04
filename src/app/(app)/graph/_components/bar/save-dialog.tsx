@@ -53,7 +53,7 @@ export const SaveDialog: FC<SaveDialogProps> = ({ save, rootTitle }) => {
 
     const baseUrl = window.location.origin
     const graphId = savedData.id
-    return `${baseUrl}/graph?id=${graphId}`
+    return `${baseUrl}/graph?id=${graphId}&visitor=true`
   }, [savedData])
 
   const handleCopyLink = () => {
