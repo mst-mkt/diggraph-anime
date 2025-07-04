@@ -73,8 +73,15 @@ export const SaveDialog: FC<SaveDialogProps> = ({ save, rootTitle }) => {
       })
   }
 
+  const handleCloseDialog = (open: boolean) => {
+    if (open) return
+    setPublicGraph(false)
+    setSavedData(undefined)
+    setUrlId(null)
+  }
+
   return (
-    <Dialog>
+    <Dialog onOpenChange={handleCloseDialog}>
       <Tooltip>
         <TooltipTrigger asChild={true}>
           <DialogTrigger asChild={true}>
