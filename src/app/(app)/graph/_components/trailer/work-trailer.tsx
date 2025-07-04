@@ -1,7 +1,7 @@
 import { getWorkTrailer } from '@/app/actions/api/get-work-trailer'
 import { annictToMal } from '@/lib/anime-id'
-import { cn } from '@/lib/classnames'
 import type { FC } from 'react'
+import { Trailer } from './trailer.client'
 
 type WorkTrailerProps = {
   currentWorkId: number
@@ -23,18 +23,5 @@ export const WorkTrailer: FC<WorkTrailerProps> = async ({ currentWorkId }) => {
     return url.toString()
   })()
 
-  return (
-    <div
-      className={cn(
-        'fixed right-4 bottom-4 hidden h-50 rounded-lg bg-background p-2 shadow-[0_0_4px] shadow-foreground/24 transition-opacity sm:block',
-        trailerUrl === undefined && 'pointer-events-none opacity-0',
-      )}
-    >
-      <iframe
-        src={trailerUrl ?? 'https://www.youtube.com/embed'}
-        title="trailer"
-        className="aspect-video h-full rounded-md"
-      />
-    </div>
-  )
+  return <Trailer url={trailerUrl} />
 }
