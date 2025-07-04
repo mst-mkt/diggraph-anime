@@ -1,7 +1,7 @@
 import { graphSearchParams } from '@/app/(app)/graph/search-params'
 import { getRelatedWorks } from '@/app/actions/api/get-related-works'
 import { getRelatedWorksForVisitor } from '@/app/actions/api/visitor/get-related-works'
-import { createGraph } from '@/app/actions/db/graph'
+import { type Graph, createGraph } from '@/app/actions/db/graph'
 import type { Work } from '@/lib/api/annict-rest/schema/works'
 import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
 import { useQueryState } from 'nuqs'
@@ -21,25 +21,44 @@ export type WorkLink = {
 }
 
 export const useWorkGraph = (
-  initialWork: WorkWithThumbnail,
-  initialRelatedWorks: WorkWithThumbnail[],
+  initialData:
+    | {
+        work: WorkWithThumbnail
+        relatedWorks: WorkWithThumbnail[]
+      }
+    | Graph,
 ) => {
-  const [works, setWorks] = useState<Record<string, WorkWithThumbnail>>({
-    [initialWork.id.toString()]: initialWork,
-    ...Object.fromEntries(initialRelatedWorks.map((work) => [work.id.toString(), work])),
-  })
+  const [works, setWorks] = useState<Record<string, WorkWithThumbnail>>(
+    initialData instanceof Object && 'work' in initialData
+      ? {
+          [initialData.work.id.toString()]: initialData.work,
+          ...Object.fromEntries(initialData.relatedWorks.map((work) => [work.id.toString(), work])),
+        }
+      : initialData.works,
+  )
   const [links, setLinks] = useState<WorkLink[]>(
-    initialRelatedWorks.map((work) => ({
-      source: initialWork.id.toString(),
-      target: work.id.toString(),
-    })),
+    initialData instanceof Object && 'work' in initialData
+      ? initialData.relatedWorks.map((work) => ({
+          source: initialData.work.id.toString(),
+          target: work.id.toString(),
+        }))
+      : initialData.links,
   )
   const [pendingWorkId, setPendingWorkId] = useState<Work['id'] | null>(null)
   const [selectedWorkId, setSelectedWorkId] = useQueryState<Work['id']>('current', {
     ...graphSearchParams.current,
-    defaultValue: initialWork.id,
+    defaultValue:
+      initialData instanceof Object && 'work' in initialData
+        ? initialData.work.id
+        : initialData.selectedWorkId,
   })
-  const [expandedWorkIds, setExpandedWorkIds] = useState<Set<Work['id']>>(new Set([initialWork.id]))
+  const [expandedWorkIds, setExpandedWorkIds] = useState<Set<Work['id']>>(
+    new Set(
+      initialData instanceof Object && 'work' in initialData
+        ? [initialData.work.id]
+        : initialData.expandedWorkIds,
+    ),
+  )
   const [isVisitor] = useQueryState('visitor', graphSearchParams.visitor)
 
   const nodes = useMemo<WorkNode[]>(() => {
@@ -103,25 +122,36 @@ export const useWorkGraph = (
           links,
           selectedWorkId,
           expandedWorkIds: Array.from(expandedWorkIds),
+          rootWorkId:
+            initialData instanceof Object && 'work' in initialData
+              ? initialData.work.id
+              : initialData.rootWorkId,
         },
         title,
         publicGraph,
       )
     },
-    [works, links, selectedWorkId, expandedWorkIds],
+    [works, links, selectedWorkId, expandedWorkIds, initialData],
   )
 
   const selectedWork = useMemo(
-    () => works[selectedWorkId] ?? initialWork,
-    [works, initialWork, selectedWorkId],
+    () =>
+      works[selectedWorkId] ??
+      (initialData instanceof Object && 'work' in initialData
+        ? initialData.work
+        : initialData.works[selectedWorkId]),
+    [works, selectedWorkId, initialData],
   )
   const selectedWorkRelatedWorks = useMemo(() => {
-    const currentWork = works[selectedWorkId] ?? initialWork
-
     return links
-      .filter((link) => link.source === currentWork.id.toString())
+      .filter((link) => link.source === selectedWork.id.toString())
       .map((link) => works[link.target])
-  }, [links, selectedWorkId, works, initialWork])
+  }, [links, selectedWork.id, works])
+  const rootWork = useMemo(() => {
+    return initialData instanceof Object && 'work' in initialData
+      ? initialData.work
+      : works[initialData.rootWorkId]
+  }, [initialData, works])
 
   return {
     graph: { nodes, links },
@@ -129,5 +159,6 @@ export const useWorkGraph = (
     save,
     selectedWork,
     selectedWorkRelatedWorks,
+    rootWork,
   }
 }

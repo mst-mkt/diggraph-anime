@@ -1,5 +1,6 @@
 'use client'
 
+import type { Graph } from '@/app/actions/db/graph'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { useMobile } from '@/hooks/useMobile'
 import { useWorkGraph } from '@/hooks/useWorkGraph'
@@ -12,25 +13,25 @@ import { WorkInfo } from './anime/work-info'
 import { Sidebar } from './bar/sidebar'
 import { WorkGraph } from './graph/graph'
 
-type PanelProps = {
-  initialWork: WorkWithThumbnail
-  initialRelatedWorks: WorkWithThumbnail[]
-}
+type PanelProps =
+  | {
+      work: WorkWithThumbnail
+      relatedWorks: WorkWithThumbnail[]
+    }
+  | Graph
 
-export const Panels: FC<PanelProps> = ({ initialWork, initialRelatedWorks }) => {
+export const Panels: FC<PanelProps> = (initialdata) => {
   const isMobile = useMobile()
   const [isVisitor] = useQueryState('visitor', {
     ...graphSearchParams.visitor,
     defaultValue: false,
   })
-  const { selectedWork, selectedWorkRelatedWorks, expand, save, graph } = useWorkGraph(
-    initialWork,
-    initialRelatedWorks,
-  )
+  const { selectedWork, selectedWorkRelatedWorks, rootWork, expand, save, graph } =
+    useWorkGraph(initialdata)
 
   return (
     <div className="flex h-full w-full">
-      {!(isMobile || isVisitor) && <Sidebar save={save} rootTitle={initialWork.title} />}
+      {!(isMobile || isVisitor) && <Sidebar save={save} rootTitle={rootWork.title} />}
       <ResizablePanelGroup direction={isMobile ? 'vertical' : 'horizontal'}>
         <ResizablePanel minSize={50}>
           <WorkGraph

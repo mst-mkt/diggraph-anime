@@ -7,12 +7,14 @@ import type { Work } from '@/lib/api/annict-rest/schema/works'
 import { getSession } from '@/lib/auth/session'
 import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
 import { err, ok } from '@/lib/result'
+import { and, eq, or } from 'drizzle-orm'
 
 export type Graph = {
   works: Record<string, WorkWithThumbnail>
   links: WorkLink[]
   selectedWorkId: Work['id']
   expandedWorkIds: Work['id'][]
+  rootWorkId: Work['id']
 }
 
 export const createGraph = async (graph: Graph, title: string, publicGraph = false) => {
@@ -38,4 +40,28 @@ export const createGraph = async (graph: Graph, title: string, publicGraph = fal
     console.error('Failed to save graph:', error)
     return err('Failed to save graph')
   }
+}
+
+export const getGraph = async (id: string) => {
+  const session = await getSession()
+
+  if (session === null) {
+    return err('Unauthorized')
+  }
+
+  const [graph] = await dbClient
+    .select()
+    .from(savedGraphs)
+    .where(
+      and(
+        eq(savedGraphs.id, id),
+        or(eq(savedGraphs.userId, session.user.id), eq(savedGraphs.public, true)),
+      ),
+    )
+
+  if (graph === undefined) {
+    return err('Graph not found')
+  }
+
+  return ok(graph)
 }
