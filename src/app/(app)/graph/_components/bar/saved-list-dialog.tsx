@@ -12,7 +12,9 @@ import type { savedGraphs } from '@/db/schema'
 import { timeText } from '@/lib/time-text'
 import type { InferSelectModel } from 'drizzle-orm'
 import { FoldersIcon, ImageOffIcon, LockIcon, OrigamiIcon } from 'lucide-react'
+import { useQueryState } from 'nuqs'
 import type { FC } from 'react'
+import { graphSearchParams } from '../../search-params'
 
 type SavedListDialogProps = {
   savedGraphs: InferSelectModel<typeof savedGraphs>[]
@@ -20,6 +22,15 @@ type SavedListDialogProps = {
 }
 
 export const SavedListDialog: FC<SavedListDialogProps> = ({ savedGraphs, onGraphChange }) => {
+  const [_, setUrlId] = useQueryState('id', {
+    ...graphSearchParams.id,
+  })
+
+  const handleGraphChange = (graph: Graph, id: string) => {
+    onGraphChange(graph)
+    setUrlId(id)
+  }
+
   return (
     <Dialog>
       <Tooltip>
@@ -51,8 +62,8 @@ export const SavedListDialog: FC<SavedListDialogProps> = ({ savedGraphs, onGraph
                 key={graph.id}
                 type="button"
                 className="-mx-2 flex items-center gap-x-4 rounded-lg p-2 transition-colors hover:bg-muted"
-                onClick={() => onGraphChange(graph.graph)}
-                onKeyDown={(e) => e.key === 'Enter' && onGraphChange(graph.graph)}
+                onClick={() => handleGraphChange(graph.graph, graph.id)}
+                onKeyDown={(e) => e.key === 'Enter' && handleGraphChange(graph.graph, graph.id)}
               >
                 <div className="relative h-16 w-16">
                   {graph.graph.thumbnail !== null ? (
