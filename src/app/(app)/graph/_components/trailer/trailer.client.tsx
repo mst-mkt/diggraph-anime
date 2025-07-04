@@ -8,7 +8,7 @@ type TrailerProps = {
 }
 
 export const Trailer: FC<TrailerProps> = ({ url }) => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
 
   return (
     <div
