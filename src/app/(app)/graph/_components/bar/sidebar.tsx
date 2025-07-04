@@ -40,7 +40,7 @@ export const Sidebar: FC<SidebarProps> = ({
     <div className="flex h-full w-12 flex-col items-stretch gap-y-1 border-border border-r p-1">
       <Tooltip>
         <TooltipTrigger asChild={true}>
-          <Button variant="ghost" className="aspect-square h-auto cursor-pointer items-center">
+          <Button variant="ghost" className="aspect-square h-auto cursor-pointer items-center" asChild>
             <Link href="/select">
               <Undo2Icon className="!h-5 !w-5 text-foreground" />
             </Link>
