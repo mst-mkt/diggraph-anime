@@ -7,9 +7,14 @@ import { match } from 'ts-pattern'
 type CollectionThumbnailProps = {
   collection: Collection
   className?: string
+  iconClassName?: string
 }
 
-export const CollectionThumbnail: FC<CollectionThumbnailProps> = ({ collection, className }) => {
+export const CollectionThumbnail: FC<CollectionThumbnailProps> = ({
+  collection,
+  className,
+  iconClassName,
+}) => {
   const itemsWithThumbnail = collection.items.filter((item) => item.thumbnail !== null)
   const thumbnailLayout = useMemo(() => {
     if (itemsWithThumbnail.length === 0) return 'none'
@@ -26,7 +31,7 @@ export const CollectionThumbnail: FC<CollectionThumbnailProps> = ({ collection, 
           className,
         )}
       >
-        <ImageOffIcon size={48} className="!w-6 !h-6" />
+        <ImageOffIcon size={48} className={cn('!w-6 !h-6', iconClassName)} />
       </div>
     ))
     .with('single', () => (

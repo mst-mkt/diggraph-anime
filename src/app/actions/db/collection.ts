@@ -4,7 +4,7 @@ import { dbClient } from '@/db/client'
 import { collectionItems, collections } from '@/db/schema'
 import { getSession } from '@/lib/auth/session'
 import { err, ok } from '@/lib/result'
-import { desc, eq } from 'drizzle-orm'
+import { and, desc, eq } from 'drizzle-orm'
 
 export const createCollection = async (name: string, description: string) => {
   const session = await getSession()
@@ -23,6 +23,31 @@ export const createCollection = async (name: string, description: string) => {
     .returning()
 
   return ok(collection)
+}
+
+export const getCollection = async (id: string) => {
+  const session = await getSession()
+
+  if (session === null) {
+    return err('Unauthorized')
+  }
+
+  const collectionsList = await dbClient
+    .select()
+    .from(collections)
+    .leftJoin(collectionItems, eq(collections.id, collectionItems.collectionId))
+    .where(and(eq(collections.id, id), eq(collections.userId, session.user.id)))
+
+  if (collectionsList.length === 0) {
+    return err('Collection not found')
+  }
+
+  const collectionWithItems = {
+    ...collectionsList[0].collection,
+    items: collectionsList.map((item) => item.collection_item).filter((item) => item !== null),
+  }
+
+  return ok(collectionWithItems)
 }
 
 export const getCollections = async () => {
