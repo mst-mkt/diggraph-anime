@@ -65,7 +65,7 @@ export const Panels: FC<PanelProps> = ({
             count={count}
           />
         </ResizablePanel>
-        <ResizableHandle />
+        <ResizableHandle withHandle={true} />
         <ResizablePanel className="@container/panel">
           <div className="scrollbar-thin flex h-full min-w-0 flex-col gap-y-8 overflow-y-scroll p-4 sm:min-w-80 sm:pb-64">
             <WorkInfo
