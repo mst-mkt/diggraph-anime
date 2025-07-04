@@ -35,7 +35,7 @@ const SignInPage = async () => {
           </li>
           <li className="flex items-center gap-x-2">
             <HeartPlusIcon size={20} className="text-diggraph-accent" />
-            <span>気になった作品をお気に入りに追加</span>
+            <span>気になった作品をコレクションに追加</span>
           </li>
           <li className="flex items-center gap-x-2">
             <SaveIcon size={20} className="text-diggraph-accent" />
