@@ -77,7 +77,7 @@ export const getGraphs = async () => {
   const graphs = await dbClient
     .select()
     .from(savedGraphs)
-    .where(or(eq(savedGraphs.userId, session.user.id)))
+    .where(eq(savedGraphs.userId, session.user.id))
     .orderBy(desc(savedGraphs.createdAt))
 
   return ok(graphs)
