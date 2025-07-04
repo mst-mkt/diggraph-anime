@@ -2,15 +2,30 @@
 
 import { VisGraph, VisSingleContainer } from '@unovis/react'
 import { GraphLayoutType } from '@unovis/ts'
+import { useEffect, useState } from 'react'
 
-export const Graph = () => {
-  const randomNode = [...Array(100)].map((_, i) => ({
-    id: i.toString(),
-  }))
-  const randomLink = [...Array(100)].map((_, i) => ({
+const getRandomLink = () => {
+  return [...Array(100)].map((_, i) => ({
     source: i.toString(),
     target: Math.floor(Math.random() * 100).toString(),
   }))
+}
+
+export const Graph = () => {
+  const [randomNode] = useState(
+    [...Array(100)].map((_, i) => ({
+      id: i.toString(),
+    })),
+  )
+  const [randomLink, setRandomLink] = useState(getRandomLink())
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setRandomLink(getRandomLink())
+    }, 5000)
+
+    return () => clearInterval(intervalId)
+  }, [])
 
   return (
     <VisSingleContainer
