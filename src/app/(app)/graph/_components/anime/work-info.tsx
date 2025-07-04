@@ -24,10 +24,10 @@ export const WorkInfo: FC<WorkInfoProps> = ({ work, isVisitor }) => {
 
   return (
     <div className="flex flex-col gap-y-8">
-      <div className="flex @md/panel:flex-row flex-col gap-8">
+      <div className="flex @lg/panel:flex-row flex-col gap-8">
         <WorkThumbnail
           work={work}
-          className="@md/panel:aspect-square aspect-video @md/panel:w-32 w-full shrink-0 sm:@md/panel:w-48"
+          className="aspect-video @lg/panel:w-32 w-full shrink-0 sm:@lg/panel:w-60"
         />
         <div className="flex min-w-0 grow flex-col justify-center gap-y-1">
           <h2 className="line-clamp-2 font-bold text-lg">{work.title}</h2>
@@ -52,16 +52,16 @@ export const WorkInfo: FC<WorkInfoProps> = ({ work, isVisitor }) => {
             <div className="flex items-center gap-x-2 text-sm">
               <BinocularsIcon size={20} className="text-muted-foreground" />
               <span>{work.watchers_count}</span>
-              <span className="@lg/panel:inline hidden text-muted-foreground text-xs">
+              <span className="@xl/panel:inline hidden text-muted-foreground text-xs">
                 人が視聴中
               </span>
             </div>
             {work.episodes_count > 0 && (
               <div className="flex items-center gap-x-2 text-sm">
                 <ClapperboardIcon size={20} className="text-muted-foreground" />
-                <span className="@lg/panel:inline hidden text-muted-foreground text-xs">全</span>
+                <span className="@xl/panel:inline hidden text-muted-foreground text-xs">全</span>
                 <span>{work.episodes_count}</span>
-                <span className="@lg/panel:inline hidden text-muted-foreground text-xs">
+                <span className="@xl/panel:inline hidden text-muted-foreground text-xs">
                   エピソード
                 </span>
               </div>
