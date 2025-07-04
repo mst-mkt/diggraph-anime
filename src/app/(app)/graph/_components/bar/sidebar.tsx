@@ -1,7 +1,12 @@
 import type { Graph } from '@/app/actions/db/graph'
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import type { savedGraphs } from '@/db/schema'
 import { type Result, isOk } from '@/lib/result'
 import type { InferSelectModel } from 'drizzle-orm'
+import { Undo2Icon } from 'lucide-react'
+import Link from 'next/link'
 import { useQueryState } from 'nuqs'
 import { type FC, useState } from 'react'
 import { graphSearchParams } from '../../search-params'
@@ -40,6 +45,17 @@ export const Sidebar: FC<SidebarProps> = ({
 
   return (
     <div className="flex h-full w-12 flex-col items-stretch gap-y-1 border-border border-r p-1">
+      <Tooltip>
+        <TooltipTrigger asChild={true}>
+          <Button variant="ghost" className="aspect-square h-auto cursor-pointer items-center">
+            <Link href="/select">
+              <Undo2Icon className="!h-5 !w-5 text-foreground" />
+            </Link>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="right">作品選択に戻る</TooltipContent>
+      </Tooltip>
+      <Separator />
       <SaveDialog save={saveGraph} rootTitle={rootTitle} />
       {isOk(savedGraphsResult) && <SavedListDialog savedGraphs={graphs} onGraphChange={setGraph} />}
     </div>
