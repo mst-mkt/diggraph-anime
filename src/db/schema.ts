@@ -1,6 +1,6 @@
 import type { Graph } from '@/app/actions/db/graph'
 import { sql } from 'drizzle-orm'
-import { sqliteTable } from 'drizzle-orm/sqlite-core'
+import { primaryKey, sqliteTable } from 'drizzle-orm/sqlite-core'
 import { nanoid } from 'nanoid'
 
 export const users = sqliteTable('user', (d) => ({
@@ -129,15 +129,15 @@ export const collections = sqliteTable('collection', (d) => ({
     .$onUpdate(() => new Date()),
 }))
 
-export const collectionItems = sqliteTable('collection_item', (d) => ({
-  id: d
-    .text('id')
-    .primaryKey()
-    .$defaultFn(() => nanoid()),
-  collectionId: d
-    .text('collectionId')
-    .notNull()
-    .references(() => collections.id, { onDelete: 'cascade' }),
-  annictId: d.integer('annictId').notNull(),
-  thumbnail: d.text('thumbnail').notNull(),
-}))
+export const collectionItems = sqliteTable(
+  'collection_item',
+  (d) => ({
+    collectionId: d
+      .text('collectionId')
+      .notNull()
+      .references(() => collections.id, { onDelete: 'cascade' }),
+    annictId: d.integer('annictId').notNull(),
+    thumbnail: d.text('thumbnail'),
+  }),
+  (t) => [primaryKey({ name: 'collection_item_pk', columns: [t.collectionId, t.annictId] })],
+)
