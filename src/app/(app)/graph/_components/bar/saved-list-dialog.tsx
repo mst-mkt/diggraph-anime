@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import type { savedGraphs } from '@/db/schema'
 import { timeText } from '@/lib/time-text'
 import type { InferSelectModel } from 'drizzle-orm'
@@ -21,11 +22,16 @@ type SavedListDialogProps = {
 export const SavedListDialog: FC<SavedListDialogProps> = ({ savedGraphs, onGraphChange }) => {
   return (
     <Dialog>
-      <DialogTrigger asChild={true}>
-        <Button variant="ghost" className="aspect-square h-auto cursor-pointer items-center">
-          <FoldersIcon className="!h-5 !w-5 text-foreground" />
-        </Button>
-      </DialogTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild={true}>
+          <DialogTrigger asChild={true}>
+            <Button variant="ghost" className="aspect-square h-auto cursor-pointer items-center">
+              <FoldersIcon className="!h-5 !w-5 text-foreground" />
+            </Button>
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent side="right">保存されたグラフを表示</TooltipContent>
+      </Tooltip>
       <DialogContent className="scrollbar-thin max-h-[92svh] gap-y-8 overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-x-2">

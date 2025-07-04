@@ -9,6 +9,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import type { savedGraphs } from '@/db/schema'
 import { type Result, isErr } from '@/lib/result'
 import type { InferInsertModel } from 'drizzle-orm'
@@ -74,11 +75,16 @@ export const SaveDialog: FC<SaveDialogProps> = ({ save, rootTitle }) => {
 
   return (
     <Dialog>
-      <DialogTrigger asChild={true}>
-        <Button variant="ghost" className="aspect-square h-auto cursor-pointer items-center">
-          <SaveIcon className="!h-5 !w-5 text-foreground" />
-        </Button>
-      </DialogTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild={true}>
+          <DialogTrigger asChild={true}>
+            <Button variant="ghost" className="aspect-square h-auto cursor-pointer items-center">
+              <SaveIcon className="!h-5 !w-5 text-foreground" />
+            </Button>
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent side="right">グラフを保存する</TooltipContent>
+      </Tooltip>
       <DialogContent className="gap-y-8">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-x-2">
