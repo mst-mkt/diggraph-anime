@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 import { ThemeButton } from './theme-button.client'
 
-const bonheur = Bonheur_Royale({ weight: '400' })
+const bonheur = Bonheur_Royale({ weight: '400', subsets: ['latin'] })
 
 export const Header = () => (
   <header className="sticky top-0 z-10 px-[4svw] backdrop-blur-md">

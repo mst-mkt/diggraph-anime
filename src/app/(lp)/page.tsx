@@ -5,7 +5,7 @@ import { SparklesIcon, TerminalIcon } from 'lucide-react'
 import { Bonheur_Royale } from 'next/font/google'
 import Link from 'next/link'
 
-const bonheur = Bonheur_Royale({ weight: '400' })
+const bonheur = Bonheur_Royale({ weight: '400', subsets: ['latin'] })
 
 const Home = async () => (
   <>
