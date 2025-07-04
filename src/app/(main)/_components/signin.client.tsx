@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { signIn } from '@/lib/auth/client'
-import { LogInIcon } from 'lucide-react'
+import { PickaxeIcon } from 'lucide-react'
 
 export const SignInButton = () => {
   const handleSignIn = () => {
@@ -11,8 +11,8 @@ export const SignInButton = () => {
 
   return (
     <Button onClick={handleSignIn} className="cursor-pointer">
-      <LogInIcon />
-      Sign In
+      <PickaxeIcon />
+      ログインして探索を始める
     </Button>
   )
 }

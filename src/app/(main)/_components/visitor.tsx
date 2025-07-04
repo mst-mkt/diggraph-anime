@@ -1,12 +1,12 @@
 import { Button } from '@/components/ui/button'
-import { LogInIcon } from 'lucide-react'
+import { LuggageIcon } from 'lucide-react'
 import Link from 'next/link'
 
 export const VisitorSignInButton = () => (
-  <Button asChild={true} className="cursor-pointer">
+  <Button variant="outline" asChild={true} className="w-full cursor-pointer">
     <Link href="/api/auth/visitor">
-      <LogInIcon />
-      Sign In
+      <LuggageIcon />
+      ゲストとして探索を始める
     </Link>
   </Button>
 )
