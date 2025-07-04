@@ -1,3 +1,4 @@
+import type { Collection } from '@/app/actions/db/collection'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
@@ -11,15 +12,18 @@ import {
   TvIcon,
 } from 'lucide-react'
 import Link from 'next/link'
-import type { FC } from 'react'
+import type { Dispatch, FC, SetStateAction } from 'react'
+import { AddCreationsDialog } from './add-collection-dialog'
 import { WorkThumbnail } from './work-thumbnail'
 
 type WorkInfoProps = {
   work: WorkWithThumbnail
   isVisitor: boolean
+  collections: Collection[] | undefined
+  setCollections: Dispatch<SetStateAction<Collection[] | undefined>>
 }
 
-export const WorkInfo: FC<WorkInfoProps> = ({ work, isVisitor }) => {
+export const WorkInfo: FC<WorkInfoProps> = ({ work, isVisitor, collections, setCollections }) => {
   const searchLink = getSearchLink(work.title)
 
   return (
@@ -30,7 +34,14 @@ export const WorkInfo: FC<WorkInfoProps> = ({ work, isVisitor }) => {
           className="@md/panel:aspect-square aspect-video @md/panel:w-32 w-full shrink-0 sm:@md/panel:w-48"
         />
         <div className="flex min-w-0 grow flex-col justify-center gap-y-1">
-          <h2 className="line-clamp-2 font-bold text-lg">{work.title}</h2>
+          <div className="flex items-center justify-between gap-x-4">
+            <h2 className="line-clamp-2 font-bold text-lg">{work.title}</h2>
+            <AddCreationsDialog
+              work={work}
+              collections={collections}
+              setCollections={setCollections}
+            />
+          </div>
           <div className="flex items-center gap-x-1">
             <Badge>{work.media_text}</Badge>
             {work.season_name_text !== undefined && work.season_name_text !== '' && (

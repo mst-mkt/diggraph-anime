@@ -1,6 +1,6 @@
 import type { Graph } from '@/app/actions/db/graph'
 import { sql } from 'drizzle-orm'
-import { sqliteTable } from 'drizzle-orm/sqlite-core'
+import { primaryKey, sqliteTable } from 'drizzle-orm/sqlite-core'
 import { nanoid } from 'nanoid'
 
 export const users = sqliteTable('user', (d) => ({
@@ -106,3 +106,38 @@ export const savedGraphs = sqliteTable('saved_graph', (d) => ({
     .default(sql`(current_timestamp)`)
     .$onUpdate(() => new Date()),
 }))
+
+export const collections = sqliteTable('collection', (d) => ({
+  id: d
+    .text('id')
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
+  userId: d
+    .text('userId')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  name: d.text('name').notNull(),
+  description: d.text('description'),
+  createdAt: d
+    .integer('createdAt', { mode: 'timestamp_ms' })
+    .notNull()
+    .default(sql`(current_timestamp)`),
+  updatedAt: d
+    .integer('updatedAt', { mode: 'timestamp_ms' })
+    .notNull()
+    .default(sql`(current_timestamp)`)
+    .$onUpdate(() => new Date()),
+}))
+
+export const collectionItems = sqliteTable(
+  'collection_item',
+  (d) => ({
+    collectionId: d
+      .text('collectionId')
+      .notNull()
+      .references(() => collections.id, { onDelete: 'cascade' }),
+    annictId: d.integer('annictId').notNull(),
+    thumbnail: d.text('thumbnail'),
+  }),
+  (t) => [primaryKey({ name: 'collection_item_pk', columns: [t.collectionId, t.annictId] })],
+)
