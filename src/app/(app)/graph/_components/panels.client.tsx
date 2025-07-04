@@ -31,7 +31,7 @@ export const Panels: FC<PanelProps> = ({ savedGraphsResult, ...initialdata }) =>
     ...graphSearchParams.visitor,
     defaultValue: false,
   })
-  const { selectedWork, selectedWorkRelatedWorks, rootWork, expand, save, graph, setGraph } =
+  const { selectedWork, selectedWorkRelatedWorks, rootWork, expand, save, graph, setGraph, count } =
     useWorkGraph(initialdata)
 
   return (
@@ -51,6 +51,7 @@ export const Panels: FC<PanelProps> = ({ savedGraphsResult, ...initialdata }) =>
             nodes={graph.nodes}
             links={graph.links}
             expand={expand}
+            count={count}
           />
         </ResizablePanel>
         <ResizableHandle />

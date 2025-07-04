@@ -169,8 +169,18 @@ export const useWorkGraph = (
     [setSelectedWorkId, setRootWorkId],
   )
 
+  const count = useMemo(
+    () => ({
+      nodes: Object.keys(works).length,
+      links: links.length,
+      expanded: expandedWorkIds.size,
+    }),
+    [works, links, expandedWorkIds],
+  )
+
   return {
     graph: { nodes, links },
+    count,
     expand,
     save,
     selectedWork,
