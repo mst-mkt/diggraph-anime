@@ -1,4 +1,4 @@
-import { createCollection } from '@/app/actions/db/collection'
+import { type Collection, createCollection } from '@/app/actions/db/collection'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -15,10 +15,14 @@ import type { collections } from '@/db/schema'
 import { isErr } from '@/lib/result'
 import { CheckIcon, ListPlusIcon, Loader2Icon, PlusIcon } from 'lucide-react'
 import {} from 'nuqs'
-import { useState, useTransition } from 'react'
+import { type Dispatch, type FC, type SetStateAction, useState, useTransition } from 'react'
 import { toast } from 'sonner'
 
-export const CreateCollectionDialog = () => {
+type CreateCollectionDialogProps = {
+  setCollections: Dispatch<SetStateAction<Collection[] | undefined>>
+}
+
+export const CreateCollectionDialog: FC<CreateCollectionDialogProps> = ({ setCollections }) => {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [savedData, setSavedData] = useState<typeof collections.$inferSelect>()
@@ -32,6 +36,15 @@ export const CreateCollectionDialog = () => {
       } else {
         toast.success('コレクションを作成しました')
         setSavedData(collection.value)
+
+        const collectionWithItems = {
+          ...collection.value,
+          items: [],
+        }
+        setCollections((prev) => {
+          if (prev === undefined) return [collectionWithItems]
+          return [collectionWithItems, ...prev]
+        })
       }
     })
   }

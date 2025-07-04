@@ -8,7 +8,7 @@ import { type Result, isOk } from '@/lib/result'
 import type { InferSelectModel } from 'drizzle-orm'
 import { Undo2Icon } from 'lucide-react'
 import Link from 'next/link'
-import { type FC, useState } from 'react'
+import { type Dispatch, type FC, type SetStateAction, useState } from 'react'
 import { CollectionThumbnail } from '../collection/thumbnail'
 import { CreateCollectionDialog } from './create-collection-dialog'
 import { SaveDialog } from './save-dialog'
@@ -22,6 +22,7 @@ type SidebarProps = {
   rootTitle: string
   savedGraphsResult: Result<InferSelectModel<typeof savedGraphs>[], string>
   collections: Collection[] | undefined
+  setCollections: Dispatch<SetStateAction<Collection[] | undefined>>
   onGraphChange: (graph: Graph) => void
 }
 
@@ -30,6 +31,7 @@ export const Sidebar: FC<SidebarProps> = ({
   rootTitle,
   savedGraphsResult,
   collections,
+  setCollections,
   onGraphChange,
 }) => {
   const [graphs, setGraphs] = useState(isOk(savedGraphsResult) ? savedGraphsResult.value : [])
@@ -62,7 +64,7 @@ export const Sidebar: FC<SidebarProps> = ({
         <SavedListDialog savedGraphs={graphs} onGraphChange={onGraphChange} />
       )}
       <Separator />
-      <CreateCollectionDialog />
+      <CreateCollectionDialog setCollections={setCollections} />
       {collections?.map((collection) => (
         <Tooltip key={collection.id}>
           <TooltipTrigger asChild={true}>

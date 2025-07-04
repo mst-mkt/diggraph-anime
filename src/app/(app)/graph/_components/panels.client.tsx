@@ -51,6 +51,7 @@ export const Panels: FC<PanelProps> = ({
           rootTitle={rootWork.title}
           savedGraphsResult={savedGraphsResult}
           collections={collections}
+          setCollections={setCollections}
           onGraphChange={setGraph}
         />
       )}
