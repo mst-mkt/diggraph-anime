@@ -2,9 +2,9 @@ import { getRelatedWorks } from '@/app/actions/api/get-related-works'
 import { getWork } from '@/app/actions/api/get-work'
 import { getRelatedWorksForVisitor } from '@/app/actions/api/visitor/get-related-works'
 import { getWorkForVisitor } from '@/app/actions/api/visitor/get-work'
-import { getGraph } from '@/app/actions/db/graph'
+import { getGraph, getGraphs } from '@/app/actions/db/graph'
 import { getSession } from '@/lib/auth/session'
-import { isErr } from '@/lib/result'
+import { isErr, ok } from '@/lib/result'
 import { redirect } from 'next/navigation'
 import type { SearchParams } from 'nuqs/server'
 import { type FC, Suspense } from 'react'
@@ -28,6 +28,11 @@ const GraphPage: FC<GraphPageProps> = async ({ searchParams }) => {
 
   if (session === null && !visitor) redirect('/signin')
 
+  const savedGraphsResult = await match(visitor)
+    .with(true, () => ok([]))
+    .with(false, () => getGraphs())
+    .exhaustive()
+
   if (rootWorkId === null) {
     if (id === null) redirect('/')
 
@@ -39,7 +44,7 @@ const GraphPage: FC<GraphPageProps> = async ({ searchParams }) => {
 
     return (
       <div className="h-full">
-        <Panels {...graphResult.value.graph} />
+        <Panels savedGraphsResult={savedGraphsResult} {...graphResult.value.graph} />
         <Suspense>
           <WorkTrailer currentWorkId={currentWorkId ?? 0} />
         </Suspense>
@@ -64,7 +69,11 @@ const GraphPage: FC<GraphPageProps> = async ({ searchParams }) => {
 
   return (
     <div className="h-full">
-      <Panels work={initialWork} relatedWorks={initialRelatedWorks} />
+      <Panels
+        work={initialWork}
+        relatedWorks={initialRelatedWorks}
+        savedGraphsResult={savedGraphsResult}
+      />
       <Suspense>
         <WorkTrailer currentWorkId={currentWorkId ?? initialWork.id} />
       </Suspense>

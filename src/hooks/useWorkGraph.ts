@@ -59,6 +59,9 @@ export const useWorkGraph = (
         : initialData.expandedWorkIds,
     ),
   )
+  const [_, setRootWorkId] = useQueryState('root', {
+    ...graphSearchParams.root,
+  })
   const [isVisitor] = useQueryState('visitor', graphSearchParams.visitor)
 
   const nodes = useMemo<WorkNode[]>(() => {
@@ -126,6 +129,7 @@ export const useWorkGraph = (
             initialData instanceof Object && 'work' in initialData
               ? initialData.work.id
               : initialData.rootWorkId,
+          thumbnail: selectedWork?.thumbnail ?? null,
         },
         title,
         publicGraph,
@@ -153,6 +157,18 @@ export const useWorkGraph = (
       : works[initialData.rootWorkId]
   }, [initialData, works])
 
+  const setGraph = useCallback(
+    (newGraph: Graph) => {
+      setWorks(newGraph.works)
+      setLinks(newGraph.links)
+      setSelectedWorkId(newGraph.selectedWorkId)
+      setExpandedWorkIds(new Set(newGraph.expandedWorkIds))
+      setPendingWorkId(null)
+      setRootWorkId(newGraph.rootWorkId)
+    },
+    [setSelectedWorkId, setRootWorkId],
+  )
+
   return {
     graph: { nodes, links },
     expand,
@@ -160,5 +176,6 @@ export const useWorkGraph = (
     selectedWork,
     selectedWorkRelatedWorks,
     rootWork,
+    setGraph,
   }
 }

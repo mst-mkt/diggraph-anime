@@ -2,9 +2,12 @@
 
 import type { Graph } from '@/app/actions/db/graph'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
+import type { savedGraphs } from '@/db/schema'
 import { useMobile } from '@/hooks/useMobile'
 import { useWorkGraph } from '@/hooks/useWorkGraph'
 import type { WorkWithThumbnail } from '@/lib/images/valid-thumbnail'
+import type { Result } from '@/lib/result'
+import type { InferSelectModel } from 'drizzle-orm'
 import { useQueryState } from 'nuqs'
 import type { FC } from 'react'
 import { graphSearchParams } from '../search-params'
@@ -13,25 +16,34 @@ import { WorkInfo } from './anime/work-info'
 import { Sidebar } from './bar/sidebar'
 import { WorkGraph } from './graph/graph'
 
-type PanelProps =
-  | {
-      work: WorkWithThumbnail
-      relatedWorks: WorkWithThumbnail[]
-    }
-  | Graph
+type DefaultPanelProps = {
+  work: WorkWithThumbnail
+  relatedWorks: WorkWithThumbnail[]
+}
 
-export const Panels: FC<PanelProps> = (initialdata) => {
+type PanelProps = (DefaultPanelProps | Graph) & {
+  savedGraphsResult: Result<InferSelectModel<typeof savedGraphs>[], string>
+}
+
+export const Panels: FC<PanelProps> = ({ savedGraphsResult, ...initialdata }) => {
   const isMobile = useMobile()
   const [isVisitor] = useQueryState('visitor', {
     ...graphSearchParams.visitor,
     defaultValue: false,
   })
-  const { selectedWork, selectedWorkRelatedWorks, rootWork, expand, save, graph } =
+  const { selectedWork, selectedWorkRelatedWorks, rootWork, expand, save, graph, setGraph } =
     useWorkGraph(initialdata)
 
   return (
     <div className="flex h-full w-full">
-      {!(isMobile || isVisitor) && <Sidebar save={save} rootTitle={rootWork.title} />}
+      {!(isMobile || isVisitor) && (
+        <Sidebar
+          save={save}
+          rootTitle={rootWork.title}
+          savedGraphsResult={savedGraphsResult}
+          onGraphChange={setGraph}
+        />
+      )}
       <ResizablePanelGroup direction={isMobile ? 'vertical' : 'horizontal'}>
         <ResizablePanel minSize={50}>
           <WorkGraph
