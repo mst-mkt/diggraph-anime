@@ -2,7 +2,9 @@ import type { Graph } from '@/app/actions/db/graph'
 import type { savedGraphs } from '@/db/schema'
 import { type Result, isOk } from '@/lib/result'
 import type { InferSelectModel } from 'drizzle-orm'
+import { useQueryState } from 'nuqs'
 import { type FC, useState } from 'react'
+import { graphSearchParams } from '../../search-params'
 import { SaveDialog } from './save-dialog'
 import { SavedListDialog } from './saved-list-dialog'
 
@@ -23,19 +25,23 @@ export const Sidebar: FC<SidebarProps> = ({
   onGraphChange,
 }) => {
   const [graphs, setGraphs] = useState(isOk(savedGraphsResult) ? savedGraphsResult.value : [])
+  const [_, setUrlId] = useQueryState('id', { ...graphSearchParams.root })
 
   const saveGraph = async (title: string, publicGraph?: boolean) => {
     const result = await save(title, publicGraph)
-    if (isOk(result)) setGraphs((prev) => [...prev, result.value])
+    if (isOk(result)) setGraphs((prev) => [result.value, ...prev])
     return result
+  }
+
+  const setGraph = (graph: Graph) => {
+    onGraphChange(graph)
+    setUrlId(graph.rootWorkId)
   }
 
   return (
     <div className="flex h-full w-12 flex-col items-stretch gap-y-1 border-border border-r p-1">
       <SaveDialog save={saveGraph} rootTitle={rootTitle} />
-      {isOk(savedGraphsResult) && (
-        <SavedListDialog savedGraphs={graphs} onGraphChange={onGraphChange} />
-      )}
+      {isOk(savedGraphsResult) && <SavedListDialog savedGraphs={graphs} onGraphChange={setGraph} />}
     </div>
   )
 }
