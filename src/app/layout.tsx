@@ -16,7 +16,7 @@ const RootLayout: FC<RootLayoutProps> = ({ children }) => (
     <ThemeLoader />
     <body>
       <NuqsAdapter>{children}</NuqsAdapter>
-      <Toaster richColors={true} />
+      <Toaster richColors={true} position="bottom-left" />
     </body>
   </html>
 )
