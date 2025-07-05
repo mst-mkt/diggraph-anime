@@ -8,6 +8,34 @@
       "when": 1751482074249,
       "tag": "0000_last_iron_man",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1751555832842,
+      "tag": "0001_lying_avengers",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1751645018636,
+      "tag": "0002_nasty_goliath",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1751649042077,
+      "tag": "0003_thankful_living_tribunal",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1751649244991,
+      "tag": "0004_abnormal_titania",
+      "breakpoints": true
     }
   ]
 }

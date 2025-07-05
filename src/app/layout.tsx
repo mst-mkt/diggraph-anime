@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/ui/sonner'
 import '../styles/globals.css'
 import { BASIC_METADATA } from '@/constants/project'
 import { ThemeLoader } from '@/lib/theme/theme-loader'
@@ -15,6 +16,7 @@ const RootLayout: FC<RootLayoutProps> = ({ children }) => (
     <ThemeLoader />
     <body>
       <NuqsAdapter>{children}</NuqsAdapter>
+      <Toaster richColors={true} position="bottom-left" />
     </body>
   </html>
 )

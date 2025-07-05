@@ -2,38 +2,22 @@ import { Button } from '@/components/ui/button'
 import { PROJECT_REPOSITORY_URL } from '@/constants/project'
 import { cn } from '@/lib/classnames'
 import { SparklesIcon, TerminalIcon } from 'lucide-react'
-import { Figtree } from 'next/font/google'
+import { Bonheur_Royale } from 'next/font/google'
 import Link from 'next/link'
 
-const figtreeFont = Figtree({ subsets: ['latin'], weight: ['900'] })
+const bonheur = Bonheur_Royale({ weight: '400', subsets: ['latin'] })
 
 const Home = async () => (
   <>
-    <h1
-      className={cn(
-        'w-full select-none text-center font-black text-6xl sm:text-7xl md:text-8xl',
-        figtreeFont.className,
-      )}
-    >
+    <h1 className="flex w-full select-none items-center justify-center font-bold text-5xl sm:text-6xl md:text-7xl">
+      <span>Diggraph</span>
       <span
-        className="-mr-2 sm:-mr-3 md:-mr-4 text-background"
-        style={{
-          textShadow:
-            '-1px -1px 0 var(--muted-foreground), 1px -1px 0 var(--muted-foreground), -1px 1px 0 var(--muted-foreground), 1px 1px 0 var(--muted-foreground)',
-        }}
+        className={cn(
+          '-ml-4 md:-ml-6 sm:-ml-10 text-7xl text-diggraph-accent sm:text-8xl md:text-9xl',
+          bonheur.className,
+        )}
       >
-        DIG
-      </span>
-      <span
-        className="-ml-2 sm:-ml-3 md:-ml-4 text-diggraph-accent"
-        style={{
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundImage:
-            'linear-gradient(to right, var(--color-diggraph-accent), var(--color-diggraph-accent-700))',
-        }}
-      >
-        Graph
+        Anime
       </span>
     </h1>
     <div className="flex flex-col items-center gap-y-2">
