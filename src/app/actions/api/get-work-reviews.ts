@@ -19,5 +19,8 @@ export const getWorkReviews = async (workId: Work['id'], page = 1) => {
     return null
   }
 
-  return reviewsResult.value.reviews
+  return {
+    data: reviewsResult.value.reviews,
+    next_page: reviewsResult.value.next_page,
+  }
 }

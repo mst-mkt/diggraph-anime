@@ -5,7 +5,7 @@ import { type FC, Suspense } from 'react'
 import { BackDialog } from '../../../back-dialog'
 import { CastList, CastListSkeleton } from './cast/cast-list'
 import { EpisodeList, EpisodeListSkeleton } from './episode/episode-list'
-import { ReviewList } from './review/review-list'
+import { ReviewListSkeleton, ReviewListWrapper } from './review/review-list-wrapper'
 import { WorkInfo } from './work-info'
 
 type WorkDialogProps = {
@@ -31,8 +31,8 @@ export const WorkDialog: FC<WorkDialogProps> = async ({ workId }) => {
           <Suspense fallback={<CastListSkeleton />}>
             <CastList workId={work.id} />
           </Suspense>
-          <Suspense>
-            <ReviewList workId={work.id} />
+          <Suspense fallback={<ReviewListSkeleton />}>
+            <ReviewListWrapper workId={work.id} />
           </Suspense>
         </div>
       )}
