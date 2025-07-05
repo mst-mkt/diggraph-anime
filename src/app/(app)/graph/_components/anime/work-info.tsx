@@ -31,7 +31,7 @@ export const WorkInfo: FC<WorkInfoProps> = ({ work, isVisitor, collections, setC
       <div className="flex @lg/panel:flex-row flex-col gap-8">
         <WorkThumbnail
           work={work}
-          className="@lg/panel:aspect-3/2 aspect-video @lg/panel:w-32 w-full shrink-0 sm:@lg/panel:w-64"
+          className="@2xl/panel:aspect-3/2 @lg/panel:aspect-square aspect-video @2xl/panel:w-72 @lg/panel:w-48 w-full shrink-0 transition-[width,aspect-ratio]"
         />
         <div className="flex min-w-0 grow flex-col justify-center gap-y-1">
           <div className="flex items-center justify-between gap-x-4">
