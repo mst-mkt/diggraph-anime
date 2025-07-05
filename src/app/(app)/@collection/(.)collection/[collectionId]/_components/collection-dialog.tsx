@@ -19,13 +19,26 @@ export const CollectionDialog: FC<CollectionDialogProps> = async ({ collectionId
 
   if (isErr(collectionResult)) {
     return (
-      <div className="flex items-center justify-center p-16 text-diggraph-accent">
-        <span>コレクションの取得に失敗しました: {collectionResult.error}</span>
-      </div>
+      <BackDialog title="コレクションの取得に失敗">
+        <div className="flex items-center justify-center p-16 text-diggraph-accent">
+          <span>コレクションの取得に失敗しました: {collectionResult.error}</span>
+        </div>
+      </BackDialog>
     )
   }
 
   const collection = collectionResult.value
+
+  if (collection.items.length === 0) {
+    return (
+      <BackDialog title={`コレクション「${collectionResult.value.name}」`}>
+        <div className="flex items-center justify-center p-16 text-diggraph-accent">
+          <span>このコレクションには作品が登録されていません。</span>
+        </div>
+      </BackDialog>
+    )
+  }
+
   const works = await getWorksByIds(collectionResult.value.items.map((item) => item.annictId))
 
   return (
