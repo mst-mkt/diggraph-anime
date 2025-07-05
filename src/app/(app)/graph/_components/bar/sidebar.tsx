@@ -69,7 +69,7 @@ export const Sidebar: FC<SidebarProps> = ({
         <Tooltip key={collection.id}>
           <TooltipTrigger asChild={true}>
             <Link
-              href={`/collection/${collection.id}`}
+              href={`/(.)collection/${collection.id}`}
               className="flex rounded-md p-1 hover:bg-muted"
             >
               <CollectionThumbnail
