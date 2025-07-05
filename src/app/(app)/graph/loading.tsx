@@ -8,7 +8,7 @@ const GraphLoading = () => (
     <div className="@container/panel w-full shrink">
       <div className="flex min-w-80 flex-col gap-y-8 p-4">
         <div className="flex @md/panel:flex-row flex-col gap-8">
-          <Skeleton className="@md/panel:aspect-square aspect-video @md/panel:w-48 w-full shrink-0" />
+          <Skeleton className="@2xl/panel:aspect-3/2 @lg/panel:aspect-square aspect-video @2xl/panel:w-72 @lg/panel:w-48 w-full shrink-0" />
           <div className="flex grow flex-col justify-center gap-y-1">
             <Skeleton className="h-[1lh] w-2/3 text-lg" />
             <Skeleton className="h-[1lh] w-1/4 text-sm" />
