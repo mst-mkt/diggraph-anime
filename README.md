@@ -1,4 +1,6 @@
-<h1 align="center">🎇 Diggraph Anime</h1>
+<h1 align="center">
+  <img src="./public/diggraph-anime.svg" alt="Diggraph Anime" height="64px" />
+</h1>
 
 <p align="center">Explore anime as a graph - search related ones, discover connections.</p>
 
@@ -48,6 +50,7 @@ Switch between light and dark themes for comfortable viewing.
 - `pnpm generate:db`: Generate database migration code
 - `pnpm migrate`: Run database migrations
 - `pnpm studio`: Start the Drizzle Studio for database management
+
 
 ## Environment Variables
 
