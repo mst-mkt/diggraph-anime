@@ -1,24 +1,13 @@
+import { Logo } from '@/components/shared/logo'
 import { Button } from '@/components/ui/button'
 import { PROJECT_REPOSITORY_URL } from '@/constants/project'
-import { cn } from '@/lib/classnames'
 import { SparklesIcon, TerminalIcon } from 'lucide-react'
-import { Bonheur_Royale } from 'next/font/google'
 import Link from 'next/link'
-
-const bonheur = Bonheur_Royale({ weight: '400', subsets: ['latin'] })
 
 const Home = async () => (
   <>
     <h1 className="flex w-full select-none items-center justify-center font-bold text-5xl sm:text-6xl md:text-7xl">
-      <span>Diggraph</span>
-      <span
-        className={cn(
-          '-ml-4 md:-ml-6 sm:-ml-10 text-7xl text-diggraph-accent sm:text-8xl md:text-9xl',
-          bonheur.className,
-        )}
-      >
-        Anime
-      </span>
+      <Logo width={640} height={160} className="max-w-full" />
     </h1>
     <div className="flex flex-col items-center gap-y-2">
       <p className="break-keep text-center text-muted-foreground text-xs sm:text-sm">
