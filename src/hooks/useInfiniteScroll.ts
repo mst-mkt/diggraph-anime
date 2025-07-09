@@ -48,7 +48,21 @@ export const useInfiniteScroll = <T>({
       }
 
       if (result.data.length > 0) {
-        setData((prev) => [...prev, ...result.data])
+        setData((prev) => {
+          const unique: T[] = []
+          const seen = new Set<number>()
+          const duplicates: number[] = []
+          for (const item of [...prev, ...result.data]) {
+            const id = (item as { id: number }).id
+            if (seen.has(id)) {
+              duplicates.push(id)
+              continue
+            }
+            seen.add(id)
+            unique.push(item)
+          }
+          return unique
+        })
         setCurrentPage(nextPage)
         setNextPage(result.next_page)
         setError(null)
