@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="./public/diggraph-anime.svg" alt="Diggraph Anime" height="64px" />
+  <img src="./public/diggraph-anime.svg" alt="Diggraph Anime" height="80px" />
 </h1>
 
 <p align="center">Explore anime as a graph - search related ones, discover connections.</p>
