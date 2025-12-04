@@ -38,7 +38,7 @@
     "gql.tada": "^1.8.10",
     "lucide-react": "^0.503.0",
     "nanoid": "^5.1.5",
-    "next": "15.3.1",
+    "next": "15.3.6",
     "nuqs": "^2.4.3",
     "openapi-fetch": "^0.13.5",
     "react": "^19.1.0",
